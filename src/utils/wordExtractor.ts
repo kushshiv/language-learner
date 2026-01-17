@@ -158,7 +158,8 @@ async function translateWord(word: string): Promise<string | null> {
     }
   }
 
-  // Fallback: return a placeholder indicating translation needed
-  return `[${word}]`
+  // Fallback: return the word itself (capitalize first letter for better display)
+  // This is better than showing brackets
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
 }
 

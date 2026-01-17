@@ -8,7 +8,7 @@
       </div>
       <div class="flashcard-back">
         <div class="back-content">
-          <div class="english-translation">{{ word.english }}</div>
+          <div class="english-translation">{{ cleanTranslation(word.english) }}</div>
           <div class="example-sentence">{{ word.example }}</div>
           <div class="word-type">{{ word.type }}</div>
         </div>
@@ -26,6 +26,10 @@ const props = defineProps<{
 }>()
 
 const isFlipped = ref(false)
+
+const cleanTranslation = (text: string) => {
+  return text.replace(/^\[|\]$/g, '').trim()
+}
 
 const flipCard = () => {
   isFlipped.value = !isFlipped.value

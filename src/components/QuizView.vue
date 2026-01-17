@@ -25,8 +25,8 @@
             :key="index"
             class="option-btn"
             :class="{ 
-              'correct': showAnswer && option === currentWord.english,
-              'wrong': showAnswer && selectedAnswer === option && option !== currentWord.english
+              'correct': showAnswer && option.replace(/^\[|\]$/g, '').trim() === currentWord.english.replace(/^\[|\]$/g, '').trim(),
+              'wrong': showAnswer && selectedAnswer === option && option.replace(/^\[|\]$/g, '').trim() !== currentWord.english.replace(/^\[|\]$/g, '').trim()
             }"
             @click="selectOption(option)"
             :disabled="showAnswer"
@@ -37,11 +37,11 @@
       </div>
 
       <div v-if="showAnswer" class="answer-feedback">
-        <div v-if="selectedAnswer === currentWord.english" class="feedback correct-feedback">
+        <div v-if="selectedAnswer && selectedAnswer.replace(/^\[|\]$/g, '').trim() === currentWord.english.replace(/^\[|\]$/g, '').trim()" class="feedback correct-feedback">
           ✓ Correct! +1 point
         </div>
         <div v-else class="feedback wrong-feedback">
-          ✗ Wrong! The correct answer is "{{ currentWord.english }}"
+          ✗ Wrong! The correct answer is "{{ currentWord.english.replace(/^\[|\]$/g, '') }}"
         </div>
         <button @click="nextWord" class="next-btn">Next →</button>
       </div>
@@ -105,12 +105,15 @@ const options = ref<string[]>([])
 const generateOptions = () => {
   if (!currentWord.value) return
 
-  const correctAnswer = currentWord.value.english
+  // Clean up any brackets that might be in translations
+  const cleanTranslation = (text: string) => text.replace(/^\[|\]$/g, '').trim()
+  
+  const correctAnswer = cleanTranslation(currentWord.value.english)
   const wrongAnswers = quizWords.value
-    .filter(w => w.english !== correctAnswer)
+    .filter(w => cleanTranslation(w.english) !== correctAnswer)
     .sort(() => Math.random() - 0.5)
     .slice(0, 3)
-    .map(w => w.english)
+    .map(w => cleanTranslation(w.english))
 
   options.value = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5)
 }
@@ -136,7 +139,11 @@ const selectOption = (option: string) => {
   selectedAnswer.value = option
   showAnswer.value = true
 
-  if (option === currentWord.value.english) {
+  // Clean both for comparison (remove brackets if any)
+  const cleanOption = option.replace(/^\[|\]$/g, '').trim()
+  const cleanCorrect = currentWord.value.english.replace(/^\[|\]$/g, '').trim()
+  
+  if (cleanOption === cleanCorrect) {
     score.value++
   }
 

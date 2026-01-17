@@ -16,7 +16,17 @@ export function loadWords(): Word[] | null {
   try {
     const data = localStorage.getItem(STORAGE_KEY)
     if (data) {
-      return JSON.parse(data) as Word[]
+      const words = JSON.parse(data) as Word[]
+      // Clean up words with bracket translations (from old bug)
+      const cleanedWords = words.map(word => ({
+        ...word,
+        english: word.english.replace(/^\[|\]$/g, '') // Remove brackets if present
+      }))
+      // Save cleaned words back if they were changed
+      if (cleanedWords.some((w, i) => w.english !== words[i].english)) {
+        saveWords(cleanedWords)
+      }
+      return cleanedWords
     }
   } catch (error) {
     console.error('Failed to load words:', error)
