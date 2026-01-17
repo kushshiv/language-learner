@@ -35,6 +35,13 @@ jobs:
       - name: Build
         run: npm run build
         
+      - name: Remove CNAME if exists
+        run: |
+          if [ -f dist/CNAME ]; then
+            rm dist/CNAME
+          fi
+          touch dist/.nojekyll
+        
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
