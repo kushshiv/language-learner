@@ -8,3 +8,9 @@ export interface Word {
 
 export type Difficulty = 'easy' | 'medium' | 'hard'
 
+export interface Sentence {
+  original: string
+  translation: string
+  words: Word[]
+  index: number
+}

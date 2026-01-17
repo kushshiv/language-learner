@@ -43,8 +43,9 @@ defineExpose({
   perspective: 1000px;
   width: 100%;
   max-width: 400px;
-  height: 300px;
+  height: 250px;
   margin: 0 auto;
+  flex-shrink: 0;
 }
 
 .flashcard {
@@ -71,8 +72,9 @@ defineExpose({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 .flashcard-front {
@@ -99,10 +101,17 @@ defineExpose({
 }
 
 .german-word {
-  font-size: 42px;
+  font-size: clamp(24px, 6vw, 42px);
   font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  padding: 0 10px;
+  overflow-wrap: break-word;
+  line-height: 1.2;
 }
 
 .flip-hint {
@@ -118,9 +127,16 @@ defineExpose({
 }
 
 .english-translation {
-  font-size: 32px;
+  font-size: clamp(20px, 5vw, 32px);
   font-weight: 700;
   margin-bottom: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  padding: 0 10px;
+  overflow-wrap: break-word;
+  line-height: 1.2;
 }
 
 .example-sentence {

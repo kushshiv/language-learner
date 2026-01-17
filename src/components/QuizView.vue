@@ -170,17 +170,20 @@ const nextWord = () => {
   width: 100%;
   max-width: 500px;
   min-height: 100vh;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .quiz-header {
   background: white;
   border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .back-btn {
@@ -219,31 +222,34 @@ const nextWord = () => {
 
 .score {
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #333;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .quiz-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .options-container {
   background: white;
   border-radius: 15px;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .question-text {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   text-align: center;
 }
 
@@ -256,9 +262,9 @@ const nextWord = () => {
 .option-btn {
   background: #f5f5f5;
   color: #333;
-  padding: 15px 20px;
+  padding: 12px 15px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 15px;
   text-align: left;
   border: 2px solid transparent;
   transition: all 0.3s ease;
@@ -287,16 +293,17 @@ const nextWord = () => {
 .answer-feedback {
   background: white;
   border-radius: 15px;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  flex-shrink: 0;
 }
 
 .feedback {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 15px;
-  padding: 15px;
+  margin-bottom: 12px;
+  padding: 12px;
   border-radius: 10px;
 }
 
@@ -313,9 +320,9 @@ const nextWord = () => {
 .next-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 15px 30px;
+  padding: 12px 20px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   width: 100%;
 }
@@ -323,11 +330,12 @@ const nextWord = () => {
 .flip-btn {
   background: white;
   color: #667eea;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   border: 2px solid #667eea;
+  flex-shrink: 0;
 }
 
 .quiz-complete {

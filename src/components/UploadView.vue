@@ -41,11 +41,12 @@
 import { ref } from 'vue'
 import { extractTextFromPDF } from '../utils/pdfParser'
 import { extractWords } from '../utils/wordExtractor'
-import { loadWords } from '../utils/storage'
-import type { Word } from '../types'
+import { extractSentences } from '../utils/sentenceExtractor'
+import { loadWords, saveWords, saveSentences, savePdfText } from '../utils/storage'
+import type { Word, Sentence } from '../types'
 
 const emit = defineEmits<{
-  (e: 'pdf-processed', words: Word[]): void
+  (e: 'pdf-processed', data: { words: Word[], sentences: Sentence[], text: string }): void
 }>()
 
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -100,7 +101,23 @@ const processFile = async (file: File) => {
       throw new Error('No words could be extracted from the PDF')
     }
 
-    emit('pdf-processed', words)
+    // Create word dictionary for sentence extraction
+    const wordDict = new Map<string, Word>()
+    words.forEach(word => {
+      wordDict.set(word.german.toLowerCase(), word)
+    })
+
+    // Extract sentences
+    const sentences = await extractSentences(text, wordDict)
+    
+    // Save everything
+    saveWords(words)
+    savePdfText(text)
+    if (sentences.length > 0) {
+      saveSentences(sentences)
+    }
+
+    emit('pdf-processed', { words, sentences, text })
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to process PDF'
     console.error('Error processing PDF:', err)
@@ -111,8 +128,15 @@ const processFile = async (file: File) => {
 
 const useSavedWords = () => {
   const saved = loadWords()
+  const savedSentences = loadSentences()
+  const savedText = loadPdfText()
+  
   if (saved) {
-    emit('pdf-processed', saved)
+    emit('pdf-processed', { 
+      words: saved, 
+      sentences: savedSentences || [],
+      text: savedText || ''
+    })
   }
 }
 </script>
