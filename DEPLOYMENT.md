@@ -134,5 +134,5 @@ Then update `src/utils/wordExtractor.ts` to use these variables.
 
 - **Build fails**: Make sure all dependencies are installed (`npm install`)
 - **PDF not loading**: Check browser console for CORS or worker errors
-- **Translations not working**: The free APIs may be rate-limited. Try again later or use a paid API
+- **Translations not working**: The free APIs may be rate-limited. Try again later or use a paid API  
 
