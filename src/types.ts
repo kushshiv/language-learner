@@ -4,6 +4,7 @@ export interface Word {
   type: 'verb' | 'noun' | 'adjective'
   example: string
   context?: string
+  article?: 'der' | 'die' | 'das' // For nouns only
 }
 
 export type Difficulty = 'easy' | 'medium' | 'hard'

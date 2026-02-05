@@ -1,4 +1,6 @@
 import type { Word } from '../types'
+import { lemmatizeWord, extractArticle } from './lemmatizer'
+import { wordExistsInCloud, getAllWordsFromCloud } from './cloudStorage'
 
 // Common German verb endings
 const VERB_ENDINGS = ['en', 'st', 't', 'n', 'e', 'te', 'ten', 'test', 'tet', 'est', 'et']
@@ -8,12 +10,22 @@ const ADJECTIVE_ENDINGS = ['ig', 'lich', 'isch', 'bar', 'sam', 'los', 'voll', 'h
 
 interface WordCandidate {
   word: string
+  lemmatized: string
   type: 'verb' | 'noun' | 'adjective'
   context: string
   sentence: string
+  article?: 'der' | 'die' | 'das'
 }
 
 export async function extractWords(text: string): Promise<Word[]> {
+  // Load existing words from cloud to check for duplicates
+  const existingWords = await getAllWordsFromCloud()
+  const existingWordsMap = new Map<string, Word>()
+  existingWords.forEach(word => {
+    const key = word.german.toLowerCase().trim()
+    existingWordsMap.set(key, word)
+  })
+
   // Clean and split text into sentences
   const sentences = text
     .replace(/[^\w\säöüÄÖÜß]/g, ' ')
@@ -53,13 +65,25 @@ export async function extractWords(text: string): Promise<Word[]> {
       }
 
       if (type) {
-        const key = cleanToken.toLowerCase()
+        // Lemmatize the word to get its base form
+        const lemmatized = lemmatizeWord(cleanToken, type)
+        const key = lemmatized.toLowerCase().trim()
+
+        // Only add if we haven't seen this lemmatized form yet
         if (!wordMap.has(key)) {
+          // Extract article for nouns
+          let article: 'der' | 'die' | 'das' | undefined = undefined
+          if (type === 'noun') {
+            article = extractArticle(cleanToken, sentence, type)
+          }
+
           const candidate: WordCandidate = {
             word: cleanToken,
+            lemmatized,
             type,
             context: sentence,
-            sentence: getShortSentence(sentence, token)
+            sentence: getShortSentence(sentence, token),
+            article
           }
           wordMap.set(key, candidate)
           words.push(candidate)
@@ -68,8 +92,16 @@ export async function extractWords(text: string): Promise<Word[]> {
     })
   })
 
-  // Translate words (using a simple approach - in production, use a translation API)
-  const translatedWords = await translateWords(words)
+  // Filter out words that already exist in cloud storage
+  const newWords = words.filter(candidate => {
+    const key = candidate.lemmatized.toLowerCase().trim()
+    return !existingWordsMap.has(key)
+  })
+
+  console.log(`Found ${words.length} unique words, ${newWords.length} are new`)
+
+  // Translate only new words
+  const translatedWords = await translateWords(newWords, existingWords)
 
   return translatedWords
 }
@@ -87,26 +119,51 @@ function getShortSentence(sentence: string, word: string): string {
   return shortSentence.length > 50 ? shortSentence.substring(0, 47) + '...' : shortSentence
 }
 
-async function translateWords(candidates: WordCandidate[]): Promise<Word[]> {
-  // For now, we'll use a simple dictionary approach
-  // In production, you'd want to use a translation API like Google Translate, DeepL, etc.
-  const translations = new Map<string, string>()
-
-  // Try to translate using a simple approach
-  // Note: This is a placeholder - you'll need to integrate with a translation service
+async function translateWords(
+  candidates: WordCandidate[],
+  existingWords: Word[] = []
+): Promise<Word[]> {
   const words: Word[] = []
 
-  for (const candidate of candidates.slice(0, 50)) { // Limit to 50 words for now
-    const translation = await translateWord(candidate.word)
+  // Create a map of existing words for quick lookup
+  const existingMap = new Map<string, Word>()
+  existingWords.forEach(word => {
+    existingMap.set(word.german.toLowerCase().trim(), word)
+  })
+
+  // Translate words (limit to 100 to avoid rate limits)
+  for (const candidate of candidates.slice(0, 100)) {
+    const key = candidate.lemmatized.toLowerCase().trim()
+    
+    // Double-check it doesn't exist (in case of race conditions)
+    if (existingMap.has(key)) {
+      continue
+    }
+
+    // Check cloud storage one more time before translating
+    const exists = await wordExistsInCloud(candidate.lemmatized)
+    if (exists) {
+      continue
+    }
+
+    const translation = await translateWord(candidate.lemmatized)
     if (translation) {
-      words.push({
-        german: candidate.word,
+      const word: Word = {
+        german: candidate.lemmatized,
         english: translation,
         type: candidate.type,
         example: candidate.sentence,
-        context: candidate.context
-      })
+        context: candidate.context,
+        article: candidate.article
+      }
+      words.push(word)
+      
+      // Add to existing map to avoid duplicates in this batch
+      existingMap.set(key, word)
     }
+
+    // Small delay to avoid rate limiting
+    await new Promise(resolve => setTimeout(resolve, 100))
   }
 
   return words
@@ -162,4 +219,3 @@ async function translateWord(word: string): Promise<string | null> {
   // This is better than showing brackets
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
 }
-

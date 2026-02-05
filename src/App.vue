@@ -44,7 +44,7 @@ import QuizView from './components/QuizView.vue'
 import ResultsView from './components/ResultsView.vue'
 import ReadingView from './components/ReadingView.vue'
 import type { Word, Sentence } from './types'
-import { loadWords, saveWords, loadSentences, loadPdfText, saveSentences } from './utils/storage'
+import { loadWordsFromCloud } from './utils/cloudStorage'
 import { extractSentences } from './utils/sentenceExtractor'
 
 const currentView = ref<'upload' | 'difficulty' | 'quiz' | 'results' | 'reading'>('upload')
@@ -55,31 +55,11 @@ const quizScore = ref(0)
 const quizTotal = ref(0)
 
 onMounted(async () => {
-  const savedWords = loadWords()
-  const savedSentences = loadSentences()
+  // Load words from cloud storage
+  const savedWords = await loadWordsFromCloud()
   if (savedWords && savedWords.length > 0) {
     words.value = savedWords
-    if (savedSentences && savedSentences.length > 0) {
-      sentences.value = savedSentences
-    } else {
-      // Try to extract sentences from saved PDF text
-      const savedText = loadPdfText()
-      if (savedText) {
-        const wordDict = new Map<string, Word>()
-        savedWords.forEach(word => {
-          wordDict.set(word.german.toLowerCase(), word)
-        })
-        try {
-          const extractedSentences = await extractSentences(savedText, wordDict)
-          if (extractedSentences.length > 0) {
-            sentences.value = extractedSentences
-            saveSentences(extractedSentences)
-          }
-        } catch (error) {
-          console.error('Failed to extract sentences:', error)
-        }
-      }
-    }
+    // Sentences will be extracted when needed (not stored in cloud)
     currentView.value = 'difficulty'
   }
 })
@@ -87,7 +67,7 @@ onMounted(async () => {
 const handlePdfProcessed = (data: { words: Word[], sentences: Sentence[], text: string }) => {
   words.value = data.words
   sentences.value = data.sentences
-  saveWords(data.words)
+  // Words are already saved to cloud storage in UploadView
   currentView.value = 'difficulty'
 }
 
