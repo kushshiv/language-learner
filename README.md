@@ -2,6 +2,9 @@
 
 A mobile-first web application for learning German vocabulary through flashcards and quizzes. Upload a German PDF, extract important words (verbs, nouns, adjectives), and practice with interactive flashcards and quizzes.
 
+## Try if yourself
+https://kushshiv.github.io/language-learner/
+
 ## Features
 
 - 📄 **PDF Upload**: Upload German PDFs to extract vocabulary
