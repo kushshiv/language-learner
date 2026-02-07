@@ -19,21 +19,15 @@
     <div v-else-if="currentView === 'difficulty'" class="view-container">
       <DifficultySelection 
         @difficulty-selected="handleDifficultySelected"
+        @type-selected="handleTypeSelected"
         @upload-new="currentView = 'upload'"
-        @reading-mode="currentView = 'reading'"
-      />
-    </div>
-    <div v-else-if="currentView === 'reading'" class="view-container">
-      <ReadingView 
-        :sentences="sentences"
-        :words="words"
-        @back="currentView = 'difficulty'"
       />
     </div>
     <div v-else-if="currentView === 'quiz'" class="view-container">
       <QuizView 
         :words="words" 
         :difficulty="selectedDifficulty"
+        :wordType="selectedWordType"
         @quiz-complete="handleQuizComplete"
         @back="currentView = 'difficulty'"
       />
@@ -55,15 +49,15 @@ import UploadView from './components/UploadView.vue'
 import DifficultySelection from './components/DifficultySelection.vue'
 import QuizView from './components/QuizView.vue'
 import ResultsView from './components/ResultsView.vue'
-import ReadingView from './components/ReadingView.vue'
 import SettingsView from './components/SettingsView.vue'
 import WordManagerView from './components/WordManagerView.vue'
 import type { Word, Sentence } from './types'
 
-const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'reading' | 'word-manager'>('upload')
+const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'word-manager'>('upload')
 const words = ref<Word[]>([])
 const sentences = ref<Sentence[]>([])
-const selectedDifficulty = ref<'easy' | 'medium' | 'hard'>('easy')
+const selectedDifficulty = ref<'easy' | 'medium' | 'hard' | null>(null)
+const selectedWordType = ref<'verb' | 'noun' | 'adjective' | null>(null)
 const quizScore = ref(0)
 const quizTotal = ref(0)
 
@@ -82,6 +76,15 @@ const handlePdfProcessed = (data: { words: Word[], sentences: Sentence[], text: 
 
 const handleDifficultySelected = (difficulty: 'easy' | 'medium' | 'hard') => {
   selectedDifficulty.value = difficulty
+  selectedWordType.value = null
+  currentView.value = 'quiz'
+  quizScore.value = 0
+  quizTotal.value = 0
+}
+
+const handleTypeSelected = (type: 'verb' | 'noun' | 'adjective') => {
+  selectedWordType.value = type
+  selectedDifficulty.value = null
   currentView.value = 'quiz'
   quizScore.value = 0
   quizTotal.value = 0

@@ -1,54 +1,91 @@
 <template>
   <div class="difficulty-container">
     <div class="difficulty-card">
-      <h1 class="title">Choose Learning Mode</h1>
-      <p class="subtitle">How would you like to learn today?</p>
+      <h1 class="title">Choose Quiz Mode</h1>
+      <p class="subtitle">How would you like to practice?</p>
       
-      <button 
-        class="mode-btn reading-mode" 
-        @click="$emit('reading-mode')"
-      >
-        <div class="mode-icon">📖</div>
-        <div class="mode-name">
-          Reading Mode
-          <span class="beta-badge">BETA</span>
-        </div>
-        <div class="mode-desc">Read sentence by sentence with word explanations</div>
-      </button>
-
-      <div class="divider">
-        <span>OR</span>
+      <!-- Mode Selector -->
+      <div class="mode-selector">
+        <button 
+          class="mode-tab"
+          :class="{ active: quizMode === 'difficulty' }"
+          @click="quizMode = 'difficulty'"
+        >
+          By Difficulty
+        </button>
+        <button 
+          class="mode-tab"
+          :class="{ active: quizMode === 'type' }"
+          @click="quizMode = 'type'"
+        >
+          By Word Type
+        </button>
       </div>
 
-      <p class="quiz-title">Quiz Mode - Choose Difficulty</p>
-      
-      <div class="difficulty-options">
-        <button 
-          class="difficulty-btn easy" 
-          @click="selectDifficulty('easy')"
-        >
-          <div class="difficulty-icon">🌱</div>
-          <div class="difficulty-name">Easy</div>
-          <div class="difficulty-desc">5-10 words per quiz</div>
-        </button>
+      <!-- Difficulty Mode -->
+      <div v-if="quizMode === 'difficulty'" class="mode-content">
+        <p class="quiz-title">Choose Difficulty Level</p>
+        <div class="difficulty-options">
+          <button 
+            class="difficulty-btn easy" 
+            @click="selectDifficulty('easy')"
+          >
+            <div class="difficulty-icon">🌱</div>
+            <div class="difficulty-name">Easy</div>
+            <div class="difficulty-desc">10 words per quiz</div>
+          </button>
 
-        <button 
-          class="difficulty-btn medium" 
-          @click="selectDifficulty('medium')"
-        >
-          <div class="difficulty-icon">🌿</div>
-          <div class="difficulty-name">Medium</div>
-          <div class="difficulty-desc">15-20 words per quiz</div>
-        </button>
+          <button 
+            class="difficulty-btn medium" 
+            @click="selectDifficulty('medium')"
+          >
+            <div class="difficulty-icon">🌿</div>
+            <div class="difficulty-name">Medium</div>
+            <div class="difficulty-desc">20 words per quiz</div>
+          </button>
 
-        <button 
-          class="difficulty-btn hard" 
-          @click="selectDifficulty('hard')"
-        >
-          <div class="difficulty-icon">🌳</div>
-          <div class="difficulty-name">Hard</div>
-          <div class="difficulty-desc">25-30 words per quiz</div>
-        </button>
+          <button 
+            class="difficulty-btn hard" 
+            @click="selectDifficulty('hard')"
+          >
+            <div class="difficulty-icon">🌳</div>
+            <div class="difficulty-name">Hard</div>
+            <div class="difficulty-desc">30 words per quiz</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Type Mode -->
+      <div v-if="quizMode === 'type'" class="mode-content">
+        <p class="quiz-title">Choose Word Type</p>
+        <div class="type-options">
+          <button 
+            class="type-btn verb" 
+            @click="selectType('verb')"
+          >
+            <div class="type-icon">🔤</div>
+            <div class="type-name">Verbs</div>
+            <div class="type-desc">Practice German verbs</div>
+          </button>
+
+          <button 
+            class="type-btn noun" 
+            @click="selectType('noun')"
+          >
+            <div class="type-icon">📚</div>
+            <div class="type-name">Nouns</div>
+            <div class="type-desc">Practice German nouns</div>
+          </button>
+
+          <button 
+            class="type-btn adjective" 
+            @click="selectType('adjective')"
+          >
+            <div class="type-icon">✨</div>
+            <div class="type-name">Adjectives</div>
+            <div class="type-desc">Practice German adjectives</div>
+          </button>
+        </div>
       </div>
 
       <button @click="$emit('upload-new')" class="btn-secondary">
@@ -59,14 +96,22 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
+  (e: 'type-selected', type: 'verb' | 'noun' | 'adjective'): void
   (e: 'upload-new'): void
-  (e: 'reading-mode'): void
 }>()
+
+const quizMode = ref<'difficulty' | 'type'>('difficulty')
 
 const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
   emit('difficulty-selected', difficulty)
+}
+
+const selectType = (type: 'verb' | 'noun' | 'adjective') => {
+  emit('type-selected', type)
 }
 </script>
 
@@ -152,92 +197,90 @@ const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
   color: #666;
 }
 
-.mode-btn {
+.mode-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  background: #f5f5f5;
+  padding: 5px;
+  border-radius: 12px;
+}
+
+.mode-tab {
+  flex: 1;
+  background: transparent;
+  color: #666;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.mode-tab.active {
   background: white;
-  border: 3px solid #667eea;
+  color: #667eea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mode-content {
+  margin-bottom: 20px;
+}
+
+.type-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.type-btn {
+  background: white;
+  border: 3px solid #e0e0e0;
   border-radius: 15px;
   padding: 25px;
   text-align: center;
   transition: all 0.3s ease;
   width: 100%;
-  margin-bottom: 20px;
 }
 
-.mode-btn.reading-mode:hover,
-.mode-btn.reading-mode:active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+.type-btn.verb:hover,
+.type-btn.verb:active {
+  border-color: #2196f3;
+  background: #e3f2fd;
   transform: scale(1.02);
 }
 
-.mode-btn.reading-mode:hover .mode-name,
-.mode-btn.reading-mode:hover .mode-desc {
-  color: white;
+.type-btn.noun:hover,
+.type-btn.noun:active {
+  border-color: #9c27b0;
+  background: #f3e5f5;
+  transform: scale(1.02);
 }
 
-.mode-icon {
-  font-size: 48px;
+.type-btn.adjective:hover,
+.type-btn.adjective:active {
+  border-color: #ff9800;
+  background: #fff3e0;
+  transform: scale(1.02);
+}
+
+.type-icon {
+  font-size: 40px;
   margin-bottom: 10px;
 }
 
-.mode-name {
-  font-size: 24px;
+.type-name {
+  font-size: 22px;
   font-weight: 700;
-  color: #667eea;
+  color: #333;
   margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
-.beta-badge {
-  background: #ff9800;
-  color: white;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mode-desc {
+.type-desc {
   font-size: 14px;
   color: #666;
-}
-
-.divider {
-  text-align: center;
-  margin: 25px 0;
-  position: relative;
-}
-
-.divider::before,
-.divider::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 40%;
-  height: 1px;
-  background: #e0e0e0;
-}
-
-.divider::before {
-  left: 0;
-}
-
-.divider::after {
-  right: 0;
-}
-
-.divider span {
-  background: white;
-  padding: 0 15px;
-  color: #999;
-  font-size: 14px;
-  font-weight: 600;
 }
 
 .quiz-title {

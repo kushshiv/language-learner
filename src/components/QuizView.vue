@@ -2,6 +2,9 @@
   <div class="quiz-container">
     <div class="quiz-header">
       <button @click="$emit('back')" class="back-btn">← Back</button>
+      <div class="quiz-mode-info" v-if="props.wordType">
+        <span class="mode-badge">{{ getTypeLabel(props.wordType) }}</span>
+      </div>
       <div class="progress">
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
@@ -64,7 +67,8 @@ import type { Word, Difficulty } from '../types'
 
 const props = defineProps<{
   words: Word[]
-  difficulty: Difficulty
+  difficulty: Difficulty | null
+  wordType: 'verb' | 'noun' | 'adjective' | null
 }>()
 
 const emit = defineEmits<{
@@ -85,9 +89,27 @@ const wordCounts = {
 }
 
 const quizWords = computed(() => {
-  const count = wordCounts[props.difficulty]
-  const shuffled = [...props.words].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, Math.min(count, props.words.length))
+  let filteredWords = [...props.words]
+  
+  // Filter by word type if specified
+  if (props.wordType) {
+    filteredWords = filteredWords.filter(word => word.type === props.wordType)
+  }
+  
+  // Determine word count
+  let count: number
+  if (props.difficulty) {
+    count = wordCounts[props.difficulty]
+  } else if (props.wordType) {
+    // Default to 20 words for type-based quizzes
+    count = 20
+  } else {
+    count = 10 // Fallback
+  }
+  
+  // Shuffle and limit
+  const shuffled = filteredWords.sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, Math.min(count, filteredWords.length))
 })
 
 const currentWord = computed(() => {
@@ -170,6 +192,15 @@ const nextWord = () => {
     emit('quiz-complete', score.value, totalWords.value)
   }
 }
+
+const getTypeLabel = (type: 'verb' | 'noun' | 'adjective'): string => {
+  const labels = {
+    verb: 'Verbs',
+    noun: 'Nouns',
+    adjective: 'Adjectives'
+  }
+  return labels[type]
+}
 </script>
 
 <style scoped>
@@ -200,6 +231,23 @@ const nextWord = () => {
   font-weight: 600;
   padding: 5px 0;
   margin-bottom: 10px;
+}
+
+.quiz-mode-info {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.mode-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .progress {
