@@ -1,8 +1,55 @@
 <template>
   <div class="upload-container">
-    <div class="upload-card">
-      <h1 class="title">📚 German Language Learner</h1>
-      <p class="subtitle">Upload a German PDF or paste text to start learning</p>
+    <!-- Initial Choice View -->
+    <div v-if="showInitialChoice" class="upload-card">
+      <div class="header-row">
+        <h1 class="title">📚 German Language Learner</h1>
+        <button @click="$emit('open-settings')" class="settings-btn" title="Settings">
+          ⚙️
+        </button>
+      </div>
+      <p class="subtitle">What would you like to do?</p>
+      
+      <button 
+        class="choice-btn practice-btn" 
+        @click="startPracticing"
+        :disabled="loadingWords"
+      >
+        <div class="choice-icon">🎯</div>
+        <div class="choice-name">Start Practicing</div>
+        <div class="choice-desc">Use your existing words</div>
+        <div v-if="savedWordsCount > 0" class="word-count">{{ savedWordsCount }} words available</div>
+      </button>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button 
+        class="choice-btn upload-btn" 
+        @click="showInitialChoice = false"
+      >
+        <div class="choice-icon">📄</div>
+        <div class="choice-name">Upload New Content</div>
+        <div class="choice-desc">Add PDF or paste text</div>
+      </button>
+
+      <div v-if="loadingWords" class="processing">
+        <div class="spinner"></div>
+        <p>Loading words...</p>
+      </div>
+
+      <div v-if="loadError" class="error-message">
+        {{ loadError }}
+      </div>
+    </div>
+
+    <!-- Upload/Text Input View -->
+    <div v-else class="upload-card">
+      <h1 class="title">📚 Upload New Content</h1>
+      <p class="subtitle">Upload a German PDF or paste text to extract words</p>
+      
+      <button @click="showInitialChoice = true" class="btn-back">← Back</button>
       
       <div class="input-tabs">
         <button 
@@ -66,11 +113,6 @@
       <div v-if="error" class="error-message">
         {{ error }}
       </div>
-
-      <div v-if="savedWordsCount > 0" class="saved-words-info">
-        <p>You have {{ savedWordsCount }} saved words in cloud storage</p>
-        <button @click="useSavedWords" class="btn-secondary">Use Saved Words</button>
-      </div>
     </div>
   </div>
 </template>
@@ -80,11 +122,13 @@ import { ref, onMounted } from 'vue'
 import { extractTextFromPDF } from '../utils/pdfParser'
 import { extractWords } from '../utils/wordExtractor'
 import { extractSentences } from '../utils/sentenceExtractor'
-import { appendWordsToCloud, getAllWordsFromCloud, loadWordsFromCloud } from '../utils/cloudStorage'
+import { getAllWords, appendWords, isCloudSyncEnabled } from '../utils/wordStorage'
 import type { Word, Sentence } from '../types'
 
 const emit = defineEmits<{
   (e: 'pdf-processed', data: { words: Word[], sentences: Sentence[], text: string }): void
+  (e: 'start-practicing', data: { words: Word[] }): void
+  (e: 'open-settings'): void
 }>()
 
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -96,12 +140,42 @@ const error = ref('')
 const savedWordsCount = ref(0)
 const inputMode = ref<'pdf' | 'text'>('pdf')
 const pastedText = ref('')
+const showInitialChoice = ref(true)
+const loadingWords = ref(false)
+const loadError = ref('')
 
 // Check for saved words on mount
 onMounted(async () => {
-  const savedWords = await loadWordsFromCloud()
-  savedWordsCount.value = savedWords.length
+  await checkSavedWords()
 })
+
+const checkSavedWords = async () => {
+  try {
+    const savedWords = await getAllWords()
+    savedWordsCount.value = savedWords.length
+  } catch (err) {
+    console.error('Error checking saved words:', err)
+  }
+}
+
+const startPracticing = async () => {
+  loadingWords.value = true
+  loadError.value = ''
+  
+  try {
+    const savedWords = await getAllWords()
+    if (savedWords && savedWords.length > 0) {
+      emit('start-practicing', { words: savedWords })
+    } else {
+      loadError.value = 'No words found. Please upload a PDF or paste text first.'
+    }
+  } catch (err) {
+    loadError.value = 'Failed to load words.'
+    console.error('Error loading words:', err)
+  } finally {
+    loadingWords.value = false
+  }
+}
 
 const handleFileSelect = (event: Event) => {
   const target = event.target as HTMLInputElement
@@ -176,7 +250,7 @@ const processTextContent = async (text: string) => {
   if (newWords.length === 0) {
     processingMessage.value = 'No new words found. All words may already exist in your collection.'
     // Still load existing words
-    const allWords = await getAllWordsFromCloud()
+    const allWords = await getAllWords()
     if (allWords.length > 0) {
       const wordDict = new Map<string, Word>()
       allWords.forEach(word => {
@@ -189,10 +263,13 @@ const processTextContent = async (text: string) => {
     throw new Error('No words could be extracted from the text')
   }
 
-  processingMessage.value = `Found ${newWords.length} new words. Saving to cloud...`
+  const cloudEnabled = await isCloudSyncEnabled()
+  processingMessage.value = cloudEnabled 
+    ? `Found ${newWords.length} new words. Saving to cloud...`
+    : `Found ${newWords.length} new words. Saving locally...`
   
-  // Append new words to cloud storage (this handles duplicates)
-  const allWords = await appendWordsToCloud(newWords)
+  // Append new words (this handles duplicates and saves to both local and cloud if enabled)
+  const allWords = await appendWords(newWords)
   
   processingMessage.value = 'Extracting sentences...'
   
@@ -209,31 +286,6 @@ const processTextContent = async (text: string) => {
   savedWordsCount.value = allWords.length
 
   emit('pdf-processed', { words: allWords, sentences, text })
-}
-
-const useSavedWords = async () => {
-  processing.value = true
-  processingMessage.value = 'Loading words from cloud storage...'
-  
-  try {
-    const saved = await getAllWordsFromCloud()
-    const savedSentences: Sentence[] = [] // Sentences are not stored in cloud, will be regenerated if needed
-    
-    if (saved && saved.length > 0) {
-      emit('pdf-processed', { 
-        words: saved, 
-        sentences: savedSentences,
-        text: ''
-      })
-    } else {
-      error.value = 'No saved words found'
-    }
-  } catch (err) {
-    error.value = 'Failed to load saved words'
-    console.error('Error loading saved words:', err)
-  } finally {
-    processing.value = false
-  }
 }
 </script>
 
@@ -406,31 +458,130 @@ const useSavedWords = async () => {
   font-size: 14px;
 }
 
-.saved-words-info {
-  margin-top: 25px;
-  padding-top: 25px;
-  border-top: 1px solid #eee;
+.choice-btn {
+  background: white;
+  border: 3px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 
-.saved-words-info p {
-  margin-bottom: 15px;
-  color: #666;
+.choice-btn.practice-btn:hover:not(:disabled),
+.choice-btn.practice-btn:active:not(:disabled) {
+  border-color: #4caf50;
+  background: #f1f8f4;
+  transform: scale(1.02);
+}
+
+.choice-btn.upload-btn:hover,
+.choice-btn.upload-btn:active {
+  border-color: #667eea;
+  background: #f8f9ff;
+  transform: scale(1.02);
+}
+
+.choice-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.choice-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.choice-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.choice-desc {
   font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
 }
 
-.btn-secondary {
+.word-count {
+  font-size: 12px;
+  color: #4caf50;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.divider {
+  text-align: center;
+  margin: 25px 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 15px;
+  color: #999;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-back {
   background: #f0f0f0;
   color: #333;
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 600;
-  width: 100%;
+  margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
+.btn-back:hover {
   background: #e0e0e0;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.settings-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.settings-btn:hover {
+  background: #f0f0f0;
+  transform: rotate(90deg);
 }
 </style>

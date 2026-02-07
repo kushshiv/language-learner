@@ -1,6 +1,6 @@
 import type { Word } from '../types'
 import { lemmatizeWord, extractArticle } from './lemmatizer'
-import { wordExistsInCloud, getAllWordsFromCloud } from './cloudStorage'
+import { getAllWords, wordExists } from './wordStorage'
 
 // Common German verb endings
 const VERB_ENDINGS = ['en', 'st', 't', 'n', 'e', 'te', 'ten', 'test', 'tet', 'est', 'et']
@@ -18,8 +18,8 @@ interface WordCandidate {
 }
 
 export async function extractWords(text: string): Promise<Word[]> {
-  // Load existing words from cloud to check for duplicates
-  const existingWords = await getAllWordsFromCloud()
+  // Load existing words to check for duplicates
+  const existingWords = await getAllWords()
   const existingWordsMap = new Map<string, Word>()
   existingWords.forEach(word => {
     const key = word.german.toLowerCase().trim()
@@ -92,7 +92,7 @@ export async function extractWords(text: string): Promise<Word[]> {
     })
   })
 
-  // Filter out words that already exist in cloud storage
+  // Filter out words that already exist in Gist
   const newWords = words.filter(candidate => {
     const key = candidate.lemmatized.toLowerCase().trim()
     return !existingWordsMap.has(key)
@@ -140,8 +140,8 @@ async function translateWords(
       continue
     }
 
-    // Check cloud storage one more time before translating
-    const exists = await wordExistsInCloud(candidate.lemmatized)
+    // Check storage one more time before translating
+    const exists = await wordExists(candidate.lemmatized)
     if (exists) {
       continue
     }

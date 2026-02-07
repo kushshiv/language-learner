@@ -1,7 +1,14 @@
 <template>
   <div class="app-container">
-    <div v-if="currentView === 'upload'" class="view-container">
-      <UploadView @pdf-processed="handlePdfProcessed" />
+    <div v-if="currentView === 'settings'" class="view-container">
+      <SettingsView @back="currentView = 'upload'" />
+    </div>
+    <div v-else-if="currentView === 'upload'" class="view-container">
+      <UploadView 
+        @pdf-processed="handlePdfProcessed" 
+        @start-practicing="handleStartPracticing"
+        @open-settings="currentView = 'settings'"
+      />
     </div>
     <div v-else-if="currentView === 'difficulty'" class="view-container">
       <DifficultySelection 
@@ -43,31 +50,26 @@ import DifficultySelection from './components/DifficultySelection.vue'
 import QuizView from './components/QuizView.vue'
 import ResultsView from './components/ResultsView.vue'
 import ReadingView from './components/ReadingView.vue'
+import SettingsView from './components/SettingsView.vue'
 import type { Word, Sentence } from './types'
-import { loadWordsFromCloud } from './utils/cloudStorage'
-import { extractSentences } from './utils/sentenceExtractor'
 
-const currentView = ref<'upload' | 'difficulty' | 'quiz' | 'results' | 'reading'>('upload')
+const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'reading'>('upload')
 const words = ref<Word[]>([])
 const sentences = ref<Sentence[]>([])
 const selectedDifficulty = ref<'easy' | 'medium' | 'hard'>('easy')
 const quizScore = ref(0)
 const quizTotal = ref(0)
 
-onMounted(async () => {
-  // Load words from cloud storage
-  const savedWords = await loadWordsFromCloud()
-  if (savedWords && savedWords.length > 0) {
-    words.value = savedWords
-    // Sentences will be extracted when needed (not stored in cloud)
-    currentView.value = 'difficulty'
-  }
-})
+const handleStartPracticing = (data: { words: Word[] }) => {
+  words.value = data.words
+  sentences.value = [] // Sentences will be extracted when needed
+  currentView.value = 'difficulty'
+}
 
 const handlePdfProcessed = (data: { words: Word[], sentences: Sentence[], text: string }) => {
   words.value = data.words
   sentences.value = data.sentences
-  // Words are already saved to cloud storage in UploadView
+  // Words are already saved (localStorage + cloud if enabled)
   currentView.value = 'difficulty'
 }
 

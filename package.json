@@ -9,7 +9,6 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.94.1",
     "pdfjs-dist": "^3.11.174",
     "vue": "^3.4.0"
   },
