@@ -125,16 +125,16 @@
         <div class="modal-header">
           <h2>⚠️ Important Notice</h2>
         </div>
-        <div class="modal-body">
-          <p><strong>Please use this app responsibly!</strong></p>
-          <p>I use this app daily for my personal learning. The translation and lemmatization services rely on external APIs with rate limits.</p>
-          <ul>
-            <li>📄 <strong>PDF Limit:</strong> Maximum 50 pages per upload</li>
-            <li>📝 <strong>Text Limit:</strong> Maximum 10,000 characters per upload</li>
-            <li>⏱️ <strong>Rate Limits:</strong> Heavy usage may interrupt my personal use</li>
-          </ul>
-          <p>Please avoid uploading very large PDFs or extremely long texts. Use it wisely so I can continue using it for my daily learning! 🙏</p>
-        </div>
+          <div class="modal-body">
+            <p><strong>Please use this app responsibly!</strong></p>
+            <p>I use this app daily for my personal learning. The translation and lemmatization services rely on external APIs with rate limits.</p>
+            <ul>
+              <li>📄 <strong>PDF Limit:</strong> Maximum 5 pages per upload (recommended)</li>
+              <li>📝 <strong>Text Limit:</strong> Maximum 100 characters per upload (recommended)</li>
+              <li>⏱️ <strong>Rate Limits:</strong> Heavy usage may interrupt my personal use</li>
+            </ul>
+            <p>Please avoid uploading very large PDFs or extremely long texts. Use it wisely so I can continue using it for my daily learning! 🙏</p>
+          </div>
         <div class="modal-footer">
           <button 
             v-if="pendingFile || pendingText"
