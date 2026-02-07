@@ -20,6 +20,7 @@
       <DifficultySelection 
         @difficulty-selected="handleDifficultySelected"
         @type-selected="handleTypeSelected"
+        @practice-all="handlePracticeAll"
         @upload-new="currentView = 'upload'"
       />
     </div>
@@ -28,6 +29,7 @@
         :words="words" 
         :difficulty="selectedDifficulty"
         :wordType="selectedWordType"
+        :practiceAll="practiceAll"
         @quiz-complete="handleQuizComplete"
         @back="currentView = 'difficulty'"
       />
@@ -58,6 +60,7 @@ const words = ref<Word[]>([])
 const sentences = ref<Sentence[]>([])
 const selectedDifficulty = ref<'easy' | 'medium' | 'hard' | null>(null)
 const selectedWordType = ref<'verb' | 'noun' | 'adjective' | null>(null)
+const practiceAll = ref(false)
 const quizScore = ref(0)
 const quizTotal = ref(0)
 
@@ -77,6 +80,7 @@ const handlePdfProcessed = (data: { words: Word[], sentences: Sentence[], text: 
 const handleDifficultySelected = (difficulty: 'easy' | 'medium' | 'hard') => {
   selectedDifficulty.value = difficulty
   selectedWordType.value = null
+  practiceAll.value = false
   currentView.value = 'quiz'
   quizScore.value = 0
   quizTotal.value = 0
@@ -85,6 +89,16 @@ const handleDifficultySelected = (difficulty: 'easy' | 'medium' | 'hard') => {
 const handleTypeSelected = (type: 'verb' | 'noun' | 'adjective') => {
   selectedWordType.value = type
   selectedDifficulty.value = null
+  practiceAll.value = false
+  currentView.value = 'quiz'
+  quizScore.value = 0
+  quizTotal.value = 0
+}
+
+const handlePracticeAll = () => {
+  selectedDifficulty.value = null
+  selectedWordType.value = null
+  practiceAll.value = true
   currentView.value = 'quiz'
   quizScore.value = 0
   quizTotal.value = 0
@@ -100,6 +114,9 @@ const handleRestart = () => {
   currentView.value = 'difficulty'
   quizScore.value = 0
   quizTotal.value = 0
+  practiceAll.value = false
+  selectedDifficulty.value = null
+  selectedWordType.value = null
 }
 </script>
 

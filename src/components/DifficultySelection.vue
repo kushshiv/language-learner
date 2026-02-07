@@ -88,6 +88,19 @@
         </div>
       </div>
 
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button 
+        @click="$emit('practice-all')" 
+        class="practice-all-btn"
+      >
+        <div class="practice-all-icon">🎯</div>
+        <div class="practice-all-name">Practice All Words</div>
+        <div class="practice-all-desc">Practice every word in your collection</div>
+      </button>
+
       <button @click="$emit('upload-new')" class="btn-secondary">
         Upload New PDF
       </button>
@@ -101,6 +114,7 @@ import { ref } from 'vue'
 const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
   (e: 'type-selected', type: 'verb' | 'noun' | 'adjective'): void
+  (e: 'practice-all'): void
   (e: 'upload-new'): void
 }>()
 
@@ -320,6 +334,47 @@ const selectType = (type: 'verb' | 'noun' | 'adjective') => {
   color: #999;
   font-size: 14px;
   font-weight: 600;
+}
+
+.practice-all-btn {
+  background: white;
+  border: 3px solid #667eea;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.practice-all-btn:hover,
+.practice-all-btn:active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.02);
+}
+
+.practice-all-btn:hover .practice-all-name,
+.practice-all-btn:hover .practice-all-desc {
+  color: white;
+}
+
+.practice-all-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.practice-all-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5px;
+}
+
+.practice-all-desc {
+  font-size: 14px;
+  color: #666;
 }
 
 .btn-secondary {

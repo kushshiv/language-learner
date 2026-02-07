@@ -2,8 +2,9 @@
   <div class="quiz-container">
     <div class="quiz-header">
       <button @click="$emit('back')" class="back-btn">← Back</button>
-      <div class="quiz-mode-info" v-if="props.wordType">
-        <span class="mode-badge">{{ getTypeLabel(props.wordType) }}</span>
+      <div class="quiz-mode-info" v-if="props.wordType || props.practiceAll">
+        <span class="mode-badge" v-if="props.wordType">{{ getTypeLabel(props.wordType) }}</span>
+        <span class="mode-badge" v-else-if="props.practiceAll">Practice All</span>
       </div>
       <div class="progress">
         <div class="progress-bar">
@@ -69,6 +70,7 @@ const props = defineProps<{
   words: Word[]
   difficulty: Difficulty | null
   wordType: 'verb' | 'noun' | 'adjective' | null
+  practiceAll?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -94,6 +96,12 @@ const quizWords = computed(() => {
   // Filter by word type if specified
   if (props.wordType) {
     filteredWords = filteredWords.filter(word => word.type === props.wordType)
+  }
+  
+  // If practice all, use all words
+  if (props.practiceAll) {
+    // Shuffle all words
+    return filteredWords.sort(() => Math.random() - 0.5)
   }
   
   // Determine word count
