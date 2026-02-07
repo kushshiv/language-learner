@@ -86,24 +86,27 @@ The built files will be in the `dist` directory.
 
 ## Deployment
 
-This app can be deployed to any static hosting service:
+### Deploy to GitHub Pages
 
-- **Vercel**: Connect your GitHub repo and deploy
-- **Netlify**: Drag and drop the `dist` folder or connect via Git
-- **GitHub Pages**: Use GitHub Actions to build and deploy
-- **Cloudflare Pages**: Connect repo and deploy
+The app is configured to automatically deploy to GitHub Pages using GitHub Actions.
 
-### Quick Deploy to Vercel
+1. **Push to GitHub**:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin <your-repo-url>
+   git push -u origin main
+   ```
 
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run `vercel` in the project directory
-3. Follow the prompts
+2. **Enable GitHub Pages**:
+   - Go to your repository on GitHub
+   - Click **Settings** → **Pages**
+   - Under "Source", select **"GitHub Actions"**
+   - The workflow (`.github/workflows/deploy.yml`) will automatically deploy on every push to `main`
 
-### Quick Deploy to Netlify
-
-1. Build the project: `npm run build`
-2. Go to [Netlify Drop](https://app.netlify.com/drop)
-3. Drag and drop the `dist` folder
+Your app will be available at `https://<your-username>.github.io/<repo-name>/`
 
 ## Usage
 
