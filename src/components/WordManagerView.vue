@@ -19,6 +19,16 @@
           <span class="stat-label">☁️ Cloud Sync:</span>
           <span class="stat-value">Enabled</span>
         </div>
+        <div v-if="allWords.length > 0" class="stat">
+          <button
+            @click="deleteAllWords"
+            class="delete-all-btn"
+            :disabled="deleting"
+            title="Delete all words"
+          >
+            🗑️ Delete All
+          </button>
+        </div>
       </div>
 
       <div class="search-section">
@@ -179,6 +189,37 @@ const deleteWord = async (germanWord: string) => {
     deleting.value = false
   }
 }
+
+const deleteAllWords = async () => {
+  const wordCount = allWords.length
+  const confirmMessage = cloudEnabled.value
+    ? `Delete ALL ${wordCount} words from both local storage and cloud (Gist)?\n\nThis action cannot be undone!`
+    : `Delete ALL ${wordCount} words from local storage?\n\nThis action cannot be undone!`
+  
+  if (!confirm(confirmMessage)) {
+    return
+  }
+
+  // Double confirmation for safety
+  if (!confirm('Are you absolutely sure? This will permanently delete all your words!')) {
+    return
+  }
+
+  deleting.value = true
+  error.value = ''
+
+  try {
+    // Get all German words to delete
+    const allGermanWords = allWords.value.map(w => w.german)
+    const remainingWords = await deleteWords(allGermanWords)
+    allWords.value = remainingWords
+  } catch (err) {
+    error.value = 'Failed to delete all words. Please try again.'
+    console.error('Error deleting all words:', err)
+  } finally {
+    deleting.value = false
+  }
+}
 </script>
 
 <style scoped>
@@ -253,6 +294,28 @@ const deleteWord = async (germanWord: string) => {
 
 .cloud-stat {
   margin-left: auto;
+}
+
+.delete-all-btn {
+  background: #fee;
+  color: #c33;
+  border: 2px solid #fcc;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-all-btn:hover:not(:disabled) {
+  background: #fcc;
+  transform: scale(1.05);
+}
+
+.delete-all-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .search-section {
