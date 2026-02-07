@@ -5,7 +5,7 @@ A mobile-first web application for learning German vocabulary through flashcards
 ## Try it yourself
 https://kushshiv.github.io/language-learner/
 
-> **For Recruiters/Reviewers:** When you first open the app, you'll see a setup screen. You'll need a GitHub account (free) and a Personal Access Token. The app will guide you through creating one - it takes less than 2 minutes! Each user needs their own token for security reasons.
+> **No setup required!** Just open the app and start uploading PDFs or pasting text. Your words are saved locally in your browser. Optionally enable cloud sync in Settings (⚙️) to access your words from any device.
 
 ## Features
 
@@ -13,7 +13,8 @@ https://kushshiv.github.io/language-learner/
 - 🔍 **Smart Word Extraction**: Automatically identifies verbs, nouns, and adjectives
 - 📝 **Lemmatization**: Words are stored in their base/infinite form (no duplicates)
 - 🎯 **Article Detection**: Automatically detects German articles (der/die/das) for nouns
-- ☁️ **GitHub Gists Storage**: Words are saved in GitHub Gists (free, accessible from any device)
+- 💾 **Local Storage**: Words saved in your browser - no setup required!
+- ☁️ **Optional Cloud Sync**: Enable GitHub Gists sync in Settings to access words from any device
 - 🔄 **Duplicate Prevention**: Only translates new words, skips existing ones
 - 🎴 **Interactive Flashcards**: Flip cards to see translations, examples, and word types
 - 🎯 **Quiz Mode**: Test your knowledge with multiple-choice questions
@@ -25,7 +26,7 @@ https://kushshiv.github.io/language-learner/
 - Vue.js 3 with TypeScript
 - Vite for build tooling
 - PDF.js for PDF parsing
-- GitHub Gists API for cloud storage
+- Browser localStorage (default) + GitHub Gists API (optional cloud sync)
 - LibreTranslate API for translations
 - German lemmatization for base form extraction
 
@@ -34,7 +35,7 @@ https://kushshiv.github.io/language-learner/
 ### Prerequisites
 
 - Node.js 16+ and npm
-- A GitHub account (free)
+- (Optional) GitHub account for cloud sync feature
 
 ### Installation
 
@@ -50,28 +51,30 @@ npm run dev
 
 The app will be available at `http://localhost:5173` (or the port Vite assigns)
 
-### First-Time Setup
+### First-Time Usage
 
-**⚠️ Important:** Each user needs their own GitHub Personal Access Token. Do NOT share tokens - this is a security risk!
+**No setup required!** Just open the app and start using it:
 
-When you first open the app, you'll see a setup screen with step-by-step instructions. Here's what you'll need to do:
+1. **Upload a PDF or paste text** - The app will extract German words automatically
+2. **Start practicing** - Use flashcards and quizzes to learn
+3. **Your words are saved locally** - No account or setup needed!
 
-1. **Get a GitHub Token** (if you don't have a GitHub account, [create one free](https://github.com/signup)):
+### Optional: Enable Cloud Sync
+
+If you want to access your words from multiple devices, you can enable cloud sync:
+
+1. Click the **⚙️ Settings** button (top-right corner)
+2. Click **"Enable Cloud Sync"**
+3. Follow the instructions to create a GitHub Personal Access Token:
    - Go to [GitHub Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens)
    - Click "Generate new token (classic)"
    - Give it a name (e.g., "Language Learner")
    - Check **ONLY** the **"gist"** permission
-   - Click "Generate token"
-   - Copy the token immediately (starts with `ghp_`)
+   - Click "Generate token" and copy it
+4. Paste the token in the app and click "Enable Sync"
+5. Your existing local words will be synced to the cloud automatically
 
-2. **Enter Token in App**:
-   - Paste your token in the setup screen
-   - Click "Save Token"
-   - You're ready to go!
-
-> **Security Note**: Your token is stored securely in your browser. It's never sent to any server except GitHub. All your words are stored in a private Gist on your GitHub account.
-
-> **For Recruiters/Reviewers**: The app will guide you through this process automatically. You only need a free GitHub account - no payment or special permissions required!
+> **Note**: Cloud sync is completely optional. The app works perfectly fine with just local storage!
 
 ### Build
 
@@ -105,7 +108,7 @@ This app can be deployed to any static hosting service:
 ## Usage
 
 1. **Choose Your Action**:
-   - **Start Practicing**: Load your existing words from GitHub Gist
+   - **Start Practicing**: Load your existing words (from local storage or cloud if enabled)
    - **Upload New Content**: Add new words from a PDF or pasted text
 
 2. **Upload PDF or Paste Text** (if uploading new content): 
@@ -114,25 +117,27 @@ This app can be deployed to any static hosting service:
    
 3. **Automatic Processing**: 
    - Words are extracted and lemmatized (converted to base form)
-   - App checks GitHub Gist for existing words
+   - App checks for existing words (local storage + cloud if enabled)
    - Only new words are translated (duplicates are skipped)
    - Articles are detected for nouns
-   - Everything is saved to your GitHub Gist
+   - Everything is saved locally (and to cloud if sync is enabled)
 
 4. **Choose your difficulty level**: Easy, Medium, or Hard
 
 5. **Practice**: Use flashcards and quizzes to learn
 
-6. **Access Anywhere**: Your words are saved in your GitHub Gist and accessible from any device
+6. **Access Anywhere** (if cloud sync enabled): Your words sync across all your devices automatically
 
 ## Notes
 
 - **Translation API**: Uses LibreTranslate (free public service) with MyMemory as fallback. May have rate limits.
-- **Storage**: Words are stored in a private GitHub Gist. Free, unlimited storage, and accessible from anywhere.
+- **Storage**: 
+  - **Default**: Words are stored in your browser's localStorage (no setup needed)
+  - **Optional**: Enable cloud sync to store words in a private GitHub Gist (accessible from any device)
 - **Lemmatization**: Words are automatically converted to their base form (e.g., "geht" → "gehen", "Häuser" → "Haus")
 - **Articles**: German articles (der/die/das) are detected from context for nouns
-- **Duplicate Prevention**: The app checks your GitHub Gist before translating to avoid duplicate translations
-- **GitHub Rate Limits**: 5,000 requests/hour with a token (more than enough for normal use)
+- **Duplicate Prevention**: The app checks existing words (local + cloud if enabled) before translating to avoid duplicates
+- **Cloud Sync**: If enabled, uses GitHub Gists API (5,000 requests/hour - more than enough for normal use)
 
 ## License
 
