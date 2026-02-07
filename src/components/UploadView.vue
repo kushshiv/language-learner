@@ -27,7 +27,7 @@
 
       <button 
         class="choice-btn upload-btn" 
-        @click="showInitialChoice = false"
+        @click="handleUploadClick"
       >
         <div class="choice-icon">📄</div>
         <div class="choice-name">Upload New Content</div>
@@ -95,11 +95,15 @@
           placeholder="Paste your German text here..."
           class="text-input"
           rows="8"
+          maxlength="10000"
         ></textarea>
+        <div class="char-counter">
+          {{ pastedText.length }} / {{ MAX_TEXT_CHARACTERS }} characters
+        </div>
         <button 
           @click="processText" 
           class="btn-primary"
-          :disabled="!pastedText.trim() || processing"
+          :disabled="!pastedText.trim() || processing || pastedText.length > MAX_TEXT_CHARACTERS"
         >
           Process Text
         </button>
@@ -114,16 +118,61 @@
         {{ error }}
       </div>
     </div>
+
+    <!-- Warning Modal -->
+    <div v-if="showWarningModal" class="modal-overlay" @click.self="showWarningModal = false">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>⚠️ Important Notice</h2>
+        </div>
+        <div class="modal-body">
+          <p><strong>Please use this app responsibly!</strong></p>
+          <p>I use this app daily for my personal learning. The translation and lemmatization services rely on external APIs with rate limits.</p>
+          <ul>
+            <li>📄 <strong>PDF Limit:</strong> Maximum 50 pages per upload</li>
+            <li>📝 <strong>Text Limit:</strong> Maximum 10,000 characters per upload</li>
+            <li>⏱️ <strong>Rate Limits:</strong> Heavy usage may interrupt my personal use</li>
+          </ul>
+          <p>Please avoid uploading very large PDFs or extremely long texts. Use it wisely so I can continue using it for my daily learning! 🙏</p>
+        </div>
+        <div class="modal-footer">
+          <button 
+            v-if="pendingFile || pendingText"
+            @click="showWarningModal = false; proceedWithUpload()" 
+            class="btn-primary"
+          >
+            I Understand, Continue
+          </button>
+          <button 
+            v-else
+            @click="handleWarningContinue" 
+            class="btn-primary"
+          >
+            I Understand, Continue
+          </button>
+          <button 
+            @click="showWarningModal = false; cancelUpload()" 
+            class="btn-secondary"
+          >
+            {{ pendingFile || pendingText ? 'Cancel' : 'Go Back' }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { extractTextFromPDF } from '../utils/pdfParser'
+import { getPDFInfo } from '../utils/pdfParser'
 import { extractWords } from '../utils/wordExtractor'
 import { extractSentences } from '../utils/sentenceExtractor'
 import { getAllWords, appendWords, isCloudSyncEnabled } from '../utils/wordStorage'
 import type { Word, Sentence } from '../types'
+
+// Limits
+const MAX_PDF_PAGES = 50
+const MAX_TEXT_CHARACTERS = 10000
 
 const emit = defineEmits<{
   (e: 'pdf-processed', data: { words: Word[], sentences: Sentence[], text: string }): void
@@ -143,6 +192,10 @@ const pastedText = ref('')
 const showInitialChoice = ref(true)
 const loadingWords = ref(false)
 const loadError = ref('')
+const showWarningModal = ref(false)
+const pendingFile = ref<File | null>(null)
+const pendingText = ref<string | null>(null)
+const hasSeenWarning = ref(false)
 
 // Check for saved words on mount
 onMounted(async () => {
@@ -199,25 +252,87 @@ const processFile = async (file: File) => {
     return
   }
 
-  processing.value = true
-  processingMessage.value = 'Extracting text from PDF...'
   error.value = ''
+  processing.value = true
+  processingMessage.value = 'Checking PDF...'
 
   try {
-    // Extract text from PDF
-    const text = await extractTextFromPDF(file)
+    // Get PDF info (page count and text)
+    const pdfInfo = await getPDFInfo(file)
     
-    if (!text || text.length < 50) {
+    // Check page limit
+    if (pdfInfo.pageCount > MAX_PDF_PAGES) {
+      processing.value = false
+      error.value = `PDF has ${pdfInfo.pageCount} pages. Maximum allowed is ${MAX_PDF_PAGES} pages. Please upload a smaller PDF.`
+      return
+    }
+
+    if (!pdfInfo.text || pdfInfo.text.length < 50) {
+      processing.value = false
       throw new Error('PDF appears to be empty or could not be read')
     }
 
-    await processTextContent(text)
+    // Show warning modal before processing
+    pendingFile.value = file
+    processing.value = false
+    showWarningModal.value = true
   } catch (err) {
+    processing.value = false
     error.value = err instanceof Error ? err.message : 'Failed to process PDF'
     console.error('Error processing PDF:', err)
-  } finally {
-    processing.value = false
   }
+}
+
+const proceedWithUpload = async () => {
+  if (pendingFile.value) {
+    processing.value = true
+    processingMessage.value = 'Extracting text from PDF...'
+    
+    try {
+      const pdfInfo = await getPDFInfo(pendingFile.value)
+      await processTextContent(pdfInfo.text)
+      pendingFile.value = null
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to process PDF'
+      console.error('Error processing PDF:', err)
+    } finally {
+      processing.value = false
+    }
+  } else if (pendingText.value) {
+    processing.value = true
+    processingMessage.value = 'Processing text...'
+    
+    try {
+      await processTextContent(pendingText.value)
+      pastedText.value = ''
+      pendingText.value = null
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to process text'
+      console.error('Error processing text:', err)
+    } finally {
+      processing.value = false
+    }
+  }
+}
+
+const cancelUpload = () => {
+  pendingFile.value = null
+  pendingText.value = null
+  showWarningModal.value = false
+}
+
+const handleUploadClick = () => {
+  if (!hasSeenWarning.value) {
+    showWarningModal.value = true
+  } else {
+    showInitialChoice.value = false
+  }
+}
+
+const handleWarningContinue = () => {
+  hasSeenWarning.value = true
+  showWarningModal.value = false
+  showInitialChoice.value = false
 }
 
 const processText = async () => {
@@ -226,19 +341,17 @@ const processText = async () => {
     return
   }
 
-  processing.value = true
-  processingMessage.value = 'Processing text...'
-  error.value = ''
-
-  try {
-    await processTextContent(pastedText.value)
-    pastedText.value = '' // Clear after processing
-  } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Failed to process text'
-    console.error('Error processing text:', err)
-  } finally {
-    processing.value = false
+  // Check character limit
+  if (pastedText.value.length > MAX_TEXT_CHARACTERS) {
+    error.value = `Text is too long (${pastedText.value.length} characters). Maximum allowed is ${MAX_TEXT_CHARACTERS} characters.`
+    return
   }
+
+  error.value = ''
+  
+  // Show warning modal before processing
+  pendingText.value = pastedText.value
+  showWarningModal.value = true
 }
 
 const processTextContent = async (text: string) => {
@@ -583,5 +696,89 @@ const processTextContent = async (text: string) => {
 .settings-btn:hover {
   background: #f0f0f0;
   transform: rotate(90deg);
+}
+
+.char-counter {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.char-counter:has-text {
+  color: #999;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 500px;
+  width: calc(100% - 40px);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+}
+
+.modal-header {
+  padding: 25px 30px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.modal-body {
+  padding: 25px 30px;
+}
+
+.modal-body p {
+  margin: 0 0 15px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.modal-body ul {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.modal-body li {
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
+}
+
+.modal-footer {
+  padding: 20px 30px 30px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.modal-footer .btn-primary,
+.modal-footer .btn-secondary {
+  flex: 1;
+  margin: 0;
 }
 </style>
