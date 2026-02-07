@@ -66,6 +66,13 @@
         >
           📝 Paste Text
         </button>
+        <button 
+          class="tab-btn" 
+          :class="{ active: inputMode === 'dictionary' }"
+          @click="inputMode = 'dictionary'"
+        >
+          📚 Upload Dictionary
+        </button>
       </div>
 
       <!-- PDF Upload Mode -->
