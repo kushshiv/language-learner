@@ -88,7 +88,7 @@
       </div>
 
       <!-- Text Paste Mode -->
-      <div v-else class="text-input-area">
+      <div v-else-if="inputMode === 'text'" class="text-input-area">
         <textarea
           ref="textInput"
           v-model="pastedText"
@@ -107,6 +107,32 @@
         >
           Process Text
         </button>
+      </div>
+
+      <!-- Dictionary Upload Mode -->
+      <div v-else-if="inputMode === 'dictionary'" class="upload-area" 
+           :class="{ 'dragging': isDragging }" 
+           @drop="handleDictionaryDrop" 
+           @dragover.prevent="isDragging = true"
+           @dragleave="isDragging = false"
+           @click="dictionaryInput?.click()">
+        <input 
+          ref="dictionaryInput"
+          type="file" 
+          accept=".json,.csv" 
+          @change="handleDictionarySelect"
+          style="display: none;"
+        />
+        <div class="upload-icon">📚</div>
+        <p class="upload-text">Tap to upload dictionary file</p>
+        <p class="upload-hint">JSON or CSV format</p>
+        <div class="format-info">
+          <p><strong>Supported formats:</strong></p>
+          <ul>
+            <li><strong>JSON:</strong> Array of word objects</li>
+            <li><strong>CSV:</strong> Columns: german, english, type, example, context (optional), article (optional)</li>
+          </ul>
+        </div>
       </div>
 
       <div v-if="processing" class="processing">
@@ -168,6 +194,7 @@ import { getPDFInfo } from '../utils/pdfParser'
 import { extractWords } from '../utils/wordExtractor'
 import { extractSentences } from '../utils/sentenceExtractor'
 import { getAllWords, appendWords, isCloudSyncEnabled } from '../utils/wordStorage'
+import { parseDictionaryFile } from '../utils/dictionaryParser'
 import type { Word, Sentence } from '../types'
 
 // Limits
@@ -182,12 +209,13 @@ const emit = defineEmits<{
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const textInput = ref<HTMLTextAreaElement | null>(null)
+const dictionaryInput = ref<HTMLInputElement | null>(null)
 const isDragging = ref(false)
 const processing = ref(false)
 const processingMessage = ref('Processing...')
 const error = ref('')
 const savedWordsCount = ref(0)
-const inputMode = ref<'pdf' | 'text'>('pdf')
+const inputMode = ref<'pdf' | 'text' | 'dictionary'>('pdf')
 const pastedText = ref('')
 const showInitialChoice = ref(true)
 const loadingWords = ref(false)
@@ -243,6 +271,22 @@ const handleDrop = (event: DragEvent) => {
   
   if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
     processFile(event.dataTransfer.files[0])
+  }
+}
+
+const handleDictionarySelect = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  if (target.files && target.files[0]) {
+    processDictionaryFile(target.files[0])
+  }
+}
+
+const handleDictionaryDrop = (event: DragEvent) => {
+  event.preventDefault()
+  isDragging.value = false
+  
+  if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
+    processDictionaryFile(event.dataTransfer.files[0])
   }
 }
 
@@ -400,6 +444,50 @@ const processTextContent = async (text: string) => {
 
   emit('pdf-processed', { words: allWords, sentences, text })
 }
+
+const processDictionaryFile = async (file: File) => {
+  const fileName = file.name.toLowerCase()
+  
+  if (!fileName.endsWith('.json') && !fileName.endsWith('.csv')) {
+    error.value = 'Please upload a JSON or CSV file'
+    return
+  }
+
+  error.value = ''
+  processing.value = true
+  processingMessage.value = 'Parsing dictionary file...'
+
+  try {
+    // Parse the dictionary file
+    const words = await parseDictionaryFile(file)
+    
+    if (words.length === 0) {
+      throw new Error('No words found in the dictionary file')
+    }
+
+    processingMessage.value = `Found ${words.length} words. Checking for duplicates...`
+    
+    // Append words (this handles duplicates and saves to both local and cloud if enabled)
+    const allWords = await appendWords(words)
+    
+    // Update saved words count
+    savedWordsCount.value = allWords.length
+
+    processingMessage.value = `Successfully imported ${words.length} words!`
+    
+    // Emit with empty sentences since we don't have text for dictionary imports
+    emit('pdf-processed', { 
+      words: allWords, 
+      sentences: [], 
+      text: '' 
+    })
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to process dictionary file'
+    console.error('Error processing dictionary file:', err)
+  } finally {
+    processing.value = false
+  }
+}
 </script>
 
 <style scoped>
@@ -495,6 +583,32 @@ const processTextContent = async (text: string) => {
 .upload-hint {
   font-size: 14px;
   color: #999;
+}
+
+.format-info {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8f9ff;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.format-info p {
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.format-info ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #666;
+}
+
+.format-info li {
+  margin: 5px 0;
+  line-height: 1.5;
 }
 
 .text-input-area {
