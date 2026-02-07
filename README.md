@@ -131,6 +131,182 @@ Your app will be available at `https://<your-username>.github.io/<repo-name>/`
 
 6. **Access Anywhere** (if cloud sync enabled): Your words sync across all your devices automatically
 
+## Generating JSON Files with AI
+
+You can use AI tools (like Cursor, ChatGPT, or Claude) to generate JSON files for both **Dictionary/Quiz mode** and **Reading mode**. Here are the exact prompts and formats:
+
+### 📚 Dictionary/Quiz JSON Format
+
+**Use this for:** Uploading vocabulary words to practice with flashcards and quizzes.
+
+**AI Prompt:**
+```
+I have a German PDF/text about [TOPIC]. Extract all important German words (verbs, nouns, adjectives) and create a JSON file in this exact format:
+
+[
+  {
+    "german": "Haus",
+    "english": "house",
+    "type": "noun",
+    "example": "Das Haus ist groß",
+    "context": "The house is big",
+    "article": "das"
+  },
+  {
+    "german": "gehen",
+    "english": "to go",
+    "type": "verb",
+    "example": "Ich gehe zur Schule",
+    "context": "I go to school"
+  },
+  {
+    "german": "schön",
+    "english": "beautiful",
+    "type": "adjective",
+    "example": "Das ist ein schönes Bild",
+    "context": "That is a beautiful picture"
+  }
+]
+
+Requirements:
+- "german": The German word in its base/infinitive form (e.g., "gehen" not "geht", "Haus" not "Häuser")
+- "english": English translation
+- "type": Must be exactly "verb", "noun", or "adjective"
+- "example": A German sentence using the word
+- "context": (optional) English translation of the example sentence
+- "article": (optional, for nouns only) Must be "der", "die", or "das"
+
+Extract ALL important words from the text and output ONLY valid JSON, no explanations.
+```
+
+**Expected JSON Format:**
+```json
+[
+  {
+    "german": "Haus",
+    "english": "house",
+    "type": "noun",
+    "example": "Das Haus ist groß",
+    "context": "The house is big",
+    "article": "das"
+  },
+  {
+    "german": "gehen",
+    "english": "to go",
+    "type": "verb",
+    "example": "Ich gehe zur Schule",
+    "context": "I go to school"
+  }
+]
+```
+
+**How to use:**
+1. Copy the AI prompt above and paste it to Cursor/ChatGPT
+2. Provide your German PDF/text
+3. Copy the generated JSON
+4. Save it as a `.json` file
+5. Upload it in the app using the "📚 Upload Dictionary" tab
+
+---
+
+### 📖 Reading Mode JSON Format
+
+**Use this for:** Line-by-line reading with translations (perfect for understanding complex texts).
+
+**AI Prompt:**
+```
+I have a German PDF/text about [TOPIC]. Convert it to a JSON file for line-by-line reading. Extract the text line-by-line (preserving ALL lines, no skipping) and provide translations for each line.
+
+Output in this EXACT format:
+
+{
+  "moduleName": "Module 1: Nutrition Basics",
+  "title": "Nutrition Guide",
+  "source": "nutrition-guide.pdf",
+  "totalLines": 50,
+  "lines": [
+    {
+      "lineNumber": 1,
+      "original": "Ernährung ist wichtig für die Gesundheit.",
+      "translation": "Nutrition is important for health."
+    },
+    {
+      "lineNumber": 2,
+      "original": "Eine ausgewogene Ernährung enthält verschiedene Nährstoffe.",
+      "translation": "A balanced diet contains various nutrients."
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "version": "beta",
+  "currentLineIndex": 0
+}
+
+Requirements:
+- "moduleName": A descriptive name (e.g., "Module 1: Nutrition Basics")
+- "title": Short title of the document
+- "source": Original filename or source
+- "totalLines": Total number of lines
+- "lines": Array of line objects, each with:
+  - "lineNumber": Sequential number starting from 1
+  - "original": The German text (preserve ALL lines, don't skip any)
+  - "translation": Accurate English translation
+- "createdAt": Current date in ISO format
+- "updatedAt": Current date in ISO format
+- "version": "beta"
+- "currentLineIndex": 0
+
+IMPORTANT: 
+- Extract line-by-line preserving the original structure
+- Don't skip any lines
+- Provide accurate, natural translations
+- Output ONLY valid JSON, no explanations
+```
+
+**Expected JSON Format:**
+```json
+{
+  "moduleName": "Module 1: Nutrition Basics",
+  "title": "Nutrition Guide",
+  "source": "nutrition-guide.pdf",
+  "totalLines": 2,
+  "lines": [
+    {
+      "lineNumber": 1,
+      "original": "Ernährung ist wichtig für die Gesundheit.",
+      "translation": "Nutrition is important for health."
+    },
+    {
+      "lineNumber": 2,
+      "original": "Eine ausgewogene Ernährung enthält verschiedene Nährstoffe.",
+      "translation": "A balanced diet contains various nutrients."
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "version": "beta",
+  "currentLineIndex": 0
+}
+```
+
+**How to use:**
+1. Copy the AI prompt above and paste it to Cursor/ChatGPT
+2. Provide your German PDF/text
+3. Copy the generated JSON
+4. Save it as a `.json` file
+5. Upload it in the app using the "📖 Reading Mode" tab
+6. Enter the module name when prompted (or it will use the one from JSON)
+
+---
+
+### Tips for AI Generation
+
+- **Be specific**: Mention the topic/subject in your prompt
+- **Check the format**: Make sure the AI outputs valid JSON (you can validate at jsonlint.com)
+- **Review translations**: AI translations are usually good, but review for accuracy
+- **Module names**: Use descriptive names like "Module 1: Nutrition Basics" for easy identification
+- **Line preservation**: For reading mode, emphasize "preserve ALL lines, don't skip any"
+
 ## Notes
 
 - **Translation API**: Uses LibreTranslate (free public service) with MyMemory as fallback. May have rate limits.

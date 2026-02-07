@@ -14,6 +14,20 @@
         @pdf-processed="handlePdfProcessed" 
         @start-practicing="handleStartPracticing"
         @open-settings="currentView = 'settings'"
+        @reading-uploaded="handleReadingUploaded"
+      />
+    </div>
+    <div v-else-if="currentView === 'reading-modules'" class="view-container">
+      <ReadingModuleSelector 
+        @module-selected="handleModuleSelected"
+        @upload-new="currentView = 'upload'"
+        @back="currentView = 'difficulty'"
+      />
+    </div>
+    <div v-else-if="currentView === 'reading' && readingContent" class="view-container">
+      <ReadingView 
+        :content="readingContent"
+        @back="currentView = 'reading-modules'"
       />
     </div>
     <div v-else-if="currentView === 'difficulty'" class="view-container">
@@ -21,6 +35,7 @@
         @difficulty-selected="handleDifficultySelected"
         @type-selected="handleTypeSelected"
         @upload-new="currentView = 'upload'"
+        @reading-mode="handleReadingMode"
       />
     </div>
     <div v-else-if="currentView === 'quiz'" class="view-container">
@@ -44,22 +59,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import UploadView from './components/UploadView.vue'
 import DifficultySelection from './components/DifficultySelection.vue'
 import QuizView from './components/QuizView.vue'
 import ResultsView from './components/ResultsView.vue'
 import SettingsView from './components/SettingsView.vue'
 import WordManagerView from './components/WordManagerView.vue'
-import type { Word, Sentence } from './types'
+import ReadingView from './components/ReadingView.vue'
+import ReadingModuleSelector from './components/ReadingModuleSelector.vue'
+import type { Word, Sentence, ReadingContent } from './types'
 
-const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'word-manager'>('upload')
+const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'word-manager' | 'reading' | 'reading-modules'>('upload')
 const words = ref<Word[]>([])
 const sentences = ref<Sentence[]>([])
 const selectedDifficulty = ref<'easy' | 'medium' | 'hard' | null>(null)
 const selectedWordType = ref<'verb' | 'noun' | 'adjective' | null>(null)
 const quizScore = ref(0)
 const quizTotal = ref(0)
+const readingContent = ref<ReadingContent | null>(null)
 
 const handleStartPracticing = (data: { words: Word[] }) => {
   words.value = data.words
@@ -100,6 +118,21 @@ const handleRestart = () => {
   currentView.value = 'difficulty'
   quizScore.value = 0
   quizTotal.value = 0
+}
+
+const handleReadingUploaded = () => {
+  // After uploading, show module selector
+  currentView.value = 'reading-modules'
+}
+
+const handleModuleSelected = (module: ReadingContent) => {
+  readingContent.value = module
+  currentView.value = 'reading'
+}
+
+const handleReadingMode = () => {
+  // Show module selector
+  currentView.value = 'reading-modules'
 }
 </script>
 

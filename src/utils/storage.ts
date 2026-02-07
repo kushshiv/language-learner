@@ -1,8 +1,9 @@
-import type { Word, Sentence } from '../types'
+import type { Word, Sentence, ReadingContent } from '../types'
 
 const STORAGE_KEY = 'german-words'
 const SENTENCES_KEY = 'german-sentences'
 const PDF_TEXT_KEY = 'pdf-text'
+const READING_CONTENT_KEY = 'german-reading-content'
 
 export function saveWords(words: Word[]): void {
   try {
@@ -71,11 +72,32 @@ export function loadPdfText(): string | null {
   return null
 }
 
+export function saveReadingContent(content: ReadingContent): void {
+  try {
+    localStorage.setItem(READING_CONTENT_KEY, JSON.stringify(content))
+  } catch (error) {
+    console.error('Failed to save reading content:', error)
+  }
+}
+
+export function loadReadingContent(): ReadingContent | null {
+  try {
+    const data = localStorage.getItem(READING_CONTENT_KEY)
+    if (data) {
+      return JSON.parse(data) as ReadingContent
+    }
+  } catch (error) {
+    console.error('Failed to load reading content:', error)
+  }
+  return null
+}
+
 export function clearWords(): void {
   try {
     localStorage.removeItem(STORAGE_KEY)
     localStorage.removeItem(SENTENCES_KEY)
     localStorage.removeItem(PDF_TEXT_KEY)
+    localStorage.removeItem(READING_CONTENT_KEY)
   } catch (error) {
     console.error('Failed to clear words:', error)
   }

@@ -88,6 +88,23 @@
         </div>
       </div>
 
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button 
+        v-if="hasReadingContent"
+        @click="$emit('reading-mode')" 
+        class="reading-mode-btn"
+      >
+        <div class="reading-icon">📖</div>
+        <div class="reading-name">
+          Reading Mode
+          <span class="beta-badge">BETA</span>
+        </div>
+        <div class="reading-desc">Read line-by-line with AI translations</div>
+      </button>
+
       <button @click="$emit('upload-new')" class="btn-secondary">
         Upload New PDF
       </button>
@@ -96,15 +113,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getAllReadingModules } from '../utils/readingStorage'
 
 const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
   (e: 'type-selected', type: 'verb' | 'noun' | 'adjective'): void
   (e: 'upload-new'): void
+  (e: 'reading-mode'): void
 }>()
 
 const quizMode = ref<'difficulty' | 'type'>('difficulty')
+const hasReadingContent = ref(false)
+
+onMounted(async () => {
+  const modules = await getAllReadingModules()
+  hasReadingContent.value = modules.length > 0
+})
 
 const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
   emit('difficulty-selected', difficulty)
@@ -288,6 +313,95 @@ const selectType = (type: 'verb' | 'noun' | 'adjective') => {
   font-weight: 600;
   color: #666;
   margin-bottom: 15px;
+}
+
+.divider {
+  text-align: center;
+  margin: 25px 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 15px;
+  color: #999;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reading-mode-btn {
+  background: white;
+  border: 3px solid #667eea;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.reading-mode-btn:hover,
+.reading-mode-btn:active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.02);
+}
+
+.reading-mode-btn:hover .reading-name,
+.reading-mode-btn:hover .reading-desc {
+  color: white;
+}
+
+.reading-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.reading-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.reading-desc {
+  font-size: 14px;
+  color: #666;
+}
+
+.beta-badge {
+  background: #ff9800;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-secondary {

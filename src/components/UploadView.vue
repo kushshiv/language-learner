@@ -73,6 +73,13 @@
         >
           📚 Upload Dictionary
         </button>
+        <button 
+          class="tab-btn" 
+          :class="{ active: inputMode === 'reading' }"
+          @click="inputMode = 'reading'"
+        >
+          📖 Reading Mode <span class="beta-badge">BETA</span>
+        </button>
       </div>
 
       <!-- PDF Upload Mode -->
@@ -142,6 +149,36 @@
         </div>
       </div>
 
+      <!-- Reading Mode (Beta) -->
+      <div v-else-if="inputMode === 'reading'" class="reading-mode-area">
+        <div class="reading-info">
+          <p><strong>AI-Powered Reading Mode (Beta)</strong></p>
+          <p class="reading-desc">
+            Upload a JSON file with line-by-line translations. 
+            Get your PDF converted to JSON with translations using Cursor/ChatGPT, then upload here.
+            Perfect for understanding complex texts like nutrition guides.
+          </p>
+        </div>
+        
+        <div class="reading-upload-area" 
+             :class="{ 'dragging': isDragging }" 
+             @drop="handleReadingJsonDrop" 
+             @dragover.prevent="isDragging = true"
+             @dragleave="isDragging = false"
+             @click="readingJsonInput?.click()">
+          <input 
+            ref="readingJsonInput"
+            type="file" 
+            accept=".json" 
+            @change="handleReadingJsonSelect"
+            style="display: none;"
+          />
+          <div class="upload-icon">📄</div>
+          <p class="upload-text">Upload Reading JSON File</p>
+          <p class="upload-hint">with AI-generated line-by-line translations</p>
+        </div>
+      </div>
+
       <div v-if="processing" class="processing">
         <div class="spinner"></div>
         <p>{{ processingMessage }}</p>
@@ -202,7 +239,9 @@ import { extractWords } from '../utils/wordExtractor'
 import { extractSentences } from '../utils/sentenceExtractor'
 import { getAllWords, appendWords, isCloudSyncEnabled } from '../utils/wordStorage'
 import { parseDictionaryFile } from '../utils/dictionaryParser'
-import type { Word, Sentence } from '../types'
+import { parseReadingContent } from '../utils/readingExtractor'
+import { saveReadingModule } from '../utils/readingStorage'
+import type { Word, Sentence, ReadingContent } from '../types'
 
 // Limits
 const MAX_PDF_PAGES = 50
@@ -212,17 +251,19 @@ const emit = defineEmits<{
   (e: 'pdf-processed', data: { words: Word[], sentences: Sentence[], text: string }): void
   (e: 'start-practicing', data: { words: Word[] }): void
   (e: 'open-settings'): void
+  (e: 'reading-uploaded'): void
 }>()
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const textInput = ref<HTMLTextAreaElement | null>(null)
 const dictionaryInput = ref<HTMLInputElement | null>(null)
+const readingJsonInput = ref<HTMLInputElement | null>(null)
 const isDragging = ref(false)
 const processing = ref(false)
 const processingMessage = ref('Processing...')
 const error = ref('')
 const savedWordsCount = ref(0)
-const inputMode = ref<'pdf' | 'text' | 'dictionary'>('pdf')
+const inputMode = ref<'pdf' | 'text' | 'dictionary' | 'reading'>('pdf')
 const pastedText = ref('')
 const showInitialChoice = ref(true)
 const loadingWords = ref(false)
@@ -294,6 +335,75 @@ const handleDictionaryDrop = (event: DragEvent) => {
   
   if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
     processDictionaryFile(event.dataTransfer.files[0])
+  }
+}
+
+const handleReadingJsonDrop = async (event: DragEvent) => {
+  event.preventDefault()
+  isDragging.value = false
+  const file = event.dataTransfer?.files[0]
+  if (!file || !file.name.endsWith('.json')) return
+  
+  // Simulate file input
+  const dataTransfer = new DataTransfer()
+  dataTransfer.items.add(file)
+  if (readingJsonInput.value) {
+    readingJsonInput.value.files = dataTransfer.files
+    await handleReadingJsonSelect({ target: readingJsonInput.value } as Event)
+  }
+}
+
+const handleReadingJsonSelect = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (!file) return
+  
+  processing.value = true
+  processingMessage.value = 'Loading reading content...'
+  error.value = ''
+  
+  try {
+    const content = await parseReadingContent(file)
+    
+    // Ensure module name exists
+    if (!content.moduleName || content.moduleName.trim() === '') {
+      const moduleName = prompt('Enter module name (e.g., "Module 1: Nutrition Basics"):')
+      if (!moduleName || moduleName.trim() === '') {
+        throw new Error('Module name is required')
+      }
+      content.moduleName = moduleName.trim()
+    }
+    
+    // Ensure currentLineIndex exists
+    if (content.currentLineIndex === undefined) {
+      content.currentLineIndex = 0
+    }
+    
+    // Ensure updatedAt exists
+    if (!content.updatedAt) {
+      content.updatedAt = new Date().toISOString()
+    }
+    
+    processingMessage.value = 'Saving module to cloud...'
+    
+    // Save to Gist (or local if cloud not enabled)
+    await saveReadingModule(content)
+    
+    processingMessage.value = `Module "${content.moduleName}" saved successfully!`
+    
+    // Clear file input
+    if (target) {
+      target.value = ''
+    }
+    
+    // Emit to show module selector
+    setTimeout(() => {
+      emit('reading-uploaded')
+      processing.value = false
+    }, 1000)
+  } catch (err) {
+    processing.value = false
+    error.value = err instanceof Error ? err.message : 'Invalid reading JSON file'
   }
 }
 
@@ -901,5 +1011,91 @@ const processDictionaryFile = async (file: File) => {
 .modal-footer .btn-secondary {
   flex: 1;
   margin: 0;
+}
+
+.beta-badge {
+  background: #ff9800;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 5px;
+}
+
+.reading-mode-area {
+  margin: 20px 0;
+}
+
+.reading-info {
+  background: #f8f9ff;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.reading-info p {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.reading-info p:last-child {
+  margin-bottom: 0;
+}
+
+.reading-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.reading-upload-area {
+  border: 3px dashed #667eea;
+  border-radius: 15px;
+  padding: 40px 20px;
+  margin: 20px 0;
+  background: #f8f9ff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reading-upload-area.dragging {
+  border-color: #764ba2;
+  background: #f0f0ff;
+  transform: scale(1.02);
+}
+
+.reading-upload-area:active {
+  transform: scale(0.98);
+}
+
+.reading-preview {
+  background: #e8f5e9;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.reading-preview h3 {
+  margin: 0 0 10px;
+  color: #2e7d32;
+  font-size: 18px;
+}
+
+.reading-preview p {
+  margin: 0 0 15px;
+  color: #555;
+  font-size: 14px;
+}
+
+.reading-step-hint {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+  margin-top: 5px !important;
 }
 </style>
