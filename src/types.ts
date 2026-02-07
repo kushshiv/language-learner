@@ -15,22 +15,3 @@ export interface Sentence {
   words: Word[]
   index: number
 }
-
-export interface ReadingLine {
-  lineNumber: number
-  original: string
-  translation: string  // AI-generated, not API
-  words?: Word[]  // Optional: words found in this line
-}
-
-export interface ReadingContent {
-  moduleName: string  // e.g., "Module 1: Nutrition Basics"
-  title: string
-  source: string  // PDF filename or source
-  totalLines: number
-  lines: ReadingLine[]
-  createdAt: string
-  updatedAt: string
-  version: string  // "beta"
-  currentLineIndex: number  // Progress tracking
-}
