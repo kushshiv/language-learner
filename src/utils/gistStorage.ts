@@ -408,3 +408,27 @@ export async function appendWordsToGist(newWords: Word[]): Promise<Word[]> {
   return allWords
 }
 
+/**
+ * Delete words from Gist by their German word
+ */
+export async function deleteWordsFromGist(germanWords: string[]): Promise<Word[]> {
+  const token = await getGitHubToken()
+  if (!token) {
+    throw new Error('GitHub token not configured')
+  }
+
+  const existingWords = await loadWordsFromGist()
+  const wordsToDelete = new Set(germanWords.map(w => w.toLowerCase().trim()))
+  
+  // Filter out words to delete
+  const remainingWords = existingWords.filter(word => {
+    const key = word.german.toLowerCase().trim()
+    return !wordsToDelete.has(key)
+  })
+  
+  // Save back to Gist
+  await saveWordsToGist(remainingWords)
+  
+  return remainingWords
+}
+

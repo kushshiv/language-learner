@@ -1,7 +1,13 @@
 <template>
   <div class="app-container">
     <div v-if="currentView === 'settings'" class="view-container">
-      <SettingsView @back="currentView = 'upload'" />
+      <SettingsView 
+        @back="currentView = 'upload'"
+        @manage-words="currentView = 'word-manager'"
+      />
+    </div>
+    <div v-else-if="currentView === 'word-manager'" class="view-container">
+      <WordManagerView @back="currentView = 'settings'" />
     </div>
     <div v-else-if="currentView === 'upload'" class="view-container">
       <UploadView 
@@ -51,9 +57,10 @@ import QuizView from './components/QuizView.vue'
 import ResultsView from './components/ResultsView.vue'
 import ReadingView from './components/ReadingView.vue'
 import SettingsView from './components/SettingsView.vue'
+import WordManagerView from './components/WordManagerView.vue'
 import type { Word, Sentence } from './types'
 
-const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'reading'>('upload')
+const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'reading' | 'word-manager'>('upload')
 const words = ref<Word[]>([])
 const sentences = ref<Sentence[]>([])
 const selectedDifficulty = ref<'easy' | 'medium' | 'hard'>('easy')

@@ -6,6 +6,7 @@ import {
   appendWordsToGist, 
   getAllWordsFromGist,
   wordExistsInGist,
+  deleteWordsFromGist,
   isGitHubConfigured 
 } from './gistStorage'
 
@@ -132,5 +133,42 @@ export async function syncLocalToCloud(): Promise<void> {
       throw error
     }
   }
+}
+
+/**
+ * Delete words by their German word
+ */
+export async function deleteWords(germanWords: string[]): Promise<Word[]> {
+  const cloudEnabled = await isCloudSyncEnabled()
+  
+  // Always delete from localStorage
+  const localWords = loadWordsLocal()
+  if (localWords) {
+    const wordsToDelete = new Set(germanWords.map(w => w.toLowerCase().trim()))
+    const remainingLocal = localWords.filter(word => {
+      const key = word.german.toLowerCase().trim()
+      return !wordsToDelete.has(key)
+    })
+    saveWordsLocal(remainingLocal)
+  }
+  
+  // If cloud sync is enabled, also delete from cloud
+  if (cloudEnabled) {
+    try {
+      const remainingCloud = await deleteWordsFromGist(germanWords)
+      // Update localStorage with cloud version
+      saveWordsLocal(remainingCloud)
+      return remainingCloud
+    } catch (error) {
+      console.warn('Failed to delete from cloud, deleted locally:', error)
+      // Return local version
+      const localWords = loadWordsLocal()
+      return localWords || []
+    }
+  }
+  
+  // Return local version
+  const localWordsAfter = loadWordsLocal()
+  return localWordsAfter || []
 }
 

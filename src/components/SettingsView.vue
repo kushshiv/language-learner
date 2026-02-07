@@ -7,6 +7,16 @@
       </div>
 
       <div class="section">
+        <h2 class="section-title">📝 Manage Words</h2>
+        <p class="section-desc">
+          View, search, and delete words from your database.
+        </p>
+        <button @click="$emit('manage-words')" class="btn-primary">
+          Manage Words
+        </button>
+      </div>
+
+      <div class="section">
         <h2 class="section-title">☁️ Cloud Sync (Optional)</h2>
         <p class="section-desc">
           Enable cloud sync to access your words from any device. Your words are stored in a private GitHub Gist.
@@ -100,6 +110,7 @@ import { syncLocalToCloud, isCloudSyncEnabled } from '../utils/wordStorage'
 
 const emit = defineEmits<{
   (e: 'back'): void
+  (e: 'manage-words'): void
 }>()
 
 const cloudEnabled = ref(false)
