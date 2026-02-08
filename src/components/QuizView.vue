@@ -47,7 +47,7 @@
         <div v-else class="feedback wrong-feedback">
           ✗ Wrong! The correct answer is "{{ currentWord.english.replace(/^\[|\]$/g, '') }}"
         </div>
-        <div class="mark-doubt-container">
+        <div class="action-buttons-container">
           <button 
             @click="toggleMarkDoubt" 
             class="mark-doubt-btn"
@@ -56,8 +56,15 @@
             <span v-if="currentWord.needsReview">✓ Marked for Review</span>
             <span v-else>⚠️ Mark as Doubt</span>
           </button>
+          <button 
+            @click="deleteCurrentWord" 
+            class="delete-word-btn"
+            :disabled="deleting"
+          >
+            🗑️ Delete Word
+          </button>
         </div>
-        <button @click="nextWord" class="next-btn">Next →</button>
+        <button @click="nextWord" class="next-btn" :disabled="deleting">Next →</button>
       </div>
 
       <button v-if="!showAnswer" @click="flipCard" class="flip-btn">
@@ -74,7 +81,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import FlashCard from './FlashCard.vue'
-import { markWordForReview } from '../utils/wordStorage'
+import { markWordForReview, deleteWords } from '../utils/wordStorage'
 import type { Word, Difficulty } from '../types'
 
 const props = defineProps<{
@@ -95,6 +102,8 @@ const score = ref(0)
 const selectedAnswer = ref<string | null>(null)
 const showAnswer = ref(false)
 const markedWords = ref<Set<string>>(new Set()) // Track locally marked words
+const deleting = ref(false)
+const quizWordsList = ref<Word[]>([]) // Local copy of quiz words that can be modified
 
 const wordCounts = {
   easy: 10,
@@ -103,6 +112,11 @@ const wordCounts = {
 }
 
 const quizWords = computed(() => {
+  // Use local list if available, otherwise compute from props
+  if (quizWordsList.value.length > 0) {
+    return quizWordsList.value
+  }
+  
   let filteredWords = [...props.words]
   
   // Filter by word type if specified
@@ -176,6 +190,8 @@ watch(currentWord, () => {
 })
 
 onMounted(() => {
+  // Initialize quiz words list
+  initializeQuizWords()
   generateOptions()
   // Initialize marked words from props
   props.words.forEach(word => {
@@ -184,6 +200,37 @@ onMounted(() => {
     }
   })
 })
+
+const initializeQuizWords = () => {
+  let filteredWords = [...props.words]
+  
+  // Filter by word type if specified
+  if (props.wordType) {
+    filteredWords = filteredWords.filter(word => word.type === props.wordType)
+  }
+  
+  // If practice all, use all words
+  if (props.practiceAll) {
+    // Shuffle all words
+    quizWordsList.value = filteredWords.sort(() => Math.random() - 0.5)
+    return
+  }
+  
+  // Determine word count
+  let count: number
+  if (props.difficulty) {
+    count = wordCounts[props.difficulty]
+  } else if (props.wordType) {
+    // Default to 20 words for type-based quizzes
+    count = 20
+  } else {
+    count = 10 // Fallback
+  }
+  
+  // Shuffle and limit
+  const shuffled = filteredWords.sort(() => Math.random() - 0.5)
+  quizWordsList.value = shuffled.slice(0, Math.min(count, filteredWords.length))
+}
 
 const selectOption = (option: string) => {
   if (showAnswer.value) return
@@ -250,6 +297,52 @@ const toggleMarkDoubt = async () => {
     }
   } catch (error) {
     console.error('Failed to mark word for review:', error)
+  }
+}
+
+const deleteCurrentWord = async () => {
+  if (!currentWord.value) return
+  
+  const wordToDelete = currentWord.value.german
+  if (!confirm(`Delete "${wordToDelete}"? This word will be removed from your collection.`)) {
+    return
+  }
+  
+  deleting.value = true
+  
+  try {
+    // Delete from storage (this will sync to Gist if enabled)
+    await deleteWords([wordToDelete])
+    
+    // Remove from local quiz words list
+    const wordIndex = quizWordsList.value.findIndex(
+      w => w.german.toLowerCase().trim() === wordToDelete.toLowerCase().trim()
+    )
+    if (wordIndex !== -1) {
+      quizWordsList.value.splice(wordIndex, 1)
+    }
+    
+    // Remove from marked words if it was marked
+    markedWords.value.delete(wordToDelete.toLowerCase().trim())
+    
+    // If we deleted the current word, move to next or end quiz
+    if (currentIndex.value >= quizWordsList.value.length) {
+      // Quiz complete (no more words)
+      emit('quiz-complete', score.value, totalWords.value)
+    } else {
+      // Move to next word (index stays the same since we removed one)
+      generateOptions()
+      selectedAnswer.value = null
+      showAnswer.value = false
+      if (flashCardRef.value) {
+        flashCardRef.value.reset()
+      }
+    }
+  } catch (error) {
+    console.error('Failed to delete word:', error)
+    alert('Failed to delete word. Please try again.')
+  } finally {
+    deleting.value = false
   }
 }
 </script>
@@ -444,7 +537,9 @@ const toggleMarkDoubt = async () => {
   flex-shrink: 0;
 }
 
-.mark-doubt-container {
+.action-buttons-container {
+  display: flex;
+  gap: 10px;
   margin: 12px 0;
 }
 
@@ -456,8 +551,9 @@ const toggleMarkDoubt = async () => {
   font-size: 14px;
   font-weight: 600;
   border: 2px solid #ffc107;
-  width: 100%;
+  flex: 1;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .mark-doubt-btn:hover {
@@ -473,6 +569,29 @@ const toggleMarkDoubt = async () => {
 
 .mark-doubt-btn.marked:hover {
   background: #c3e6cb;
+}
+
+.delete-word-btn {
+  background: #fee;
+  color: #c33;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid #fcc;
+  flex: 1;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.delete-word-btn:hover:not(:disabled) {
+  background: #fcc;
+  transform: scale(1.02);
+}
+
+.delete-word-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .quiz-complete {
