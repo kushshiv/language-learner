@@ -7,7 +7,7 @@
 const VERB_CONJUGATIONS: Record<string, string> = {
   // Present tense
   'st': '', // 2nd person singular -> remove 'st', add 'en'
-  't': '',  // 3rd person singular -> remove 't', add 'en'
+  't': '',  // 3rd person singular or past participle (ge-...-t) -> remove 't', add 'en'
   'en': '', // Already infinitive or plural
   'e': '',  // 1st person singular -> remove 'e', add 'en'
   'n': '',  // Sometimes infinitive
@@ -19,7 +19,6 @@ const VERB_CONJUGATIONS: Record<string, string> = {
   'tet': '', // 2nd person plural past -> remove 'tet', add 'en'
   
   // Past participle
-  't': '', // Past participle (ge-...-t) -> remove 't', add 'en'
   'et': '', // Past participle with e -> remove 'et', add 'en'
 }
 

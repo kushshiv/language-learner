@@ -1,6 +1,9 @@
 <template>
-  <div class="flashcard-container" @click="flipCard">
-    <div class="flashcard" :class="{ 'flipped': isFlipped }">
+  <div 
+    class="flashcard-container" 
+    :class="{ 'disabled': disabled }"
+  >
+    <div class="flashcard" :class="{ 'flipped': isFlipped }" @click="onCardClick">
       <div class="flashcard-front">
         <div class="word-type-badge">{{ word.type }}</div>
         <div class="german-word">{{ word.german }}</div>
@@ -23,6 +26,7 @@ import type { Word } from '../types'
 
 const props = defineProps<{
   word: Word
+  disabled?: boolean // Prevent flipping when disabled
 }>()
 
 const isFlipped = ref(false)
@@ -31,12 +35,48 @@ const cleanTranslation = (text: string) => {
   return text.replace(/^\[|\]$/g, '').trim()
 }
 
+const onCardClick = (event: MouseEvent) => {
+  // Don't do anything if disabled - this is the primary guard
+  if (props.disabled) {
+    event.stopPropagation()
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    return false
+  }
+  
+  handleCardClick(event)
+}
+
+const handleCardClick = (event: MouseEvent) => {
+  // Double-check disabled state
+  if (props.disabled) {
+    event.stopPropagation()
+    event.preventDefault()
+    return false
+  }
+  
+  // Don't flip if clicking on a button
+  const target = event.target as HTMLElement
+  if (target.tagName === 'BUTTON' || target.closest('button')) {
+    event.stopPropagation()
+    event.preventDefault()
+    return false
+  }
+  
+  flipCard()
+}
+
 const flipCard = () => {
+  if (props.disabled) return
   isFlipped.value = !isFlipped.value
 }
 
 defineExpose({
-  flip: () => { isFlipped.value = true },
+  flip: () => { 
+    if (!props.disabled) {
+      isFlipped.value = true 
+    }
+  },
   reset: () => { isFlipped.value = false },
   isFlipped: () => isFlipped.value
 })
@@ -50,6 +90,16 @@ defineExpose({
   height: 250px;
   margin: 0 auto;
   flex-shrink: 0;
+}
+
+.flashcard-container.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.flashcard-container.disabled .flashcard {
+  pointer-events: none;
+  cursor: default;
 }
 
 .flashcard {

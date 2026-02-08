@@ -16,10 +16,13 @@
     </div>
 
     <div v-if="currentWord" class="quiz-content">
-      <FlashCard 
-        ref="flashCardRef"
-        :word="currentWord"
-      />
+      <div class="flashcard-wrapper" @click.stop>
+        <FlashCard 
+          ref="flashCardRef"
+          :word="currentWord"
+          :disabled="showAnswer"
+        />
+      </div>
 
       <div v-if="!showAnswer" class="options-container">
         <p class="question-text">What does "{{ currentWord.german }}" mean?</p>
@@ -47,24 +50,58 @@
         <div v-else class="feedback wrong-feedback">
           ✗ Wrong! The correct answer is "{{ currentWord.english.replace(/^\[|\]$/g, '') }}"
         </div>
-        <div class="action-buttons-container">
+        
+        <!-- Translation Update Section (shown when marked as doubt) -->
+        <div v-if="showTranslationUpdate" class="translation-update-section">
+          <div class="translation-header">
+            <span class="translation-label">New Translation:</span>
+            <button 
+              v-if="translating"
+              class="loading-btn"
+              disabled
+            >
+              <span class="spinner-small"></span> Translating...
+            </button>
+          </div>
+          <div v-if="newTranslation" class="new-translation">
+            <div class="translation-text">{{ newTranslation }}</div>
+            <div class="translation-comparison">
+              <span class="old-translation">Current: {{ currentWord.english }}</span>
+              <span class="arrow">→</span>
+              <span class="new-translation-text">New: {{ newTranslation }}</span>
+            </div>
+            <button 
+              @click.stop="updateTranslation"
+              class="update-translation-btn"
+              :disabled="updating"
+            >
+              {{ updating ? 'Updating...' : '✓ Update Translation' }}
+            </button>
+          </div>
+          <div v-else-if="translationError" class="translation-error">
+            Failed to translate. Please try again.
+          </div>
+        </div>
+        
+        <div class="action-buttons-container" @click.stop.prevent>
           <button 
-            @click="toggleMarkDoubt" 
+            @click.stop.prevent="handleMarkDoubt" 
             class="mark-doubt-btn"
             :class="{ 'marked': currentWord.needsReview }"
+            :disabled="translating || updating"
           >
             <span v-if="currentWord.needsReview">✓ Marked for Review</span>
             <span v-else>⚠️ Mark as Doubt</span>
           </button>
           <button 
-            @click="deleteCurrentWord" 
+            @click.stop.prevent="deleteCurrentWord" 
             class="delete-word-btn"
-            :disabled="deleting"
+            :disabled="deleting || translating || updating"
           >
             🗑️ Delete Word
           </button>
         </div>
-        <button @click="nextWord" class="next-btn" :disabled="deleting">Next →</button>
+        <button @click="nextWord" class="next-btn" :disabled="deleting || translating || updating">Next →</button>
       </div>
 
       <button v-if="!showAnswer" @click="flipCard" class="flip-btn">
@@ -81,7 +118,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import FlashCard from './FlashCard.vue'
-import { markWordForReview, deleteWords } from '../utils/wordStorage'
+import { markWordForReview, deleteWords, updateWordTranslation } from '../utils/wordStorage'
+import { translateWord } from '../utils/translation'
 import type { Word, Difficulty } from '../types'
 
 const props = defineProps<{
@@ -104,6 +142,11 @@ const showAnswer = ref(false)
 const markedWords = ref<Set<string>>(new Set()) // Track locally marked words
 const deleting = ref(false)
 const quizWordsList = ref<Word[]>([]) // Local copy of quiz words that can be modified
+const translating = ref(false)
+const updating = ref(false)
+const newTranslation = ref<string | null>(null)
+const translationError = ref(false)
+const showTranslationUpdate = ref(false)
 
 const wordCounts = {
   easy: 10,
@@ -178,13 +221,23 @@ const generateOptions = () => {
   options.value = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5)
 }
 
-watch(currentWord, () => {
+watch(currentWord, (newWord, oldWord) => {
   if (currentWord.value) {
-    generateOptions()
-    selectedAnswer.value = null
-    showAnswer.value = false
-    if (flashCardRef.value) {
-      flashCardRef.value.reset()
+    // Only reset if we're moving to a different word (different German text)
+    // Don't reset if we're just updating properties of the same word
+    const isNewWord = !oldWord || oldWord.german !== newWord.german
+    
+    if (isNewWord) {
+      generateOptions()
+      selectedAnswer.value = null
+      showAnswer.value = false
+      // Reset translation section when moving to next word
+      showTranslationUpdate.value = false
+      newTranslation.value = null
+      translationError.value = false
+      if (flashCardRef.value) {
+        flashCardRef.value.reset()
+      }
     }
   }
 })
@@ -279,6 +332,14 @@ const getTypeLabel = (type: 'verb' | 'noun' | 'adjective'): string => {
   return labels[type]
 }
 
+const handleMarkDoubt = async (event: Event) => {
+  event.stopPropagation()
+  event.preventDefault()
+  event.stopImmediatePropagation()
+  
+  await toggleMarkDoubt()
+}
+
 const toggleMarkDoubt = async () => {
   if (!currentWord.value) return
   
@@ -292,11 +353,78 @@ const toggleMarkDoubt = async () => {
     // Update local tracking
     if (newNeedsReview) {
       markedWords.value.add(wordKey)
+      // Trigger translation when marking as doubt
+      await fetchNewTranslation()
     } else {
       markedWords.value.delete(wordKey)
+      // Hide translation section when unmarking
+      showTranslationUpdate.value = false
+      newTranslation.value = null
+      translationError.value = false
     }
   } catch (error) {
     console.error('Failed to mark word for review:', error)
+  }
+}
+
+const fetchNewTranslation = async () => {
+  if (!currentWord.value) return
+  
+  translating.value = true
+  translationError.value = false
+  newTranslation.value = null
+  showTranslationUpdate.value = true
+  
+  try {
+    const translation = await translateWord(currentWord.value.german)
+    if (translation) {
+      newTranslation.value = translation
+    } else {
+      translationError.value = true
+    }
+  } catch (error) {
+    console.error('Translation failed:', error)
+    translationError.value = true
+  } finally {
+    translating.value = false
+  }
+}
+
+const updateTranslation = async () => {
+  if (!currentWord.value || !newTranslation.value) return
+  
+  updating.value = true
+  
+  try {
+    // Update translation in storage (this will sync to Gist if enabled)
+    await updateWordTranslation(currentWord.value.german, newTranslation.value)
+    
+    // Update local quiz words list
+    const wordIndex = quizWordsList.value.findIndex(
+      w => w.german.toLowerCase().trim() === currentWord.value!.german.toLowerCase().trim()
+    )
+    if (wordIndex !== -1) {
+      quizWordsList.value[wordIndex].english = newTranslation.value
+    }
+    
+    // Update current word reference
+    if (currentWord.value) {
+      currentWord.value = { ...currentWord.value, english: newTranslation.value }
+    }
+    
+    // Hide translation section after update
+    showTranslationUpdate.value = false
+    newTranslation.value = null
+    
+    // Show success message briefly
+    setTimeout(() => {
+      // Translation updated successfully
+    }, 100)
+  } catch (error) {
+    console.error('Failed to update translation:', error)
+    alert('Failed to update translation. Please try again.')
+  } finally {
+    updating.value = false
   }
 }
 
@@ -434,6 +562,10 @@ const deleteCurrentWord = async () => {
   gap: 10px;
   min-height: 0;
   overflow-y: auto;
+}
+
+.flashcard-wrapper {
+  flex-shrink: 0;
 }
 
 .options-container {
@@ -592,6 +724,120 @@ const deleteCurrentWord = async () => {
 .delete-word-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.translation-update-section {
+  background: #f8f9ff;
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 12px 0;
+}
+
+.translation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.translation-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.loading-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner-small {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #e3f2fd;
+  border-top: 2px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.new-translation {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.translation-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #4caf50;
+}
+
+.translation-comparison {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 8px;
+  background: white;
+  border-radius: 8px;
+}
+
+.old-translation {
+  color: #999;
+  text-decoration: line-through;
+}
+
+.arrow {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.new-translation-text {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.update-translation-btn {
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.update-translation-btn:hover:not(:disabled) {
+  background: #45a049;
+  transform: scale(1.02);
+}
+
+.update-translation-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.translation-error {
+  color: #c33;
+  font-size: 14px;
+  padding: 10px;
+  background: #fee;
+  border-radius: 8px;
+  text-align: center;
 }
 
 .quiz-complete {

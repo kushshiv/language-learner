@@ -193,3 +193,24 @@ export async function markWordForReview(germanWord: string, needsReview: boolean
   return updatedWords
 }
 
+/**
+ * Update a word's translation
+ */
+export async function updateWordTranslation(germanWord: string, newTranslation: string): Promise<Word[]> {
+  const allWords = await getAllWords()
+  const normalizedWord = germanWord.toLowerCase().trim()
+  
+  // Update the word's translation
+  const updatedWords = allWords.map(word => {
+    if (word.german.toLowerCase().trim() === normalizedWord) {
+      return { ...word, english: newTranslation }
+    }
+    return word
+  })
+  
+  // Save updated words
+  await saveWords(updatedWords)
+  
+  return updatedWords
+}
+
