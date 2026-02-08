@@ -65,7 +65,7 @@
           >
             <div class="type-icon">🔤</div>
             <div class="type-name">Verbs</div>
-            <div class="type-desc">Practice German verbs</div>
+            <div class="type-desc">{{ verbCount }} words available</div>
           </button>
 
           <button 
@@ -74,7 +74,7 @@
           >
             <div class="type-icon">📚</div>
             <div class="type-name">Nouns</div>
-            <div class="type-desc">Practice German nouns</div>
+            <div class="type-desc">{{ nounCount }} words available</div>
           </button>
 
           <button 
@@ -83,7 +83,7 @@
           >
             <div class="type-icon">✨</div>
             <div class="type-name">Adjectives</div>
-            <div class="type-desc">Practice German adjectives</div>
+            <div class="type-desc">{{ adjectiveCount }} words available</div>
           </button>
         </div>
       </div>
@@ -98,7 +98,7 @@
       >
         <div class="practice-all-icon">🎯</div>
         <div class="practice-all-name">Practice All Words</div>
-        <div class="practice-all-desc">Practice every word in your collection</div>
+        <div class="practice-all-desc">{{ allWords.length }} words available</div>
       </button>
 
       <button @click="$emit('upload-new')" class="btn-secondary">
@@ -109,7 +109,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { getAllWords } from '../utils/wordStorage'
+import type { Word } from '../types'
 
 const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
@@ -119,6 +121,20 @@ const emit = defineEmits<{
 }>()
 
 const quizMode = ref<'difficulty' | 'type'>('difficulty')
+const allWords = ref<Word[]>([])
+
+// Calculate word counts by type
+const verbCount = computed(() => {
+  return allWords.value.filter(w => w.type === 'verb').length
+})
+
+const nounCount = computed(() => {
+  return allWords.value.filter(w => w.type === 'noun').length
+})
+
+const adjectiveCount = computed(() => {
+  return allWords.value.filter(w => w.type === 'adjective').length
+})
 
 const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
   emit('difficulty-selected', difficulty)
@@ -127,6 +143,16 @@ const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
 const selectType = (type: 'verb' | 'noun' | 'adjective') => {
   emit('type-selected', type)
 }
+
+// Load words on mount to get counts
+onMounted(async () => {
+  try {
+    allWords.value = await getAllWords()
+  } catch (error) {
+    console.error('Failed to load words:', error)
+    allWords.value = []
+  }
+})
 </script>
 
 <style scoped>
