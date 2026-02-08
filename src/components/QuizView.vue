@@ -47,6 +47,16 @@
         <div v-else class="feedback wrong-feedback">
           ✗ Wrong! The correct answer is "{{ currentWord.english.replace(/^\[|\]$/g, '') }}"
         </div>
+        <div class="mark-doubt-container">
+          <button 
+            @click="toggleMarkDoubt" 
+            class="mark-doubt-btn"
+            :class="{ 'marked': currentWord.needsReview }"
+          >
+            <span v-if="currentWord.needsReview">✓ Marked for Review</span>
+            <span v-else>⚠️ Mark as Doubt</span>
+          </button>
+        </div>
         <button @click="nextWord" class="next-btn">Next →</button>
       </div>
 
@@ -64,6 +74,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import FlashCard from './FlashCard.vue'
+import { markWordForReview } from '../utils/wordStorage'
 import type { Word, Difficulty } from '../types'
 
 const props = defineProps<{
@@ -83,6 +94,7 @@ const currentIndex = ref(0)
 const score = ref(0)
 const selectedAnswer = ref<string | null>(null)
 const showAnswer = ref(false)
+const markedWords = ref<Set<string>>(new Set()) // Track locally marked words
 
 const wordCounts = {
   easy: 10,
@@ -121,7 +133,11 @@ const quizWords = computed(() => {
 })
 
 const currentWord = computed(() => {
-  return quizWords.value[currentIndex.value]
+  const word = quizWords.value[currentIndex.value]
+  if (!word) return null
+  // Check if word is marked locally or in storage
+  const isMarked = markedWords.value.has(word.german.toLowerCase().trim()) || word.needsReview === true
+  return { ...word, needsReview: isMarked }
 })
 
 const totalWords = computed(() => quizWords.value.length)
@@ -161,6 +177,12 @@ watch(currentWord, () => {
 
 onMounted(() => {
   generateOptions()
+  // Initialize marked words from props
+  props.words.forEach(word => {
+    if (word.needsReview) {
+      markedWords.value.add(word.german.toLowerCase().trim())
+    }
+  })
 })
 
 const selectOption = (option: string) => {
@@ -208,6 +230,27 @@ const getTypeLabel = (type: 'verb' | 'noun' | 'adjective'): string => {
     adjective: 'Adjectives'
   }
   return labels[type]
+}
+
+const toggleMarkDoubt = async () => {
+  if (!currentWord.value) return
+  
+  const wordKey = currentWord.value.german.toLowerCase().trim()
+  const newNeedsReview = !currentWord.value.needsReview
+  
+  try {
+    // Update in storage (this will sync to Gist if enabled)
+    await markWordForReview(currentWord.value.german, newNeedsReview)
+    
+    // Update local tracking
+    if (newNeedsReview) {
+      markedWords.value.add(wordKey)
+    } else {
+      markedWords.value.delete(wordKey)
+    }
+  } catch (error) {
+    console.error('Failed to mark word for review:', error)
+  }
 }
 </script>
 
@@ -399,6 +442,37 @@ const getTypeLabel = (type: 'verb' | 'noun' | 'adjective'): string => {
   font-weight: 600;
   border: 2px solid #667eea;
   flex-shrink: 0;
+}
+
+.mark-doubt-container {
+  margin: 12px 0;
+}
+
+.mark-doubt-btn {
+  background: #fff3cd;
+  color: #856404;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid #ffc107;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.mark-doubt-btn:hover {
+  background: #ffe082;
+  transform: scale(1.02);
+}
+
+.mark-doubt-btn.marked {
+  background: #d4edda;
+  color: #155724;
+  border-color: #28a745;
+}
+
+.mark-doubt-btn.marked:hover {
+  background: #c3e6cb;
 }
 
 .quiz-complete {

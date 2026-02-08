@@ -172,3 +172,24 @@ export async function deleteWords(germanWords: string[]): Promise<Word[]> {
   return localWordsAfter || []
 }
 
+/**
+ * Mark or unmark a word as needing review
+ */
+export async function markWordForReview(germanWord: string, needsReview: boolean): Promise<Word[]> {
+  const allWords = await getAllWords()
+  const normalizedWord = germanWord.toLowerCase().trim()
+  
+  // Update the word
+  const updatedWords = allWords.map(word => {
+    if (word.german.toLowerCase().trim() === normalizedWord) {
+      return { ...word, needsReview }
+    }
+    return word
+  })
+  
+  // Save updated words
+  await saveWords(updatedWords)
+  
+  return updatedWords
+}
+

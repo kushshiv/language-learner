@@ -40,13 +40,20 @@
         />
         <div class="filter-buttons">
           <button
-            v-for="type in ['all', 'noun', 'verb', 'adjective']"
+            v-for="type in (['all', 'noun', 'verb', 'adjective'] as const)"
             :key="type"
             class="filter-btn"
             :class="{ active: selectedType === type }"
             @click="selectedType = type"
           >
             {{ type === 'all' ? 'All' : type }}
+          </button>
+          <button
+            class="filter-btn review-filter"
+            :class="{ active: showReviewOnly }"
+            @click="showReviewOnly = !showReviewOnly"
+          >
+            ⚠️ Review ({{ wordsNeedingReview.length }})
           </button>
         </div>
       </div>
@@ -80,6 +87,7 @@
               <span class="word-german">{{ word.german }}</span>
               <span v-if="word.article" class="word-article">({{ word.article }})</span>
               <span class="word-type-badge" :class="word.type">{{ word.type }}</span>
+              <span v-if="word.needsReview" class="review-badge">⚠️ Needs Review</span>
             </div>
             <button
               @click="deleteWord(word.german)"
@@ -127,6 +135,7 @@ const loading = ref(true)
 const error = ref('')
 const searchQuery = ref('')
 const selectedType = ref<'all' | 'noun' | 'verb' | 'adjective'>('all')
+const showReviewOnly = ref(false)
 const deleting = ref(false)
 const cloudEnabled = ref(false)
 
@@ -148,8 +157,17 @@ const loadWords = async () => {
   }
 }
 
+const wordsNeedingReview = computed(() => {
+  return allWords.value.filter(word => word.needsReview === true)
+})
+
 const filteredWords = computed(() => {
   let filtered = allWords.value
+
+  // Filter by review status
+  if (showReviewOnly.value) {
+    filtered = filtered.filter(w => w.needsReview === true)
+  }
 
   // Filter by type
   if (selectedType.value !== 'all') {
@@ -191,7 +209,7 @@ const deleteWord = async (germanWord: string) => {
 }
 
 const deleteAllWords = async () => {
-  const wordCount = allWords.length
+  const wordCount = allWords.value.length
   const confirmMessage = cloudEnabled.value
     ? `Delete ALL ${wordCount} words from both local storage and cloud (Gist)?\n\nThis action cannot be undone!`
     : `Delete ALL ${wordCount} words from local storage?\n\nThis action cannot be undone!`
@@ -474,6 +492,28 @@ const deleteAllWords = async () => {
 .word-type-badge.adjective {
   background: #fff3e0;
   color: #e65100;
+}
+
+.review-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+.filter-btn.review-filter {
+  background: #fff3cd;
+  color: #856404;
+  border-color: #ffc107;
+}
+
+.filter-btn.review-filter.active {
+  background: #ffc107;
+  color: #333;
+  border-color: #ffc107;
 }
 
 .delete-btn {
