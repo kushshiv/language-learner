@@ -30,6 +30,7 @@
         :difficulty="selectedDifficulty"
         :wordType="selectedWordType"
         :practiceAll="practiceAll"
+        :chunkNumber="selectedChunkNumber"
         @quiz-complete="handleQuizComplete"
         @back="currentView = 'difficulty'"
       />
@@ -61,6 +62,7 @@ const sentences = ref<Sentence[]>([])
 const selectedDifficulty = ref<'easy' | 'medium' | 'hard' | null>(null)
 const selectedWordType = ref<'verb' | 'noun' | 'adjective' | null>(null)
 const practiceAll = ref(false)
+const selectedChunkNumber = ref<number | null>(null)
 const quizScore = ref(0)
 const quizTotal = ref(0)
 
@@ -95,10 +97,11 @@ const handleTypeSelected = (type: 'verb' | 'noun' | 'adjective') => {
   quizTotal.value = 0
 }
 
-const handlePracticeAll = () => {
+const handlePracticeAll = (chunkNumber: number) => {
   selectedDifficulty.value = null
   selectedWordType.value = null
   practiceAll.value = true
+  selectedChunkNumber.value = chunkNumber
   currentView.value = 'quiz'
   quizScore.value = 0
   quizTotal.value = 0
@@ -115,6 +118,7 @@ const handleRestart = () => {
   quizScore.value = 0
   quizTotal.value = 0
   practiceAll.value = false
+  selectedChunkNumber.value = null
   selectedDifficulty.value = null
   selectedWordType.value = null
 }

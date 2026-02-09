@@ -92,14 +92,37 @@
         <span>OR</span>
       </div>
 
-      <button 
-        @click="$emit('practice-all')" 
-        class="practice-all-btn"
-      >
-        <div class="practice-all-icon">🎯</div>
-        <div class="practice-all-name">Practice All Words</div>
-        <div class="practice-all-desc">{{ allWords.length }} words available</div>
-      </button>
+      <!-- Chunk Selection for Practice All -->
+      <div v-if="totalChunks > 0" class="chunk-selection-section">
+        <p class="quiz-title">Practice All Words (in chunks of 100)</p>
+        <p class="chunk-info">
+          You have {{ allWords.length }} words, split into {{ totalChunks }} chunks.
+        </p>
+
+        <div class="chunk-select-row">
+          <label class="chunk-label" for="chunk-select">Choose chunk:</label>
+          <select
+            id="chunk-select"
+            v-model.number="selectedChunk"
+            class="chunk-select"
+          >
+            <option
+              v-for="chunkIndex in totalChunks"
+              :key="chunkIndex"
+              :value="chunkIndex"
+            >
+              Chunk {{ chunkIndex }} ({{ (chunkIndex - 1) * CHUNK_SIZE + 1 }}–{{ Math.min(chunkIndex * CHUNK_SIZE, allWords.length) }})
+            </option>
+          </select>
+        </div>
+
+        <button
+          @click="startChunkPractice"
+          class="practice-all-btn"
+        >
+          Practice Chunk {{ selectedChunk }}
+        </button>
+      </div>
 
       <button @click="$emit('upload-new')" class="btn-secondary">
         Upload New PDF
@@ -116,7 +139,7 @@ import type { Word } from '../types'
 const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
   (e: 'type-selected', type: 'verb' | 'noun' | 'adjective'): void
-  (e: 'practice-all'): void
+  (e: 'practice-all', chunkNumber: number): void
   (e: 'upload-new'): void
 }>()
 
@@ -142,6 +165,21 @@ const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
 
 const selectType = (type: 'verb' | 'noun' | 'adjective') => {
   emit('type-selected', type)
+}
+
+// Chunk selection logic
+const CHUNK_SIZE = 100
+
+const totalChunks = computed(() => {
+  return Math.ceil(allWords.value.length / CHUNK_SIZE)
+})
+
+const selectedChunk = ref(1)
+
+const startChunkPractice = () => {
+  if (totalChunks.value === 0) return
+  const clampedChunk = Math.min(Math.max(selectedChunk.value || 1, 1), totalChunks.value)
+  emit('practice-all', clampedChunk)
 }
 
 // Load words on mount to get counts
@@ -412,6 +450,39 @@ onMounted(async () => {
   font-weight: 600;
   width: 100%;
   margin-top: 20px;
+}
+
+.chunk-selection-section {
+  margin-bottom: 20px;
+}
+
+.chunk-info {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.chunk-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.chunk-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.chunk-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 2px solid #667eea;
+  font-size: 14px;
+  min-width: 180px;
 }
 </style>
 

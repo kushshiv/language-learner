@@ -4,7 +4,9 @@
       <button @click="$emit('back')" class="back-btn">← Back</button>
       <div class="quiz-mode-info" v-if="props.wordType || props.practiceAll">
         <span class="mode-badge" v-if="props.wordType">{{ getTypeLabel(props.wordType) }}</span>
-        <span class="mode-badge" v-else-if="props.practiceAll">Practice All</span>
+        <span class="mode-badge" v-else-if="props.practiceAll">
+          Practice All - Chunk {{ props.chunkNumber }}
+        </span>
       </div>
       <div class="progress">
         <div class="progress-bar">
@@ -127,6 +129,7 @@ const props = defineProps<{
   difficulty: Difficulty | null
   wordType: 'verb' | 'noun' | 'adjective' | null
   practiceAll?: boolean
+  chunkNumber?: number | null
 }>()
 
 const emit = defineEmits<{
@@ -167,7 +170,16 @@ const quizWords = computed(() => {
     filteredWords = filteredWords.filter(word => word.type === props.wordType)
   }
   
-  // If practice all, use all words
+  // If practice all with chunk, use only that chunk
+  if (props.practiceAll && props.chunkNumber) {
+    const CHUNK_SIZE = 100
+    const startIndex = (props.chunkNumber - 1) * CHUNK_SIZE
+    const endIndex = Math.min(startIndex + CHUNK_SIZE, filteredWords.length)
+    const chunkWords = filteredWords.slice(startIndex, endIndex)
+    return chunkWords.sort(() => Math.random() - 0.5)
+  }
+  
+  // If practice all without chunk (legacy), use all words
   if (props.practiceAll) {
     // Shuffle all words
     return filteredWords.sort(() => Math.random() - 0.5)
@@ -262,7 +274,21 @@ const initializeQuizWords = () => {
     filteredWords = filteredWords.filter(word => word.type === props.wordType)
   }
   
-  // If practice all, use all words
+  // If practice all with chunk, use only that chunk
+  if (props.practiceAll && props.chunkNumber) {
+    const CHUNK_SIZE = 100
+    const startIndex = (props.chunkNumber - 1) * CHUNK_SIZE
+    const endIndex = Math.min(startIndex + CHUNK_SIZE, filteredWords.length)
+    
+    // Get words for this chunk (deterministic - same words always in same chunk)
+    const chunkWords = filteredWords.slice(startIndex, endIndex)
+    
+    // Shuffle within the chunk for variety, but same words stay in same chunk
+    quizWordsList.value = chunkWords.sort(() => Math.random() - 0.5)
+    return
+  }
+  
+  // If practice all without chunk (legacy), use all words
   if (props.practiceAll) {
     // Shuffle all words
     quizWordsList.value = filteredWords.sort(() => Math.random() - 0.5)
@@ -318,8 +344,15 @@ const nextWord = () => {
   if (currentIndex.value < totalWords.value - 1) {
     currentIndex.value++
   } else {
-    // Quiz complete
-    emit('quiz-complete', score.value, totalWords.value)
+    // If practicing a chunk, loop back to the beginning instead of completing
+    if (props.practiceAll && props.chunkNumber) {
+      currentIndex.value = 0
+      // Reset score for the new loop (optional - you might want to keep cumulative score)
+      // score.value = 0
+    } else {
+      // Quiz complete
+      emit('quiz-complete', score.value, totalWords.value)
+    }
   }
 }
 
