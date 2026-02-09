@@ -1,7 +1,8 @@
 export interface Word {
   german: string
   english: string
-  type: 'verb' | 'noun' | 'adjective'
+  // Allow any part-of-speech label instead of restricting to a fixed union.
+  type: string
   example: string
   context?: string
   article?: 'der' | 'die' | 'das' // For nouns only

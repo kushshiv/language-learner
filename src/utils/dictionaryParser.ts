@@ -72,20 +72,17 @@ export function parseCSVDictionary(content: string): Word[] {
     if (!german || !english || !type || !example) {
       continue // Skip rows with missing required fields
     }
-    
-    // Validate type
-    if (!['verb', 'noun', 'adjective'].includes(type)) {
-      console.warn(`Invalid type "${type}" for word "${german}". Skipping.`)
-      continue
-    }
-    
+
     const word: Word = {
       german,
       english,
-      type: type as 'verb' | 'noun' | 'adjective',
+      type, // now a free-form label
       example,
       context: contextIdx >= 0 ? values[contextIdx]?.trim() : undefined,
-      article: articleIdx >= 0 && type === 'noun' ? (values[articleIdx]?.trim() as 'der' | 'die' | 'das' | undefined) : undefined
+      article:
+        articleIdx >= 0 && type === 'noun'
+          ? (values[articleIdx]?.trim() as 'der' | 'die' | 'das' | undefined)
+          : undefined
     }
     
     words.push(word)
@@ -127,21 +124,20 @@ function parseWordObject(item: any): Word {
   if (!item.german || !item.english || !item.type || !item.example) {
     throw new Error(`Word missing required fields. Required: german, english, type, example. Got: ${JSON.stringify(item)}`)
   }
-  
-  // Validate type
-  if (!['verb', 'noun', 'adjective'].includes(item.type.toLowerCase())) {
-    throw new Error(`Invalid word type: "${item.type}". Must be: verb, noun, or adjective`)
-  }
-  
+
+  const type = String(item.type).trim().toLowerCase()
+
   const word: Word = {
     german: String(item.german).trim(),
     english: String(item.english).trim(),
-    type: item.type.toLowerCase() as 'verb' | 'noun' | 'adjective',
+    // Allow any part-of-speech label; keep it lowercased for consistency
+    type,
     example: String(item.example).trim(),
     context: item.context ? String(item.context).trim() : undefined,
-    article: item.article && item.type.toLowerCase() === 'noun' 
-      ? (String(item.article).trim().toLowerCase() as 'der' | 'die' | 'das')
-      : undefined
+    article:
+      item.article && type === 'noun'
+        ? (String(item.article).trim().toLowerCase() as 'der' | 'die' | 'das')
+        : undefined
   }
   
   return word
