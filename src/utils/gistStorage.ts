@@ -432,3 +432,49 @@ export async function deleteWordsFromGist(germanWords: string[]): Promise<Word[]
   return remainingWords
 }
 
+/**
+ * Export words from Gist to a downloadable JSON file
+ */
+export async function exportGistToJSON(): Promise<void> {
+  const token = await getGitHubToken()
+  if (!token) {
+    throw new Error('GitHub token not configured. Please set up your GitHub token first.')
+  }
+
+  try {
+    // Load words from gist
+    const words = await loadWordsFromGist()
+    
+    if (words.length === 0) {
+      throw new Error('No words found in Gist to export.')
+    }
+
+    // Convert to JSON string with pretty formatting
+    const jsonContent = JSON.stringify(words, null, 2)
+    
+    // Create a Blob with the JSON content
+    const blob = new Blob([jsonContent], { type: 'application/json' })
+    
+    // Create a temporary URL for the blob
+    const url = URL.createObjectURL(blob)
+    
+    // Create a temporary anchor element to trigger download
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `german-words-export-${new Date().toISOString().split('T')[0]}.json`
+    
+    // Append to body, click, and remove
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    // Clean up the URL
+    URL.revokeObjectURL(url)
+    
+    console.log(`Exported ${words.length} words to JSON file`)
+  } catch (error) {
+    console.error('Failed to export Gist to JSON:', error)
+    throw error
+  }
+}
+

@@ -43,9 +43,14 @@
             </p>
           </div>
 
-          <button @click="disableCloudSync" class="btn-secondary">
-            Disable Cloud Sync
-          </button>
+          <div class="button-group">
+            <button @click="exportGistData" class="btn-primary" :disabled="exporting">
+              {{ exporting ? 'Exporting...' : '📥 Export Gist to JSON' }}
+            </button>
+            <button @click="disableCloudSync" class="btn-secondary">
+              Disable Cloud Sync
+            </button>
+          </div>
         </div>
       </div>
 
@@ -105,7 +110,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { saveGitHubToken, clearGitHubToken, isGitHubConfigured } from '../utils/gistStorage'
+import { saveGitHubToken, clearGitHubToken, exportGistToJSON } from '../utils/gistStorage'
 import { syncLocalToCloud, isCloudSyncEnabled } from '../utils/wordStorage'
 
 const emit = defineEmits<{
@@ -118,6 +123,7 @@ const showSetup = ref(false)
 const token = ref('')
 const error = ref('')
 const saving = ref(false)
+const exporting = ref(false)
 
 onMounted(async () => {
   cloudEnabled.value = await isCloudSyncEnabled()
@@ -171,6 +177,21 @@ const disableCloudSync = async () => {
   if (confirm('Disable cloud sync? Your words will still be saved locally, but won\'t sync to the cloud.')) {
     await clearGitHubToken()
     cloudEnabled.value = false
+  }
+}
+
+const exportGistData = async () => {
+  exporting.value = true
+  error.value = ''
+
+  try {
+    await exportGistToJSON()
+    // Success - the download will happen automatically
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to export Gist data'
+    console.error('Error exporting Gist data:', err)
+  } finally {
+    exporting.value = false
   }
 }
 </script>
@@ -392,6 +413,12 @@ const disableCloudSync = async () => {
 .button-row .btn-primary,
 .button-row .btn-secondary {
   flex: 1;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .error-message {
