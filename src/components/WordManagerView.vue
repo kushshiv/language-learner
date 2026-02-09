@@ -35,7 +35,7 @@
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Search by German word or English translation..."
+          placeholder="Search by German word..."
           class="search-input"
         />
         <div class="filter-buttons">
@@ -174,14 +174,11 @@ const filteredWords = computed(() => {
     filtered = filtered.filter(w => w.type === selectedType.value)
   }
 
-  // Filter by search query
+  // Filter by search query (German word only)
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim()
     filtered = filtered.filter(w => 
-      w.german.toLowerCase().includes(query) ||
-      w.english.toLowerCase().includes(query) ||
-      (w.example && w.example.toLowerCase().includes(query)) ||
-      (w.context && w.context.toLowerCase().includes(query))
+      w.german.toLowerCase().includes(query)
     )
   }
 
