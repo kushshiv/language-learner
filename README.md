@@ -103,40 +103,57 @@ At a high level, the app revolves around three main screens: **Upload**, **Pract
      - Search/filter words (by term, type, “needs review”).
      - Delete single words or wipe the entire collection (local + cloud, with confirmations).
 
-### Mermaid Flow Diagram
+### Text Flow Diagram (ASCII)
 
-```mermaid
-flowchart TD
-  A[User opens app] --> B[UploadView]
+```text
+[User opens app]
+        |
+        v
+   [UploadView]
+        |
+        +-----------------------------+
+        |                             |
+        v                             v
+[Start Practicing]           [Upload New Content]
+        |                             |
+        v                             v
+[Load words from storage]      [Choose input mode]
+        |                      /        |        \
+        v                     v         v         v
+[DifficultySelection]   [PDF upload] [Text] [Dictionary JSON/CSV]
+        |                     |         |         |
+        v                     v         v         v
+   (pick mode)          [pdfParser]  [text] [dictionaryParser]
+        |                     |         |         |
+        v                     v         |         v
+  +-----+--------------+   [text]       |   [parsed words]
+  |     |              |      \         |        |
+  |  by difficulty     |       \        |        |
+  |  by word type      |        \       |        |
+  |  practice all      |         v      v        v
+  +-----+--------------+    [wordExtractor + lemmatizer
+        |                    + article detection]
+        v                             |
+   [QuizView +                        v
+    FlashCard]                [appendWords via wordStorage
+        |                      (local + optional Gist)]
+        v                             |
+   [ResultsView]                      v
+                                      +
+                                      |
+                                      v
+                              [DifficultySelection]
 
-  B -->|Start Practicing| C[getAllWords() via wordStorage]
-  C --> D[DifficultySelection]
+From any time in UploadView:
 
-  B -->|Upload New Content| E[Choose input mode]
-  E -->|PDF| F[PDF file]
-  E -->|Text| G[Raw German text]
-  E -->|Dictionary JSON/CSV| H[Dictionary file]
-
-  F --> I[pdfParser.getPDFInfo → text]
-  G --> I
-
-  I --> J[wordExtractor.extractWords]
-  J --> K[lemmatizer + article detection]
-  K --> L[appendWords() via wordStorage<br/>(localStorage + optional Gist)]
-  I --> M[sentenceExtractor.extractSentences]
-
-  H --> N[dictionaryParser.parseDictionaryFile]
-  N --> L
-
-  L --> D
-  D --> O[QuizView + FlashCard]
-  O --> P[ResultsView]
-
-  O -->|Mark review / delete / update| Q[wordStorage + gistStorage]
-
-  B --> R[SettingsView]
-  R -->|Manage Words| S[WordManagerView]
-  R -->|Enable Cloud Sync| Q
+  [UploadView] --(⚙️ Settings)--> [SettingsView]
+        |                                |
+        |                                +--> enable/disable cloud sync
+        |                                +--> export words JSON
+        |
+        +--(Manage Words)--> [WordManagerView]
+                                     |
+                                     +--> search/filter/delete words
 ```
 
 ## Usage Details
