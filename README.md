@@ -3,7 +3,7 @@
 Mobile-first web app for learning German vocabulary through flashcards and quizzes. Upload a German PDF, paste text, or import a dictionary file to build your own word database, then practice with interactive quizzes.
 
 ### Try it yourself
-`https://kushshiv.github.io/language-learner/`
+https://kushshiv.github.io/language-learner/
 
 > **No setup required.** Just open the app and start uploading PDFs, pasting text, or importing dictionaries. Your words are saved locally in your browser; optionally enable GitHub Gist sync in Settings (⚙️).
 
