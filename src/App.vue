@@ -60,7 +60,8 @@ const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results
 const words = ref<Word[]>([])
 const sentences = ref<Sentence[]>([])
 const selectedDifficulty = ref<'easy' | 'medium' | 'hard' | null>(null)
-const selectedWordType = ref<'verb' | 'noun' | 'adjective' | null>(null)
+// Allow any word type label (e.g., verb, noun, adjective, preposition, etc.)
+const selectedWordType = ref<string | null>(null)
 const practiceAll = ref(false)
 const selectedChunkNumber = ref<number | null>(null)
 const quizScore = ref(0)
@@ -88,7 +89,7 @@ const handleDifficultySelected = (difficulty: 'easy' | 'medium' | 'hard') => {
   quizTotal.value = 0
 }
 
-const handleTypeSelected = (type: 'verb' | 'noun' | 'adjective') => {
+const handleTypeSelected = (type: string) => {
   selectedWordType.value = type
   selectedDifficulty.value = null
   practiceAll.value = false

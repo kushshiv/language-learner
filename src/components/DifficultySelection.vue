@@ -58,34 +58,21 @@
       <!-- Type Mode -->
       <div v-if="quizMode === 'type'" class="mode-content">
         <p class="quiz-title">Choose Word Type</p>
-        <div class="type-options">
-          <button 
-            class="type-btn verb" 
-            @click="selectType('verb')"
+        <div v-if="availableTypes.length" class="type-options">
+          <button
+            v-for="type in availableTypes"
+            :key="type"
+            class="type-btn"
+            @click="selectType(type)"
           >
             <div class="type-icon">🔤</div>
-            <div class="type-name">Verbs</div>
-            <div class="type-desc">{{ verbCount }} words available</div>
-          </button>
-
-          <button 
-            class="type-btn noun" 
-            @click="selectType('noun')"
-          >
-            <div class="type-icon">📚</div>
-            <div class="type-name">Nouns</div>
-            <div class="type-desc">{{ nounCount }} words available</div>
-          </button>
-
-          <button 
-            class="type-btn adjective" 
-            @click="selectType('adjective')"
-          >
-            <div class="type-icon">✨</div>
-            <div class="type-name">Adjectives</div>
-            <div class="type-desc">{{ adjectiveCount }} words available</div>
+            <div class="type-name">{{ formatTypeLabel(type) }}</div>
+            <div class="type-desc">{{ typeCounts[type] }} words available</div>
           </button>
         </div>
+        <p v-else class="chunk-info">
+          No word types found yet. Try uploading words first.
+        </p>
       </div>
 
       <div class="divider">
@@ -138,7 +125,7 @@ import type { Word } from '../types'
 
 const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
-  (e: 'type-selected', type: 'verb' | 'noun' | 'adjective'): void
+  (e: 'type-selected', type: string): void
   (e: 'practice-all', chunkNumber: number): void
   (e: 'upload-new'): void
 }>()
@@ -146,24 +133,30 @@ const emit = defineEmits<{
 const quizMode = ref<'difficulty' | 'type'>('difficulty')
 const allWords = ref<Word[]>([])
 
-// Calculate word counts by type
-const verbCount = computed(() => {
-  return allWords.value.filter(w => w.type === 'verb').length
+// Dynamic word types and counts based on loaded words
+const typeCounts = computed<Record<string, number>>(() => {
+  const counts: Record<string, number> = {}
+  for (const w of allWords.value) {
+    if (!w.type) continue
+    const key = String(w.type).trim().toLowerCase()
+    if (!key) continue
+    counts[key] = (counts[key] ?? 0) + 1
+  }
+  return counts
 })
 
-const nounCount = computed(() => {
-  return allWords.value.filter(w => w.type === 'noun').length
-})
+const availableTypes = computed(() => Object.keys(typeCounts.value).sort())
 
-const adjectiveCount = computed(() => {
-  return allWords.value.filter(w => w.type === 'adjective').length
-})
+const formatTypeLabel = (type: string) => {
+  if (!type) return ''
+  return type.charAt(0).toUpperCase() + type.slice(1)
+}
 
 const selectDifficulty = (difficulty: 'easy' | 'medium' | 'hard') => {
   emit('difficulty-selected', difficulty)
 }
 
-const selectType = (type: 'verb' | 'noun' | 'adjective') => {
+const selectType = (type: string) => {
   emit('type-selected', type)
 }
 

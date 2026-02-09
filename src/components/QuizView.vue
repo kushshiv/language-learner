@@ -127,7 +127,8 @@ import type { Word, Difficulty } from '../types'
 const props = defineProps<{
   words: Word[]
   difficulty: Difficulty | null
-  wordType: 'verb' | 'noun' | 'adjective' | null
+  // Allow any word type label
+  wordType: string | null
   practiceAll?: boolean
   chunkNumber?: number | null
 }>()
@@ -356,13 +357,19 @@ const nextWord = () => {
   }
 }
 
-const getTypeLabel = (type: 'verb' | 'noun' | 'adjective'): string => {
+const getTypeLabel = (type: string): string => {
   const labels = {
     verb: 'Verbs',
     noun: 'Nouns',
     adjective: 'Adjectives'
   }
-  return labels[type]
+  const key = type.toLowerCase()
+  if (key in labels) {
+    // @ts-expect-error – we know key is one of the above if present
+    return labels[key]
+  }
+  // Fallback: capitalise arbitrary type labels
+  return type.charAt(0).toUpperCase() + type.slice(1)
 }
 
 const handleMarkDoubt = async (event: Event) => {
