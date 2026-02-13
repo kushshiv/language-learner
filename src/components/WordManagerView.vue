@@ -157,6 +157,19 @@ const loadWords = async () => {
   }
 }
 
+// Normalize German characters (umlauts) to base characters for search
+const normalizeGerman = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/ä/g, 'a')
+    .replace(/ö/g, 'o')
+    .replace(/ü/g, 'u')
+    .replace(/ß/g, 'ss')
+    .replace(/Ä/g, 'a')
+    .replace(/Ö/g, 'o')
+    .replace(/Ü/g, 'u')
+}
+
 const wordsNeedingReview = computed(() => {
   return allWords.value.filter(word => word.needsReview === true)
 })
@@ -174,11 +187,11 @@ const filteredWords = computed(() => {
     filtered = filtered.filter(w => w.type === selectedType.value)
   }
 
-  // Filter by search query (German word only)
+  // Filter by search query (German word only) - with umlaut normalization
   if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase().trim()
+    const query = normalizeGerman(searchQuery.value.trim())
     filtered = filtered.filter(w => 
-      w.german.toLowerCase().includes(query)
+      normalizeGerman(w.german).includes(query)
     )
   }
 
