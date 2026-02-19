@@ -17,6 +17,57 @@
       </div>
 
       <div class="section">
+        <h2 class="section-title">🔥 Daily Streak</h2>
+        <p class="section-desc">
+          Track your daily practice streak and view your progress.
+        </p>
+        <StreakCalendar />
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">⚙️ Streak Settings</h2>
+        <p class="section-desc">
+          Configure your daily word goal and notification preferences.
+        </p>
+        
+        <div class="setting-item">
+          <label for="daily-goal" class="setting-label">Daily Word Goal:</label>
+          <div class="input-with-button">
+            <input
+              id="daily-goal"
+              v-model.number="dailyGoal"
+              type="number"
+              min="1"
+              max="1000"
+              class="number-input"
+              @change="updateDailyGoal"
+            />
+            <button @click="updateDailyGoal" class="btn-small" :disabled="savingGoal">
+              {{ savingGoal ? 'Saving...' : 'Save' }}
+            </button>
+          </div>
+          <p class="setting-hint">Number of unique words to practice each day to maintain your streak.</p>
+        </div>
+
+        <div class="setting-item">
+          <div class="toggle-setting">
+            <div class="toggle-info">
+              <label class="toggle-label">Enable Daily Reminders</label>
+              <p class="toggle-desc">Get notified at 9 AM, 3 PM, and 9 PM to complete your daily streak.</p>
+            </div>
+            <label class="toggle-switch">
+              <input
+                type="checkbox"
+                v-model="notificationsEnabled"
+                @change="toggleNotifications"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
         <h2 class="section-title">☁️ Cloud Sync (Optional)</h2>
         <p class="section-desc">
           Enable cloud sync to access your words from any device. Your words are stored in a private GitHub Gist.
@@ -112,6 +163,17 @@
 import { ref, onMounted } from 'vue'
 import { saveGitHubToken, clearGitHubToken, exportGistToJSON } from '../utils/gistStorage'
 import { syncLocalToCloud, isCloudSyncEnabled } from '../utils/wordStorage'
+import { 
+  getDailyGoal, 
+  updateDailyGoal as updateGoal,
+  syncStreakDataFromCloud 
+} from '../utils/streakStorage'
+import { 
+  scheduleStreakNotifications, 
+  cancelStreakNotifications,
+  areNotificationsEnabled 
+} from '../utils/notifications'
+import StreakCalendar from './StreakCalendar.vue'
 
 const emit = defineEmits<{
   (e: 'back'): void
@@ -124,9 +186,19 @@ const token = ref('')
 const error = ref('')
 const saving = ref(false)
 const exporting = ref(false)
+const dailyGoal = ref(30)
+const savingGoal = ref(false)
+const notificationsEnabled = ref(false)
 
 onMounted(async () => {
   cloudEnabled.value = await isCloudSyncEnabled()
+  dailyGoal.value = await getDailyGoal()
+  notificationsEnabled.value = areNotificationsEnabled()
+  
+  // Sync streak data from cloud if enabled
+  if (cloudEnabled.value) {
+    await syncStreakDataFromCloud()
+  }
 })
 
 const enableCloudSync = async () => {
@@ -192,6 +264,34 @@ const exportGistData = async () => {
     console.error('Error exporting Gist data:', err)
   } finally {
     exporting.value = false
+  }
+}
+
+const updateDailyGoal = async () => {
+  if (dailyGoal.value < 1 || dailyGoal.value > 1000) {
+    error.value = 'Daily goal must be between 1 and 1000'
+    return
+  }
+  
+  savingGoal.value = true
+  error.value = ''
+  
+  try {
+    await updateGoal(dailyGoal.value)
+    // Success
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to update daily goal'
+    console.error('Error updating daily goal:', err)
+  } finally {
+    savingGoal.value = false
+  }
+}
+
+const toggleNotifications = async () => {
+  if (notificationsEnabled.value) {
+    await scheduleStreakNotifications()
+  } else {
+    cancelStreakNotifications()
   }
 }
 </script>
@@ -428,6 +528,140 @@ const exportGistData = async () => {
   color: #c33;
   border-radius: 10px;
   font-size: 14px;
+}
+
+.setting-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9ff;
+  border-radius: 10px;
+}
+
+.setting-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.number-input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  max-width: 150px;
+}
+
+.number-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-small {
+  background: #667eea;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-small:hover:not(:disabled) {
+  background: #764ba2;
+}
+
+.btn-small:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.setting-hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.toggle-setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.toggle-info {
+  flex: 1;
+}
+
+.toggle-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.toggle-desc {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 26px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #667eea;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
 }
 </style>
 

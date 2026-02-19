@@ -19,9 +19,11 @@ https://kushshiv.github.io/language-learner/
   - By **word type**: e.g. verbs, nouns, adjectives (or any type label present in your data).
   - **Practice all**: Work through your full collection in chunks of 100 words.
 - **Flashcards + Quiz**: Flip cards to reveal translations and examples; answer multiple-choice questions.
-- **Mark Doubts & Fix Translations**: Mark words as “needs review”, auto-fetch alternative translations, and update saved translations from the quiz view.
+- **Mark Doubts & Fix Translations**: Mark words as "needs review", auto-fetch alternative translations, and update saved translations from the quiz view.
+- **Daily Streak Tracking**: Maintain a daily practice streak by practicing unique words each day (default: 30 words). Track your progress with a visual calendar and unlock achievements.
+- **Streak Notifications**: Get daily reminders at 9 AM, 3 PM, and 9 PM to complete your streak (optional, configurable in settings).
 - **Local-First Storage**: Everything works fully offline in your browser.
-- **Optional Cloud Sync**: Sync your words to a private GitHub Gist so you can use them on any device.
+- **Optional Cloud Sync**: Sync your words and streak data to a private GitHub Gist so you can use them on any device.
 - **PWA-Ready & Mobile-First**: Built for phones; can be installed as a Progressive Web App.
 
 ### Tech Stack
@@ -91,7 +93,10 @@ At a high level, the app revolves around three main screens: **Upload**, **Pract
 4. **Quiz (`QuizView` + `FlashCard`)**
    - Multiple-choice questions for each word.
    - Flip flashcards to see translations and example sentences.
-   - Mark words as “needs review”, delete words, or update their translations on the fly.
+   - Mark words as "needs review", delete words, or update their translations on the fly.
+   - **Automatic streak tracking**: Each unique word you practice counts toward your daily goal.
+   - **Progress indicator**: See your daily streak progress (e.g., "15 / 30 words") in the quiz header.
+   - **Completion notification**: Get a congratulatory message when you complete your daily goal.
 5. **Results (`ResultsView`)**
    - See your score and percentage.
    - Restart with the same mode or go back and pick a different difficulty/type.
@@ -99,8 +104,13 @@ At a high level, the app revolves around three main screens: **Upload**, **Pract
    - **Settings (`SettingsView`)**:
      - Enable/disable GitHub Gist sync.
      - Export synced words as a JSON file.
+     - **Daily Streak section**:
+       - View your streak calendar showing the last 30 days of activity.
+       - See your current streak count and achievements (1 Week, 15 Days, 30 Days, 45 Days, 3 Months).
+       - Configure your daily word goal (default: 30 words, adjustable from 1-1000).
+       - Enable/disable daily reminder notifications (9 AM, 3 PM, 9 PM).
    - **Word Manager (`WordManagerView`)**:
-     - Search/filter words (by term, type, “needs review”).
+     - Search/filter words (by term, type, "needs review").
      - Delete single words or wipe the entire collection (local + cloud, with confirmations).
 
 ### Text Flow Diagram (ASCII)
@@ -178,11 +188,14 @@ From any time in UploadView:
    - **Practice all**: Select a chunk number to work through up to 100 words at a time.
 5. **Quiz & review (`QuizView`):**
    - Multiple-choice questions are generated from your word list.
-   - Flip the flashcard if you don’t know the answer.
+   - Flip the flashcard if you don't know the answer.
+   - **Automatic streak tracking**: Each unique word you practice (by selecting an answer or flipping the card) is automatically tracked toward your daily goal.
+   - See your progress in real-time: The quiz header shows "Daily Streak: X / Y" with a progress bar.
    - After revealing the answer:
      - **Mark as doubt** → flag the word as `needsReview` and optionally fetch a fresh translation.
      - **Update translation** → save a better translation back to storage/cloud.
      - **Delete word** → remove it from both local and (optionally) cloud storage.
+   - **Streak completion**: When you reach your daily goal, you'll see a congratulatory notification. The notification only appears once per day.
 
 ### Optional: Enable Cloud Sync (GitHub Gist)
 
@@ -205,6 +218,59 @@ From Settings you can also:
 
 - **Export Gist data** as a downloadable JSON file.
 - **Disable Cloud Sync**, which simply clears the token; your words remain in local storage.
+- **View and manage your daily streak**:
+  - See your streak calendar with visual indicators for completed, partial, and missed days.
+  - Track your current consecutive day streak.
+  - View achievements for milestones (1 Week, 15 Days, 30 Days, 45 Days, 3 Months).
+  - Adjust your daily word goal to match your learning pace.
+  - Enable daily reminder notifications to help maintain your streak.
+
+## Daily Streak Feature
+
+The app includes a built-in streak tracking system to help you maintain consistent daily practice.
+
+### How It Works
+
+- **Automatic Tracking**: As you practice words in quizzes, each unique word you encounter is automatically counted toward your daily goal.
+- **Daily Goal**: Default is 30 unique words per day (configurable in Settings from 1-1000 words).
+- **Unique Words Only**: The same word practiced multiple times in one day only counts once, encouraging variety in your practice.
+- **Visual Progress**: See your progress in the quiz header with a progress bar and count (e.g., "15 / 30 words").
+- **Completion Notification**: When you complete your daily goal, you'll receive a congratulatory notification (shown once per day).
+
+### Streak Calendar & Achievements
+
+Access your streak data in **Settings → Daily Streak**:
+
+- **Calendar View**: See the last 30 days of activity with color-coded indicators:
+  - 🟢 **Green**: Completed (met daily goal)
+  - 🟠 **Orange**: Partial (practiced some words but didn't meet goal)
+  - 🔴 **Red**: Missed (no practice that day)
+  - 🔵 **Blue border**: Today
+- **Current Streak**: See how many consecutive days you've completed your goal.
+- **Achievements**: Unlock achievements for maintaining streaks:
+  - ✅ 1 Week (7 days)
+  - ✅ 15 Days
+  - ✅ 30 Days
+  - ✅ 45 Days
+  - ✅ 3 Months (90 days)
+
+### Daily Reminders
+
+Enable optional daily reminder notifications in Settings:
+
+- **Notification Times**: 9 AM, 3 PM, and 9 PM
+- **Works Everywhere**: Notifications work in your browser (when tab is open) and as a PWA (even when app is closed)
+- **Dynamic Goal**: Reminders use your current daily goal setting
+- **One Per Time Slot**: Each reminder appears once per day per time slot
+
+### Cloud Sync for Streaks
+
+If you have cloud sync enabled, your streak data is automatically synced to a separate GitHub Gist, allowing you to:
+- Access your streak from any device (mobile, computer, tablet)
+- Maintain your streak across different browsers
+- Keep your progress backed up in the cloud
+
+> **Note**: Streak data is stored separately from your word database, so you can sync streaks independently if needed.
 
 ## Generating Dictionary JSON/CSV with AI
 

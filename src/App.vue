@@ -47,13 +47,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import UploadView from './components/UploadView.vue'
 import DifficultySelection from './components/DifficultySelection.vue'
 import QuizView from './components/QuizView.vue'
 import ResultsView from './components/ResultsView.vue'
 import SettingsView from './components/SettingsView.vue'
 import WordManagerView from './components/WordManagerView.vue'
+import { scheduleStreakNotifications, areNotificationsEnabled } from './utils/notifications'
 import type { Word, Sentence } from './types'
 
 const currentView = ref<'settings' | 'upload' | 'difficulty' | 'quiz' | 'results' | 'word-manager'>('upload')
@@ -113,6 +114,13 @@ const handleQuizComplete = (score: number, total: number) => {
   quizTotal.value = total
   currentView.value = 'results'
 }
+
+onMounted(async () => {
+  // Initialize notifications if enabled
+  if (areNotificationsEnabled()) {
+    await scheduleStreakNotifications()
+  }
+})
 
 const handleRestart = () => {
   currentView.value = 'difficulty'

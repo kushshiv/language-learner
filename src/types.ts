@@ -17,3 +17,15 @@ export interface Sentence {
   words: Word[]
   index: number
 }
+
+export interface StreakData {
+  dailyGoal: number // Number of unique words to practice per day (default: 30)
+  streakHistory: Record<string, number> // Date string (YYYY-MM-DD) -> count of unique words practiced
+  lastUpdated: string // ISO date string
+}
+
+export interface StreakDay {
+  date: string // YYYY-MM-DD
+  count: number // Number of unique words practiced
+  completed: boolean // Whether daily goal was met
+}

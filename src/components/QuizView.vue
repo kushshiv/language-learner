@@ -15,6 +15,16 @@
         <div class="progress-text">{{ currentIndex + 1 }} / {{ totalWords }}</div>
       </div>
       <div class="score">Score: {{ score }}</div>
+      <div class="streak-progress">
+        <div class="streak-label">Daily Streak: {{ streakProgress.currentCount }} / {{ streakProgress.goal }}</div>
+        <div class="streak-bar">
+          <div 
+            class="streak-fill" 
+            :style="{ width: Math.min(100, (streakProgress.currentCount / streakProgress.goal) * 100) + '%' }"
+            :class="{ completed: streakProgress.completed }"
+          ></div>
+        </div>
+      </div>
     </div>
 
     <div v-if="currentWord" class="quiz-content">
@@ -114,6 +124,18 @@
     <div v-else class="quiz-complete">
       <p>Loading quiz...</p>
     </div>
+
+    <!-- Streak Completion Notification -->
+    <div v-if="showStreakNotification" class="streak-notification">
+      <div class="notification-content">
+        <div class="notification-icon">🎉</div>
+        <div class="notification-text">
+          <div class="notification-title">Streak Completed!</div>
+          <div class="notification-message">Congratulations! You've completed your daily goal of {{ streakProgress.goal }} unique words!</div>
+        </div>
+        <button @click="showStreakNotification = false" class="notification-close">×</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -122,6 +144,8 @@ import { ref, computed, onMounted, watch } from 'vue'
 import FlashCard from './FlashCard.vue'
 import { markWordForReview, deleteWords, updateWordTranslation } from '../utils/wordStorage'
 import { translateWord } from '../utils/translation'
+import { trackWordPracticed, getTodayProgress } from '../utils/streakStorage'
+import { showNotification } from '../utils/notifications'
 import type { Word, Difficulty } from '../types'
 
 const props = defineProps<{
@@ -151,6 +175,10 @@ const updating = ref(false)
 const newTranslation = ref<string | null>(null)
 const translationError = ref(false)
 const showTranslationUpdate = ref(false)
+const streakCompleted = ref(false)
+const streakProgress = ref({ currentCount: 0, goal: 30, completed: false })
+const showStreakNotification = ref(false)
+const flipTimeout = ref<NodeJS.Timeout | null>(null)
 
 const wordCounts = {
   easy: 10,
@@ -235,12 +263,18 @@ const generateOptions = () => {
 }
 
 watch(currentWord, (newWord, oldWord) => {
-  if (currentWord.value) {
+  if (currentWord.value && newWord) {
     // Only reset if we're moving to a different word (different German text)
     // Don't reset if we're just updating properties of the same word
     const isNewWord = !oldWord || oldWord.german !== newWord.german
     
     if (isNewWord) {
+      // Cancel any pending flip operations
+      if (flipTimeout.value) {
+        clearTimeout(flipTimeout.value)
+        flipTimeout.value = null
+      }
+      
       generateOptions()
       selectedAnswer.value = null
       showAnswer.value = false
@@ -248,6 +282,9 @@ watch(currentWord, (newWord, oldWord) => {
       showTranslationUpdate.value = false
       newTranslation.value = null
       translationError.value = false
+      streakCompleted.value = false // Reset streak completion flag for new word
+      
+      // Reset flashcard to unflipped state
       if (flashCardRef.value) {
         flashCardRef.value.reset()
       }
@@ -255,7 +292,7 @@ watch(currentWord, (newWord, oldWord) => {
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   // Initialize quiz words list
   initializeQuizWords()
   generateOptions()
@@ -265,7 +302,53 @@ onMounted(() => {
       markedWords.value.add(word.german.toLowerCase().trim())
     }
   })
+  // Load today's streak progress
+  await updateStreakProgress()
+  
+  // Check if streak was already completed today (to set the flag)
+  const today = new Date().toISOString().split('T')[0]
+  const notificationKey = `streak-completed-${today}`
+  if (localStorage.getItem(notificationKey) && streakProgress.value.completed) {
+    streakCompleted.value = true
+  }
 })
+
+const updateStreakProgress = async () => {
+  streakProgress.value = await getTodayProgress()
+}
+
+const checkStreakCompletion = async (germanWord: string) => {
+  const result = await trackWordPracticed(germanWord)
+  
+  // Only update if it's a new word
+  if (result.isNew) {
+    streakProgress.value = {
+      currentCount: result.currentCount,
+      goal: result.goal,
+      completed: result.completed
+    }
+    
+    // If just completed the streak, show notification (only once per day)
+    if (result.completed) {
+      const today = new Date().toISOString().split('T')[0]
+      const notificationKey = `streak-completed-${today}`
+      const alreadyNotified = localStorage.getItem(notificationKey)
+      
+      if (!alreadyNotified) {
+        // Mark as notified for today
+        localStorage.setItem(notificationKey, 'true')
+        streakCompleted.value = true
+        showStreakNotification.value = true
+        await showNotification('🎉 Streak Completed!', `Congratulations! You've completed your daily goal of ${result.goal} unique words!`)
+        
+        // Hide notification after 5 seconds
+        setTimeout(() => {
+          showStreakNotification.value = false
+        }, 5000)
+      }
+    }
+  }
+}
 
 const initializeQuizWords = () => {
   let filteredWords = [...props.words]
@@ -312,8 +395,8 @@ const initializeQuizWords = () => {
   quizWordsList.value = shuffled.slice(0, Math.min(count, filteredWords.length))
 }
 
-const selectOption = (option: string) => {
-  if (showAnswer.value) return
+const selectOption = async (option: string) => {
+  if (showAnswer.value || !currentWord.value) return
 
   selectedAnswer.value = option
   showAnswer.value = true
@@ -326,19 +409,34 @@ const selectOption = (option: string) => {
     score.value++
   }
 
-  // Auto-flip card after selection
-  setTimeout(() => {
-    if (flashCardRef.value) {
+  // Track word for streak
+  await checkStreakCompletion(currentWord.value.german)
+
+  // Auto-flip card after selection (only if still on the same word)
+  if (flipTimeout.value) {
+    clearTimeout(flipTimeout.value)
+  }
+  const currentWordAtSelection = currentWord.value
+  flipTimeout.value = setTimeout(() => {
+    // Only flip if we're still showing the answer for this word and it's the same word
+    if (showAnswer.value && flashCardRef.value && currentWord.value && 
+        currentWord.value.german === currentWordAtSelection?.german) {
       flashCardRef.value.flip()
     }
+    flipTimeout.value = null
   }, 300)
 }
 
-const flipCard = () => {
+const flipCard = async () => {
   if (flashCardRef.value) {
     flashCardRef.value.flip()
   }
   showAnswer.value = true
+  
+  // Track word for streak when flipping
+  if (currentWord.value) {
+    await checkStreakCompletion(currentWord.value.german)
+  }
 }
 
 const nextWord = () => {
@@ -447,10 +545,7 @@ const updateTranslation = async () => {
       quizWordsList.value[wordIndex].english = newTranslation.value
     }
     
-    // Update current word reference
-    if (currentWord.value) {
-      currentWord.value = { ...currentWord.value, english: newTranslation.value }
-    }
+    // Note: currentWord is a computed property, so updating quizWordsList will automatically update it
     
     // Hide translation section after update
     showTranslationUpdate.value = false
@@ -884,6 +979,117 @@ const deleteCurrentWord = async () => {
   text-align: center;
   color: white;
   font-size: 18px;
+}
+
+.streak-progress {
+  margin-top: 10px;
+  padding: 8px;
+  background: #f8f9ff;
+  border-radius: 8px;
+}
+
+.streak-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.streak-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.streak-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transition: width 0.3s ease;
+}
+
+.streak-fill.completed {
+  background: linear-gradient(90deg, #4caf50, #45a049);
+  animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.streak-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+  max-width: 350px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.notification-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.notification-message {
+  font-size: 14px;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.notification-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.notification-close:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 </style>
 

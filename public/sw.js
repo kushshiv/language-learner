@@ -92,3 +92,38 @@ self.addEventListener('activate', (event) => {
   self.clients.claim()
 })
 
+// Handle messages from the app (for notifications)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+    const { title, body, ...options } = event.data
+    self.registration.showNotification(title, {
+      body,
+      icon: '/language-learner/icon-192.png',
+      badge: '/language-learner/icon-192.png',
+      tag: 'streak-notification',
+      requireInteraction: false,
+      ...options
+    })
+  }
+})
+
+// Handle notification clicks
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // If a window is already open, focus it
+      for (let i = 0; i < clientList.length; i++) {
+        const client = clientList[i]
+        if (client.url === '/' && 'focus' in client) {
+          return client.focus()
+        }
+      }
+      // Otherwise, open a new window
+      if (clients.openWindow) {
+        return clients.openWindow('/language-learner/')
+      }
+    })
+  )
+})
+
