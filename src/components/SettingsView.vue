@@ -105,6 +105,147 @@
         </div>
       </div>
 
+      <div class="section">
+        <div class="section-header-with-toggle">
+          <div>
+            <h2 class="section-title">🗄️ Database Viewer</h2>
+            <p class="section-desc">
+              View your local storage, IndexedDB, and GitHub Gist database contents.
+            </p>
+          </div>
+          <button @click="toggleDatabaseViewer" class="btn-toggle">
+            {{ showDatabaseViewer ? '▼ Hide' : '▶ Show' }}
+          </button>
+        </div>
+
+        <div v-if="showDatabaseViewer" class="database-viewer">
+          <div v-if="loadingDatabase" class="loading-message">
+            Loading database information...
+          </div>
+          
+          <div v-else-if="databaseError" class="error-message">
+            {{ databaseError }}
+          </div>
+
+          <div v-else-if="databaseInfo" class="db-content">
+            <!-- LocalStorage Section -->
+            <div class="db-section">
+              <h3 class="db-section-title" @click="toggleSection('localStorage')">
+                📦 LocalStorage ({{ databaseInfo.localStorage.itemCount }} items, {{ formatBytes(databaseInfo.localStorage.totalSize) }})
+                <span class="toggle-icon">{{ expandedSections.localStorage ? '▼' : '▶' }}</span>
+              </h3>
+              <div v-if="expandedSections.localStorage" class="db-section-content">
+                <div v-if="databaseInfo.localStorage.allItems.length === 0" class="db-item">
+                  <p>No items in localStorage</p>
+                </div>
+                <div v-for="item in databaseInfo.localStorage.allItems" :key="item.key" class="db-item">
+                  <strong>{{ item.key }}</strong> ({{ formatBytes(item.size) }})
+                  <button @click="toggleFullDataForItem(item.key)" class="btn-link">
+                    {{ expandedItems[item.key] ? 'Hide' : 'Show' }} full data
+                  </button>
+                  <pre v-if="expandedItems[item.key]" class="json-preview">{{ typeof item.value === 'object' ? JSON.stringify(item.value, null, 2) : item.value }}</pre>
+                  <pre v-else class="json-preview">{{ item.preview }}</pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- IndexedDB Section -->
+            <div class="db-section">
+              <h3 class="db-section-title" @click="toggleSection('indexedDB')">
+                💾 IndexedDB ({{ databaseInfo.indexedDB.totalDatabases }} database{{ databaseInfo.indexedDB.totalDatabases !== 1 ? 's' : '' }})
+                <span class="toggle-icon">{{ expandedSections.indexedDB ? '▼' : '▶' }}</span>
+              </h3>
+              <div v-if="expandedSections.indexedDB" class="db-section-content">
+                <div v-if="databaseInfo.indexedDB.databases.length === 0" class="db-item">
+                  <p>No IndexedDB databases found</p>
+                </div>
+                <div v-for="db in databaseInfo.indexedDB.databases" :key="db.name" class="db-database">
+                  <h4 class="db-database-title" @click="toggleDatabase(db.name)">
+                    🗄️ {{ db.name }} (v{{ db.version }}) - {{ db.stores.length }} store{{ db.stores.length !== 1 ? 's' : '' }}
+                    <span class="toggle-icon">{{ expandedDatabases[db.name] ? '▼' : '▶' }}</span>
+                  </h4>
+                  <div v-if="expandedDatabases[db.name]" class="db-stores">
+                    <div v-for="store in db.stores" :key="store.name" class="db-store">
+                      <h5 class="db-store-title" @click="toggleStore(db.name, store.name)">
+                        📋 {{ store.name }} ({{ store.keyCount }} keys)
+                        <span class="toggle-icon">{{ expandedStores[`${db.name}.${store.name}`] ? '▼' : '▶' }}</span>
+                      </h5>
+                      <div v-if="expandedStores[`${db.name}.${store.name}`]" class="db-store-content">
+                        <div class="db-item">
+                          <strong>Keys:</strong> {{ store.keys.length }}
+                          <pre class="json-preview">{{ JSON.stringify(store.keys.slice(0, 20), null, 2) }}{{ store.keys.length > 20 ? '\n... (' + (store.keys.length - 20) + ' more)' : '' }}</pre>
+                        </div>
+                        <div class="db-item">
+                          <strong>Sample Data (first 10 entries):</strong>
+                          <button @click="toggleFullDataForStore(db.name, store.name)" class="btn-link">
+                            {{ expandedFullData[`${db.name}.${store.name}`] ? 'Hide' : 'Show' }} all data
+                          </button>
+                          <pre v-if="expandedFullData[`${db.name}.${store.name}`] && store.fullData" class="json-preview">{{ JSON.stringify(store.fullData, null, 2) }}</pre>
+                          <pre v-else class="json-preview">{{ JSON.stringify(store.sampleData, null, 2) }}</pre>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- GitHub Gist Section -->
+            <div class="db-section">
+              <h3 class="db-section-title" @click="toggleSection('githubGist')">
+                ☁️ GitHub Gist ({{ databaseInfo.githubGist.totalGists }} gist{{ databaseInfo.githubGist.totalGists !== 1 ? 's' : '' }})
+                <span class="toggle-icon">{{ expandedSections.githubGist ? '▼' : '▶' }}</span>
+              </h3>
+              <div v-if="expandedSections.githubGist" class="db-section-content">
+                <div v-if="!databaseInfo.githubGist.enabled" class="db-item">
+                  <p>Cloud sync is not enabled. Enable it in the Cloud Sync section above.</p>
+                </div>
+                <div v-else-if="databaseInfo.githubGist.allGists.length === 0" class="db-item">
+                  <p>No GitHub Gists found</p>
+                </div>
+                <div v-for="gist in databaseInfo.githubGist.allGists" :key="gist.id" class="db-gist">
+                  <h4 class="db-gist-title" @click="toggleGist(gist.id)">
+                    📝 {{ gist.description || 'Untitled Gist' }} ({{ Object.keys(gist.files).length }} file{{ Object.keys(gist.files).length !== 1 ? 's' : '' }})
+                    <span class="toggle-icon">{{ expandedGists[gist.id] ? '▼' : '▶' }}</span>
+                  </h4>
+                  <div v-if="expandedGists[gist.id]" class="db-gist-content">
+                    <div class="db-item">
+                      <p><strong>ID:</strong> {{ gist.id }}</p>
+                      <p v-if="gist.url">
+                        <strong>URL:</strong> 
+                        <a :href="gist.url" target="_blank" class="link-button">
+                          View on GitHub
+                        </a>
+                      </p>
+                      <p v-if="gist.createdAt">
+                        <strong>Created:</strong> {{ new Date(gist.createdAt).toLocaleString() }}
+                      </p>
+                      <p v-if="gist.updatedAt">
+                        <strong>Updated:</strong> {{ new Date(gist.updatedAt).toLocaleString() }}
+                      </p>
+                    </div>
+                    <div v-for="(file, filename) in gist.files" :key="filename" class="db-item">
+                      <strong>📄 {{ filename }}</strong> ({{ formatBytes(file.size) }})
+                      <button @click="toggleFullDataForGistFile(gist.id, filename)" class="btn-link">
+                        {{ expandedGistFiles[`${gist.id}.${filename}`] ? 'Hide' : 'Show' }} full content
+                      </button>
+                      <pre v-if="expandedGistFiles[`${gist.id}.${filename}`] && gist.fullContent && gist.fullContent[filename]" class="json-preview">{{ gist.fullContent[filename] }}</pre>
+                      <pre v-else class="json-preview">{{ file.preview }}</pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group" style="margin-top: 15px;">
+            <button @click="refreshDatabaseInfo" class="btn-primary" :disabled="loadingDatabase">
+              {{ loadingDatabase ? 'Loading...' : '🔄 Refresh' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- GitHub Setup (shown when enabling) -->
       <div v-if="showSetup" class="setup-form">
         <h3 class="setup-title">GitHub Setup</h3>
@@ -173,6 +314,7 @@ import {
   cancelStreakNotifications,
   areNotificationsEnabled 
 } from '../utils/notifications'
+import { getDatabaseInfo, type DatabaseInfo } from '../utils/databaseViewer'
 import StreakCalendar from './StreakCalendar.vue'
 
 const emit = defineEmits<{
@@ -189,6 +331,23 @@ const exporting = ref(false)
 const dailyGoal = ref(30)
 const savingGoal = ref(false)
 const notificationsEnabled = ref(false)
+
+// Database viewer state
+const showDatabaseViewer = ref(false)
+const loadingDatabase = ref(false)
+const databaseError = ref('')
+const databaseInfo = ref<DatabaseInfo | null>(null)
+const expandedSections = ref({
+  localStorage: true,
+  indexedDB: true,
+  githubGist: true
+})
+const expandedItems = ref<Record<string, boolean>>({})
+const expandedDatabases = ref<Record<string, boolean>>({})
+const expandedStores = ref<Record<string, boolean>>({})
+const expandedFullData = ref<Record<string, boolean>>({})
+const expandedGists = ref<Record<string, boolean>>({})
+const expandedGistFiles = ref<Record<string, boolean>>({})
 
 onMounted(async () => {
   cloudEnabled.value = await isCloudSyncEnabled()
@@ -293,6 +452,90 @@ const toggleNotifications = async () => {
   } else {
     cancelStreakNotifications()
   }
+}
+
+const toggleDatabaseViewer = () => {
+  showDatabaseViewer.value = !showDatabaseViewer.value
+  if (showDatabaseViewer.value && !databaseInfo.value) {
+    refreshDatabaseInfo()
+  }
+}
+
+const refreshDatabaseInfo = async () => {
+  loadingDatabase.value = true
+  databaseError.value = ''
+  
+  try {
+    databaseInfo.value = await getDatabaseInfo(false)
+  } catch (err) {
+    databaseError.value = err instanceof Error ? err.message : 'Failed to load database information'
+    console.error('Error loading database info:', err)
+  } finally {
+    loadingDatabase.value = false
+  }
+}
+
+const toggleSection = (section: 'localStorage' | 'indexedDB' | 'githubGist') => {
+  expandedSections.value[section] = !expandedSections.value[section]
+}
+
+const toggleFullDataForItem = (key: string) => {
+  expandedItems.value[key] = !expandedItems.value[key]
+}
+
+const toggleDatabase = (dbName: string) => {
+  expandedDatabases.value[dbName] = !expandedDatabases.value[dbName]
+}
+
+const toggleStore = (dbName: string, storeName: string) => {
+  const key = `${dbName}.${storeName}`
+  expandedStores.value[key] = !expandedStores.value[key]
+}
+
+const toggleFullDataForStore = async (dbName: string, storeName: string) => {
+  const key = `${dbName}.${storeName}`
+  expandedFullData.value[key] = !expandedFullData.value[key]
+  
+  // If showing full data, reload with full data
+  if (expandedFullData.value[key] && databaseInfo.value) {
+    await refreshDatabaseInfoWithFullData()
+  }
+}
+
+const toggleGist = (gistId: string) => {
+  expandedGists.value[gistId] = !expandedGists.value[gistId]
+}
+
+const toggleFullDataForGistFile = async (gistId: string, filename: string) => {
+  const key = `${gistId}.${filename}`
+  expandedGistFiles.value[key] = !expandedGistFiles.value[key]
+  
+  // If showing full data, reload with full data
+  if (expandedGistFiles.value[key] && databaseInfo.value) {
+    await refreshDatabaseInfoWithFullData()
+  }
+}
+
+const refreshDatabaseInfoWithFullData = async () => {
+  loadingDatabase.value = true
+  databaseError.value = ''
+  
+  try {
+    databaseInfo.value = await getDatabaseInfo(true)
+  } catch (err) {
+    databaseError.value = err instanceof Error ? err.message : 'Failed to load database information'
+    console.error('Error loading database info:', err)
+  } finally {
+    loadingDatabase.value = false
+  }
+}
+
+const formatBytes = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
 }
 </script>
 
@@ -662,6 +905,232 @@ const toggleNotifications = async () => {
 
 .toggle-switch input:checked + .toggle-slider:before {
   transform: translateX(24px);
+}
+
+.section-header-with-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.btn-toggle {
+  background: #667eea;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-toggle:hover {
+  background: #764ba2;
+}
+
+.database-viewer {
+  margin-top: 15px;
+  padding: 20px;
+  background: #f8f9ff;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+}
+
+.loading-message {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.db-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.db-section {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.db-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 10px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.db-section-title:hover {
+  background: #e0e0e0;
+}
+
+.toggle-icon {
+  font-size: 12px;
+  color: #666;
+}
+
+.db-section-content {
+  padding-top: 10px;
+}
+
+.db-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+}
+
+.db-item strong {
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.db-item p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.json-preview {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+.btn-link:hover {
+  color: #764ba2;
+}
+
+.db-database {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+}
+
+.db-database-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 10px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.db-database-title:hover {
+  background: #f0f0f0;
+}
+
+.db-stores {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.db-store {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  border-left: 2px solid #999;
+}
+
+.db-store-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin: 0 0 8px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px;
+  background: #fafafa;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.db-store-title:hover {
+  background: #f0f0f0;
+}
+
+.db-store-content {
+  margin-top: 8px;
+  padding-left: 10px;
+}
+
+.db-gist {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  border-left: 3px solid #28a745;
+}
+
+.db-gist-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 10px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.db-gist-title:hover {
+  background: #f0f0f0;
+}
+
+.db-gist-content {
+  margin-top: 10px;
+  padding-left: 10px;
 }
 </style>
 
