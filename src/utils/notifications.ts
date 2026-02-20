@@ -74,6 +74,8 @@ export async function scheduleStreakNotifications(): Promise<void> {
   // Check if notifications are already scheduled
   const scheduled = localStorage.getItem('streak-notifications-scheduled')
   if (scheduled === 'true') {
+    // Still notify service worker to start checking
+    notifyServiceWorkerToStart()
     return // Already scheduled
   }
 
@@ -82,21 +84,84 @@ export async function scheduleStreakNotifications(): Promise<void> {
     return
   }
 
-  // Schedule notifications for 9 AM, 3 PM, and 9 PM
-  // We'll use a service worker or check periodically
+  // Schedule notifications for 9:30 AM, 3 PM, and 9 PM (in user's local timezone)
   localStorage.setItem('streak-notifications-scheduled', 'true')
   
   // Store notification times
+  // Note: Times are in the user's local timezone
+  // If you want CET specifically, the app will use 9:30 AM in your device's timezone
   const notificationTimes = [
-    { hour: 9, minute: 0, label: 'morning' },
+    { hour: 9, minute: 30, label: 'morning' },
     { hour: 15, minute: 0, label: 'afternoon' },
     { hour: 21, minute: 0, label: 'night' }
   ]
   
   localStorage.setItem('streak-notification-times', JSON.stringify(notificationTimes))
   
-  // Start checking for notification times
+  // Store daily goal in service worker accessible storage
+  const { getDailyGoal } = await import('./streakStorage')
+  const dailyGoal = await getDailyGoal()
+  await syncStorageToServiceWorker('streak-daily-goal', dailyGoal.toString())
+  await syncStorageToServiceWorker('streak-notification-times', JSON.stringify(notificationTimes))
+  
+  // Start checking for notification times (both in main thread and service worker)
   startNotificationChecker()
+  notifyServiceWorkerToStart()
+  
+  // Try to register periodic background sync if available
+  await registerPeriodicSync()
+}
+
+/**
+ * Sync storage value to service worker cache
+ */
+async function syncStorageToServiceWorker(key: string, value: string): Promise<void> {
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    try {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'UPDATE_STORAGE',
+        key,
+        value
+      })
+    } catch (error) {
+      console.error('Failed to sync storage to service worker:', error)
+    }
+  }
+}
+
+/**
+ * Notify service worker to start checking notifications
+ */
+function notifyServiceWorkerToStart(): void {
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    try {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'START_NOTIFICATIONS'
+      })
+    } catch (error) {
+      console.error('Failed to notify service worker:', error)
+    }
+  }
+}
+
+/**
+ * Register periodic background sync if available
+ */
+async function registerPeriodicSync(): Promise<void> {
+  if ('serviceWorker' in navigator && 'periodicSync' in (await navigator.serviceWorker.ready).registration) {
+    try {
+      const registration = await navigator.serviceWorker.ready
+      if ('periodicSync' in registration) {
+        await registration.periodicSync.register('streak-notifications', {
+          minInterval: 60 * 60 * 1000 // Check every hour
+        })
+        console.log('Periodic background sync registered')
+      }
+    } catch (error) {
+      console.warn('Periodic background sync not available:', error)
+      // This is expected on many browsers - not a critical feature
+    }
+  }
 }
 
 /**

@@ -21,7 +21,7 @@ https://kushshiv.github.io/language-learner/
 - **Flashcards + Quiz**: Flip cards to reveal translations and examples; answer multiple-choice questions.
 - **Mark Doubts & Fix Translations**: Mark words as "needs review", auto-fetch alternative translations, and update saved translations from the quiz view.
 - **Daily Streak Tracking**: Maintain a daily practice streak by practicing unique words each day (default: 30 words). Track your progress with a visual calendar and unlock achievements.
-- **Streak Notifications**: Get daily reminders at 9 AM, 3 PM, and 9 PM to complete your streak (optional, configurable in settings).
+- **Streak Notifications**: Get daily reminders at 9:30 AM, 3 PM, and 9 PM to complete your streak (optional, configurable in settings).
 - **Local-First Storage**: Everything works fully offline in your browser.
 - **Optional Cloud Sync**: Sync your words and streak data to a private GitHub Gist so you can use them on any device.
 - **PWA-Ready & Mobile-First**: Built for phones; can be installed as a Progressive Web App.
@@ -258,7 +258,7 @@ Access your streak data in **Settings → Daily Streak**:
 
 Enable optional daily reminder notifications in Settings:
 
-- **Notification Times**: 9 AM, 3 PM, and 9 PM
+- **Notification Times**: 9:30 AM, 3 PM, and 9 PM (in your device's local timezone)
 - **Works Everywhere**: Notifications work in your browser (when tab is open) and as a PWA (even when app is closed)
 - **Dynamic Goal**: Reminders use your current daily goal setting
 - **One Per Time Slot**: Each reminder appears once per day per time slot

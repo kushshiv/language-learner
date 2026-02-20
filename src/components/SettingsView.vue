@@ -437,6 +437,14 @@ const updateDailyGoal = async () => {
   
   try {
     await updateGoal(dailyGoal.value)
+    // Sync to service worker for notifications
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'UPDATE_STORAGE',
+        key: 'streak-daily-goal',
+        value: dailyGoal.value.toString()
+      })
+    }
     // Success
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to update daily goal'
