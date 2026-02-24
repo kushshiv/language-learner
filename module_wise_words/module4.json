@@ -782,6 +782,2274 @@
     "type": "noun",
     "example": "Ein Hybridfahrzeug ist ein guter Vergleich für den Wechsel zwischen Fett- und Zuckerverbrennung.",
     "context": "Wie ein Hybridfahrzeug je nach Bedarf zwischen Strom und Benzin wechselt, nutzt der Körper Fette oder Zucker."
+  },
+  {
+    "german": "Vorbemerkung",
+    "english": "preliminary remark; introductory note",
+    "type": "noun",
+    "example": "In der Vorbemerkung wird erklärt, worum es in Modul 4 geht.",
+    "context": "Die Vorbemerkung stellt den Stoffwechsel der Makronährstoffe und die Rolle der Leber in den Mittelpunkt."
+  },
+  {
+    "german": "Mythos",
+    "english": "myth",
+    "type": "noun",
+    "example": "Du sollst Alltagsmythen und Weisheiten kritisch hinterfragen können.",
+    "context": "Kenntnis der Energiebereitstellung hilft dir, Mythen über Ernährung und Stoffwechsel einzuordnen."
+  },
+  {
+    "german": "Weisheit",
+    "english": "saying; common wisdom",
+    "type": "noun",
+    "example": "Viele vermeintliche Weisheiten zur Ernährung halten einer Prüfung nicht stand.",
+    "context": "Wissen über Stoffwechselprozesse hilft, Alltagsweisheiten fundiert zu beurteilen."
+  },
+  {
+    "german": "entgegentreten",
+    "english": "to oppose; to counter",
+    "type": "verb",
+    "example": "Du kannst Mythen und Weisheiten aus dem Alltag fundiert entgegentreten.",
+    "context": "Mit Fachwissen im Energiestoffwechsel trittst du falschen Behauptungen selbstbewusst entgegen."
+  },
+  {
+    "german": "einfließen",
+    "english": "to flow into; to feed into",
+    "type": "verb",
+    "example": "Bestimmte Aminosäuren können in Ausnahmefällen in die Energiegewinnung einfließen.",
+    "context": "Glukogene und ketogene Aminosäuren können unter bestimmten Bedingungen in Energiegewinnungswege einfließen."
+  },
+  {
+    "german": "Ausnahmefall",
+    "english": "exceptional case",
+    "type": "noun",
+    "example": "Nur in Ausnahmefällen fließen Aminosäuren in die Energiegewinnung ein.",
+    "context": "Im Normalfall liefern Kohlenhydrate und Fette Energie, Aminosäuren nur in Ausnahmefällen."
+  },
+  {
+    "german": "leistungsbereit",
+    "english": "ready to perform",
+    "type": "adjective",
+    "example": "Fette und Zucker sind wichtig für die Leistungsbereitschaft im Sport.",
+    "context": "Eine ausreichende Versorgung mit Energieträgern hält Muskulatur und Nervensystem leistungsbereit."
+  },
+  {
+    "german": "Leistungsbereitschaft",
+    "english": "readiness to perform",
+    "type": "noun",
+    "example": "Die beiden Hauptenergielieferanten beeinflussen die Leistungsbereitschaft im Sport.",
+    "context": "Die Verfügbarkeit von Kohlenhydraten und Fetten bestimmt maßgeblich die Leistungsbereitschaft."
+  },
+  {
+    "german": "Notzeit",
+    "english": "time of need; emergency period",
+    "type": "noun",
+    "example": "In Notzeiten dienen Ketonkörper als Glukoseersatz.",
+    "context": "Bei Nahrungskarenz oder Hungerstoffwechsel spricht man von Notzeiten für den Energiehaushalt."
+  },
+  {
+    "german": "Glukoseersatz",
+    "english": "glucose substitute",
+    "type": "noun",
+    "example": "Ketonkörper fungieren als Glukoseersatz.",
+    "context": "Organe wie das Gehirn können in Glukosemangelphasen Ketonkörper als Glukoseersatz nutzen."
+  },
+  {
+    "german": "Leberzelle",
+    "english": "liver cell",
+    "type": "noun",
+    "example": "In den Leberzellen werden die Stoffe umgewandelt.",
+    "context": "Leberzellen entscheiden, ob Nährstoffe verwertet, gespeichert oder weiterverteilt werden."
+  },
+  {
+    "german": "Leberfunktion",
+    "english": "liver function",
+    "type": "noun",
+    "example": "Eine Fetteinlagerung beeinträchtigt die Leberfunktion.",
+    "context": "Wenn Fett im Lebergewebe eingelagert wird, kann die Leberfunktion eingeschränkt werden."
+  },
+  {
+    "german": "Lebererkrankung",
+    "english": "liver disease",
+    "type": "noun",
+    "example": "Fortschreitende Leberverfettung kann zu schweren Lebererkrankungen führen.",
+    "context": "Leberzirrhose ist eine schwere Lebererkrankung, die nicht rückgängig gemacht werden kann."
+  },
+  {
+    "german": "Lebertran",
+    "english": "cod liver oil",
+    "type": "noun",
+    "example": "Leber und Lebertran sind hervorragende Mikronährstoffquellen.",
+    "context": "Lebertran enthält besonders viel Vitamin A und andere fettlösliche Vitamine."
+  },
+  {
+    "german": "Mikronährstoff",
+    "english": "micronutrient",
+    "type": "noun",
+    "example": "Leber ist eine hervorragende Mikronährstoffquelle.",
+    "context": "Mikronährstoffe wie Vitamine und Mineralstoffe werden teilweise in der Leber gespeichert."
+  },
+  {
+    "german": "speichern",
+    "english": "to store",
+    "type": "verb",
+    "example": "Die Leber speichert nicht nur Zucker, sondern auch Vitamine und Mineralstoffe.",
+    "context": "Gespeicherte Mikronährstoffe werden bei Bedarf an das Blut abgegeben."
+  },
+  {
+    "german": "Vorratsorgan",
+    "english": "storage organ; reserve organ",
+    "type": "noun",
+    "example": "Die Leber dient als Vorratsorgan für bestimmte Vitamine.",
+    "context": "Als Vorratsorgan kann die Leber bei Bedarf gespeicherte Mikronährstoffe freisetzen."
+  },
+  {
+    "german": "Übergewicht",
+    "english": "overweight",
+    "type": "noun",
+    "example": "Übergewicht und zu wenig Bewegung schaden der Leber.",
+    "context": "Übergewicht geht oft mit einer erhöhten Fetteinlagerung in der Leber einher."
+  },
+  {
+    "german": "bewegungsarm",
+    "english": "inactive; low in movement",
+    "type": "adjective",
+    "example": "Ein bewegungsarmer Lebensstil kann die Leber belasten.",
+    "context": "Bewegungsarme Menschen haben ein höheres Risiko für Stoffwechselstörungen."
+  },
+  {
+    "german": "widerstandsfähig",
+    "english": "resilient; resistant",
+    "type": "adjective",
+    "example": "Die Leber ist ein sehr widerstandsfähiges Organ.",
+    "context": "Trotz teilweiser Schädigung kann die widerstandsfähige Leber ihre Aufgaben oft noch erfüllen."
+  },
+  {
+    "german": "zugrunde gehen",
+    "english": "to perish; to be destroyed",
+    "type": "verb",
+    "example": "Bei fortschreitender Lebererkrankung geht Lebergewebe zugrunde.",
+    "context": "Wenn zu viel Lebergewebe zugrunde geht, kann die Leber ihre zentralen Rollen nicht mehr erfüllen."
+  },
+  {
+    "german": "fortschreiten",
+    "english": "to progress; to advance",
+    "type": "verb",
+    "example": "Durch medizinische Betreuung kann das Fortschreiten der Leberzirrhose verlangsamt werden.",
+    "context": "Lebensstiländerungen und Therapien zielen darauf ab, das Fortschreiten von Lebererkrankungen zu bremsen."
+  },
+  {
+    "german": "biologisch",
+    "english": "biological",
+    "type": "adjective",
+    "example": "Biologische Oxidation entspricht nicht ganz einer Verbrennung im Labor.",
+    "context": "In der biologischen Oxidation wird Energie kontrolliert auf Energiespeicher übertragen."
+  },
+  {
+    "german": "Verbrennung",
+    "english": "combustion; burning",
+    "type": "noun",
+    "example": "Würden die Substrate einfach angezündet, ginge die Energie als Wärme bei der Verbrennung verloren.",
+    "context": "Im Gegensatz zur offenen Verbrennung wird Energie in der Zelle in ATP gespeichert."
+  },
+  {
+    "german": "Wärmeverlust",
+    "english": "heat loss",
+    "type": "noun",
+    "example": "Im Labor ginge die Energie als Wärmeverlust verloren.",
+    "context": "Die stufenweise Oxidation verhindert einen vollständigen Wärmeverlust der chemischen Energie."
+  },
+  {
+    "german": "Speichermolekül",
+    "english": "storage molecule",
+    "type": "noun",
+    "example": "Energie wird auf Speichermoleküle übertragen.",
+    "context": "Chemische Energiespeichermoleküle wie ATP ermöglichen eine zeitlich versetzte Nutzung der Energie."
+  },
+  {
+    "german": "Phosphatgruppe",
+    "english": "phosphate group",
+    "type": "noun",
+    "example": "ATP besitzt genau drei Phosphatgruppen.",
+    "context": "Die Anzahl der gebundenen Phosphatgruppen unterscheidet ATP von ADP."
+  },
+  {
+    "german": "Adenin",
+    "english": "adenine",
+    "type": "noun",
+    "example": "ATP besteht aus Adenin, Ribose und drei Phosphatgruppen.",
+    "context": "Adenin ist eine stickstoffhaltige Base, die Bestandteil des ATP-Moleküls ist."
+  },
+  {
+    "german": "Ribose",
+    "english": "ribose",
+    "type": "noun",
+    "example": "Ribose ist der Zuckerbestandteil von ATP.",
+    "context": "Adenin und Ribose bilden zusammen das Adenosinmolekül."
+  },
+  {
+    "german": "Elektron",
+    "english": "electron",
+    "type": "noun",
+    "example": "In der Atmungskette werden Elektronen stufenweise abgegeben.",
+    "context": "Elektronen werden von Trägermolekülen auf Sauerstoff übertragen und treiben die ATP-Synthese an."
+  },
+  {
+    "german": "Elektronenüberträger",
+    "english": "electron carrier",
+    "type": "noun",
+    "example": "Elektronenüberträger transportieren freie Energie zur Atmungskette.",
+    "context": "Moleküle wie NADH fungieren als Elektronenüberträger im Energiestoffwechsel."
+  },
+  {
+    "german": "Kaskade",
+    "english": "cascade",
+    "type": "noun",
+    "example": "Es folgt eine Kaskade mehrerer komplizierter Schritte.",
+    "context": "Die Atmungskette ist eine Kaskade von Reaktionen, bei denen Elektronen schrittweise übertragen werden."
+  },
+  {
+    "german": "Gesamtenergieausbeute",
+    "english": "total energy yield",
+    "type": "noun",
+    "example": "Die Gesamtenergieausbeute aus einem Glukosemolekül beträgt 30 ATP.",
+    "context": "Die Gesamtenergieausbeute unterscheidet sich zwischen aerober und anaerober Glukoseverwertung."
+  },
+  {
+    "german": "unökonomisch",
+    "english": "uneconomical; inefficient",
+    "type": "adjective",
+    "example": "Der anaerobe Glukoseabbau ist energetisch unökonomisch.",
+    "context": "Mit nur zwei ATP pro Glukosemolekül ist die anaerobe Glykolyse im Vergleich zum aeroben Weg unökonomisch."
+  },
+  {
+    "german": "Zerlegungsprozess",
+    "english": "breakdown process",
+    "type": "noun",
+    "example": "Die gleiche Fettsäure steckt noch im Zerlegungsprozess, während schon neues Glukose-ATP gebildet wird.",
+    "context": "Die Beta-Oxidation ist ein langwieriger Zerlegungsprozess von Fettsäuren."
+  },
+  {
+    "german": "Dominanz",
+    "english": "dominance",
+    "type": "noun",
+    "example": "Mit der Dominanz der Fettsäureverbrennung werden vermehrt Ketonkörper gebildet.",
+    "context": "Bei langer Belastungsdauer verschiebt sich die Dominanz von der Zucker- zur Fettverbrennung."
+  },
+  {
+    "german": "Glukosebereitstellung",
+    "english": "glucose provision; supply of glucose",
+    "type": "noun",
+    "example": "Die Abbildung zeigt Wege der Glukosebereitstellung.",
+    "context": "Glukosebereitstellung erfolgt aus Nahrungsglukose, Glykogenabbau und Glukoneogenese."
+  },
+  {
+    "german": "Fettabbau",
+    "english": "fat breakdown",
+    "type": "noun",
+    "example": "Fettabbau liefert freie Fettsäuren.",
+    "context": "Beim Fettabbau im Fettgewebe werden Fettsäuren und Glycerin freigesetzt."
+  },
+  {
+    "german": "Fettgewebe",
+    "english": "adipose tissue; fat tissue",
+    "type": "noun",
+    "example": "Glyzerin stammt aus der Fettspaltung des Fettgewebes.",
+    "context": "Im Fettgewebe sind Fettsäuren als Speicherfett gespeichert."
+  },
+  {
+    "german": "Glyzerin",
+    "english": "glycerol",
+    "type": "noun",
+    "example": "Glyzerin aus der Fettspaltung kann zur Glukosebildung genutzt werden.",
+    "context": "Obwohl Fettsäuren nicht zur Glukoneogenese beitragen, kann Glyzerin in den Glukosestoffwechsel eingespeist werden."
+  },
+  {
+    "german": "Dauerlauf",
+    "english": "endurance run; long-distance run",
+    "type": "noun",
+    "example": "Bei extensiven Dauerläufen wird vermehrt Fett verbrannt.",
+    "context": "Im Dauerlauf spielt die aerobe Energiebereitstellung aus Fettsäuren eine zentrale Rolle."
+  },
+  {
+    "german": "Blutkreislauf",
+    "english": "blood circulation",
+    "type": "noun",
+    "example": "Glukose wird über den Blutkreislauf im Körper verteilt.",
+    "context": "Der Blutkreislauf transportiert Nährstoffe, Hormone und Stoffwechselprodukte zwischen Organen."
+  },
+  {
+    "german": "Blutgerinnung",
+    "english": "blood clotting",
+    "type": "noun",
+    "example": "Die Leber stellt Proteine für die Blutgerinnung her.",
+    "context": "Eine gestörte Leberfunktion kann zu Störungen der Blutgerinnung führen."
+  },
+  {
+    "german": "Abbau",
+    "english": "breakdown",
+    "type": "noun",
+    "example": "Alter geschuldeten Abbau an Muskelmasse nimmt"
+  },
+  {
+    "german": "abbauen",
+    "english": "to break down",
+    "type": "verb",
+    "example": "zur Energiegewinnung abgebaut Das Fassungsvermögen der"
+  },
+  {
+    "german": "Absorption",
+    "english": "absorption",
+    "type": "noun",
+    "example": "Nach der Absorption stehen enthaltene Makronährstoffe"
+  },
+  {
+    "german": "arbeiten",
+    "english": "to work",
+    "type": "verb",
+    "example": "in je acht Stunden Arbeit Freizeit"
+  },
+  {
+    "german": "aktiv",
+    "english": "active",
+    "type": "verb",
+    "example": "ansonsten einen aktiven Lebensstil führen d"
+  },
+  {
+    "german": "Aktivität",
+    "english": "activity",
+    "type": "noun",
+    "example": "für sämtliche Aktivitäten und Bewegungen benötigt"
+  },
+  {
+    "german": "allgemein",
+    "english": "general",
+    "type": "verb",
+    "example": "Müller Formel allgemein oder nach BMI"
+  },
+  {
+    "german": "Alter",
+    "english": "age",
+    "type": "noun",
+    "example": "Grundumsatz sind Alter Körpergröße und Körpergewicht"
+  },
+  {
+    "german": "Aminosäure",
+    "english": "amino acid",
+    "type": "noun",
+    "example": "Energie aus Aminosäuren über deren Umwandlung"
+  },
+  {
+    "german": "Anteil",
+    "english": "proportion",
+    "type": "noun",
+    "example": "den größten Anteil in unserer Ernährung"
+  },
+  {
+    "german": "Art",
+    "english": "type",
+    "type": "noun",
+    "example": "Frauen eine Art wärmeisolierende Wirkung die"
+  },
+  {
+    "german": "Atmung",
+    "english": "breathing",
+    "type": "noun",
+    "example": "Laufen Springen Atmen für sämtliche Aktivitäten"
+  },
+  {
+    "german": "Atmung",
+    "english": "breathing",
+    "type": "noun",
+    "example": "Systems die Atmung oder die Erhaltung"
+  },
+  {
+    "german": "Aufgabe",
+    "english": "task",
+    "type": "noun",
+    "example": "Die vielfältigen Aufgaben für die Energie"
+  },
+  {
+    "german": "aufnehmen",
+    "english": "absorbed",
+    "type": "verb",
+    "example": "welcher Menge aufgenommen und wie diese"
+  },
+  {
+    "german": "aufnehmen",
+    "english": "absorbed",
+    "type": "verb",
+    "example": "durch sie aufgenommenen Energie einher Die"
+  },
+  {
+    "german": "aufnehmen",
+    "english": "to absorb",
+    "type": "verb",
+    "example": "Maß Glukose aufnehmen können wird überschüssiger"
+  },
+  {
+    "german": "Aufrechterhaltung",
+    "english": "maintenance",
+    "type": "noun",
+    "example": "der Körperwärme Aufrechterhaltung körperlicher Funktionen inkl"
+  },
+  {
+    "german": "Ausbleiben",
+    "english": "absence",
+    "type": "noun",
+    "example": "bis zum Ausbleiben der Regelblutung Amenorrhö"
+  },
+  {
+    "german": "ausbleiben",
+    "english": "to be absent",
+    "type": "verb",
+    "example": "seinen Rezeptoren ausbleibt Manche Forscher vermuten"
+  },
+  {
+    "german": "Ausschließlich",
+    "english": "exclusively",
+    "type": "noun",
+    "example": "0 95 Ausschließlich sitzende oder liegende"
+  },
+  {
+    "german": "Außerdem",
+    "english": "furthermore",
+    "type": "noun",
+    "example": "zu beurteilen Außerdem zeigt dieses Modul"
+  },
+  {
+    "german": "Bearbeitung",
+    "english": "completion",
+    "type": "noun",
+    "example": "waren Nach Bearbeitung von Modul 3"
+  },
+  {
+    "german": "Bedarf",
+    "english": "requirement",
+    "type": "noun",
+    "example": "nur bei Bedarf zur Energiegewinnung herangezogen"
+  },
+  {
+    "german": "bedeutsam",
+    "english": "significant",
+    "type": "adjective",
+    "example": "Grundumsätze Wirklich bedeutsam wird der Faktor"
+  },
+  {
+    "german": "bedeutsam",
+    "english": "significant",
+    "type": "verb",
+    "example": "Energiebilanz Weitere bedeutsame Faktoren sind Verdauungsverluste"
+  },
+  {
+    "german": "Bedeutung",
+    "english": "meaning",
+    "type": "noun",
+    "example": "und ihre Bedeutung Energieverfügbarkeit Bedeutung 45"
+  },
+  {
+    "german": "Bedingung",
+    "english": "condition",
+    "type": "noun",
+    "example": "unter thermoneutralen Bedingungen 27 bis 31"
+  },
+  {
+    "german": "Beeinträchtigt",
+    "english": "impaired",
+    "type": "noun",
+    "example": "für Stressfrakturen Beeinträchtigte Immunfunktion erhöhte Infektanfälligkeit"
+  },
+  {
+    "german": "Bei",
+    "english": "at",
+    "type": "noun",
+    "example": "Eiweiß nur bei Bedarf zur Energiegewinnung"
+  },
+  {
+    "german": "beide",
+    "english": "both",
+    "type": "verb",
+    "example": "beeinflussen und beide berechnen können Die"
+  },
+  {
+    "german": "Beispiel",
+    "english": "example",
+    "type": "noun",
+    "example": "zählen zum Beispiel die von vielen"
+  },
+  {
+    "german": "beispielsweise",
+    "english": "for example",
+    "type": "noun",
+    "example": "der Hormonhaushalt Beispielsweise beeinflussen weibliche wie"
+  },
+  {
+    "german": "beispielsweise",
+    "english": "for example",
+    "type": "verb",
+    "example": "der Hormonhaushalt Beispielsweise beeinflussen weibliche wie"
+  },
+  {
+    "german": "Belastung",
+    "english": "stress",
+    "type": "noun",
+    "example": "Aufregung psychische Belastung Schmerz Medikamente Erkrankungen"
+  },
+  {
+    "german": "Bereich",
+    "english": "area",
+    "type": "noun",
+    "example": "der drei Bereiche ein durchschnittlicher PAL"
+  },
+  {
+    "german": "beste",
+    "english": "best",
+    "type": "verb",
+    "example": "Beratung Im besten Fall soll das"
+  },
+  {
+    "german": "bestimmt",
+    "english": "certain",
+    "type": "verb",
+    "example": "liefert einen bestimmten Teil an Energie"
+  },
+  {
+    "german": "betroffen",
+    "english": "affected",
+    "type": "verb",
+    "example": "steigen weil betroffene Systeme wieder normal"
+  },
+  {
+    "german": "Bewegung",
+    "english": "movement",
+    "type": "noun",
+    "example": "Aktivitäten und Bewegungen benötigt der Körper"
+  },
+  {
+    "german": "Bilanz",
+    "english": "balance",
+    "type": "noun",
+    "example": "eine negative Bilanz zu einer Abnahme"
+  },
+  {
+    "german": "bleiben",
+    "english": "to remain",
+    "type": "verb",
+    "example": "Letzten Endes bleibt jede Berechnung immer"
+  },
+  {
+    "german": "Blut",
+    "english": "blood",
+    "type": "noun",
+    "example": "und sauerstoffreichem Blut versorgt werden wofür"
+  },
+  {
+    "german": "Blutzucker",
+    "english": "blood sugar",
+    "type": "noun",
+    "example": "Hübl 2010 Blutzucker Blutglucose Übersicht Ernährungsberater"
+  },
+  {
+    "german": "brauchen",
+    "english": "to need",
+    "type": "verb",
+    "example": "und Müller brauchst du dagegen nicht"
+  },
+  {
+    "german": "Brennstoff",
+    "english": "fuel",
+    "type": "noun",
+    "example": "es als Brennstoff für Muskelarbeit gebraucht"
+  },
+  {
+    "german": "Dabei",
+    "english": "in the process",
+    "type": "noun",
+    "example": "Evaluation stattfinden Dabei wird geprüft wie"
+  },
+  {
+    "german": "Dadurch",
+    "english": "thereby",
+    "type": "noun",
+    "example": "Männern fehlt Dadurch benötigt der männliche"
+  },
+  {
+    "german": "damit",
+    "english": "with it",
+    "type": "verb",
+    "example": "zurückgreifen und damit sein Überleben sichern"
+  },
+  {
+    "german": "Damit",
+    "english": "with it",
+    "type": "noun",
+    "example": "zurückgreifen und damit sein Überleben sichern"
+  },
+  {
+    "german": "dann",
+    "english": "then",
+    "type": "noun",
+    "example": "dem Organismus dann zur Energiegewinnung zur"
+  },
+  {
+    "german": "dann",
+    "english": "then",
+    "type": "verb",
+    "example": "dem Organismus dann zur Energiegewinnung zur"
+  },
+  {
+    "german": "Darm",
+    "english": "intestine",
+    "type": "noun",
+    "example": "was im Darm ankommt kann komplett"
+  },
+  {
+    "german": "Darüber",
+    "english": "beyond",
+    "type": "noun",
+    "example": "zahlreiche Körperfunktionen Darüber steigern sie den"
+  },
+  {
+    "german": "Das",
+    "english": "the",
+    "type": "noun",
+    "example": "Energie benötigt Das Konzept der Energiebilanz"
+  },
+  {
+    "german": "Dau",
+    "english": "duration",
+    "type": "noun",
+    "example": "je nach Dauer Geschlecht Stress Ernährung"
+  },
+  {
+    "german": "Dazu",
+    "english": "for this",
+    "type": "noun",
+    "example": "Überleben sichern Dazu zählen zum Beispiel"
+  },
+  {
+    "german": "denen",
+    "english": "those",
+    "type": "verb",
+    "example": "Gewichtszunahme zu denen einer Schilddrüsenunterfunktion verminderte"
+  },
+  {
+    "german": "Der",
+    "english": "the",
+    "type": "noun",
+    "example": "Warum benötigt der menschliche Körper Energie"
+  },
+  {
+    "german": "deren",
+    "english": "their",
+    "type": "verb",
+    "example": "spielt auch deren Zusammensetzung also das"
+  },
+  {
+    "german": "Des",
+    "english": "the",
+    "type": "noun",
+    "example": "hinzu Anhand des Konzepts der Energieverfügbarkeit"
+  },
+  {
+    "german": "Deshalb",
+    "english": "therefore",
+    "type": "noun",
+    "example": "Grundumsatz auch deshalb steigen weil betroffene"
+  },
+  {
+    "german": "Desweg",
+    "english": "therefore",
+    "type": "noun",
+    "example": "den Grundumsatz Deswegen gehört ein ungeplanter"
+  },
+  {
+    "german": "Detail",
+    "english": "detail",
+    "type": "noun",
+    "example": "enthält im Detail die jeweils verbrachte"
+  },
+  {
+    "german": "deutlich",
+    "english": "significantly",
+    "type": "adjective",
+    "example": "S Risiko deutlich erhöht Als adäquat"
+  },
+  {
+    "german": "Diabet",
+    "english": "diabetes",
+    "type": "noun",
+    "example": "z B Diabetes beeinflussen die Regulation"
+  },
+  {
+    "german": "Diät",
+    "english": "diet",
+    "type": "noun",
+    "example": "z B Diäten Essstörungen entstehen Eine"
+  },
+  {
+    "german": "Die",
+    "english": "the",
+    "type": "noun",
+    "example": "wird durch die bereits bekannten Makronährstoffe"
+  },
+  {
+    "german": "dienen",
+    "english": "to serve",
+    "type": "verb",
+    "example": "diese Speicher dienen www online trainer"
+  },
+  {
+    "german": "Dies",
+    "english": "this",
+    "type": "noun",
+    "example": "Körper Energie Diese wird durch die"
+  },
+  {
+    "german": "diesen",
+    "english": "this",
+    "type": "verb",
+    "example": "Körper Energie Diese wird durch die"
+  },
+  {
+    "german": "Dort",
+    "english": "there",
+    "type": "noun",
+    "example": "Energieüberschusses wird dort die überzählige Energie"
+  },
+  {
+    "german": "Durch",
+    "english": "through",
+    "type": "noun",
+    "example": "Diese wird durch die bereits bekannten"
+  },
+  {
+    "german": "Effekt",
+    "english": "effect",
+    "type": "noun",
+    "example": "wird dieser Effekt auch nahrungsbedingte bzw"
+  },
+  {
+    "german": "eigenen",
+    "english": "own",
+    "type": "verb",
+    "example": "auf seine eigenen Energiereserven zurückgreifen und"
+  },
+  {
+    "german": "Ein",
+    "english": "a",
+    "type": "noun",
+    "example": "Energiezufuhr überlebt ein Mensch nur wenige"
+  },
+  {
+    "german": "einen",
+    "english": "a",
+    "type": "verb",
+    "example": "er auf eine regelmäßige Nahrungszufuhr zwingend"
+  },
+  {
+    "german": "Einflus",
+    "english": "influence",
+    "type": "noun",
+    "example": "Schilddrüsenhormone nehmen Einfluss auf zahlreiche Körperfunktionen"
+  },
+  {
+    "german": "Eiweiß",
+    "english": "protein",
+    "type": "noun",
+    "example": "sind und Eiweiß nur bei Bedarf"
+  },
+  {
+    "german": "End",
+    "english": "end",
+    "type": "noun",
+    "example": "Beratungspraxis Letzten Endes bleibt jede Berechnung"
+  },
+  {
+    "german": "Energiespeich",
+    "english": "energy storage",
+    "type": "noun",
+    "example": "evolutionsbedingt als Energiespeicher In Phasen des"
+  },
+  {
+    "german": "Energieträg",
+    "english": "energy carrier",
+    "type": "noun",
+    "example": "ist ein Energieträger aber kein Nährstoff"
+  },
+  {
+    "german": "entscheidenden",
+    "english": "decisive",
+    "type": "verb",
+    "example": "Muskelgewebe eine entscheidende Rolle für die"
+  },
+  {
+    "german": "entstehen",
+    "english": "to arise",
+    "type": "verb",
+    "example": "große Unterschiede entstehen Jeder Mensch bringt"
+  },
+  {
+    "german": "Enzym",
+    "english": "enzyme",
+    "type": "noun",
+    "example": "Botenstoffe oder Enzyme und werden diese"
+  },
+  {
+    "german": "Erhaltung",
+    "english": "maintenance",
+    "type": "noun",
+    "example": "oder die Erhaltung des Muskeltonus Außerdem"
+  },
+  {
+    "german": "erklären",
+    "english": "to explain",
+    "type": "verb",
+    "example": "Energiebedarf beeinflussen erklären wir dir in"
+  },
+  {
+    "german": "Erkrankung",
+    "english": "disease",
+    "type": "noun",
+    "example": "Schmerz Medikamente Erkrankungen Klima DEBInet o"
+  },
+  {
+    "german": "erläutern",
+    "english": "to explain",
+    "type": "verb",
+    "example": "die Körperzusammensetzung erläutern können Faktoren kennen"
+  },
+  {
+    "german": "Ernährung",
+    "english": "nutrition",
+    "type": "noun",
+    "example": "innerhalb der Ernährung bereitgestellt weshalb er"
+  },
+  {
+    "german": "Ernährungsberat",
+    "english": "nutrition counseling",
+    "type": "noun",
+    "example": "Tools deiner Ernährungsberater Werkzeugkiste hinzu Anhand"
+  },
+  {
+    "german": "Erst",
+    "english": "first",
+    "type": "noun",
+    "example": "Alter dann erst wieder in der"
+  },
+  {
+    "german": "essen",
+    "english": "to eat",
+    "type": "verb",
+    "example": "Warum wir essen müssen Schlieper 2010"
+  },
+  {
+    "german": "fahren",
+    "english": "to drive",
+    "type": "verb",
+    "example": "zur Arbeit fahren kann z B"
+  },
+  {
+    "german": "Fall",
+    "english": "case",
+    "type": "noun",
+    "example": "evolutionsbedingt im Fall einer Hungersnot lebenserhaltend"
+  },
+  {
+    "german": "fallen",
+    "english": "falls",
+    "type": "verb",
+    "example": "desto höher fällt der zugehörige PAL"
+  },
+  {
+    "german": "Fett",
+    "english": "fat",
+    "type": "noun",
+    "example": "Makronährstoffe Kohlenhydrate Fette und Proteine dem"
+  },
+  {
+    "german": "fettlöslich",
+    "english": "fat-soluble",
+    "type": "verb",
+    "example": "ist Wasser fettlösliche Vitamine und Protein"
+  },
+  {
+    "german": "Ffm",
+    "english": "FFM",
+    "type": "noun",
+    "example": "kcal kg FFM Energiezufuhr kcal Energieverbrauch"
+  },
+  {
+    "german": "finden",
+    "english": "to find",
+    "type": "verb",
+    "example": "Maß zu finden Eine kurzfristige Unterschreitung"
+  },
+  {
+    "german": "Folg",
+    "english": "consequence",
+    "type": "noun",
+    "example": "in der Folge erhöht sich der"
+  },
+  {
+    "german": "folgen",
+    "english": "to follow",
+    "type": "verb",
+    "example": "man wie folgt vor Man nehme"
+  },
+  {
+    "german": "folgenden",
+    "english": "following",
+    "type": "verb",
+    "example": "beibehalten Die folgende Seite fasst die"
+  },
+  {
+    "german": "Folgt",
+    "english": "follows",
+    "type": "noun",
+    "example": "man wie folgt vor Man nehme"
+  },
+  {
+    "german": "Form",
+    "english": "form",
+    "type": "noun",
+    "example": "in welcher Form gespeichert wird und"
+  },
+  {
+    "german": "fügen",
+    "english": "to add",
+    "type": "verb",
+    "example": "und Gesamtumsatz fügst du die nächsten"
+  },
+  {
+    "german": "führen",
+    "english": "to lead",
+    "type": "verb",
+    "example": "lange Sicht führt eine negative Bilanz"
+  },
+  {
+    "german": "Funktio",
+    "english": "function",
+    "type": "noun",
+    "example": "o J Funktion und Aufgabe der"
+  },
+  {
+    "german": "Funktion",
+    "english": "function",
+    "type": "noun",
+    "example": "Aufrechterhaltung körperlicher Funktionen inkl Muskeltätigkeit Aufrechterhaltung"
+  },
+  {
+    "german": "Für",
+    "english": "for",
+    "type": "noun",
+    "example": "Springen Atmen für sämtliche Aktivitäten und"
+  },
+  {
+    "german": "gehen",
+    "english": "to go",
+    "type": "verb",
+    "example": "Klima Man geht davon aus dass"
+  },
+  {
+    "german": "Gehir",
+    "english": "brain",
+    "type": "noun",
+    "example": "zuzuordnende Energie Gehirn Leber und Muskulatur"
+  },
+  {
+    "german": "gehören",
+    "english": "to belong",
+    "type": "verb",
+    "example": "Grundumsatz Deswegen gehört ein ungeplanter Gewichtsverlust"
+  },
+  {
+    "german": "gesamten",
+    "english": "entire",
+    "type": "verb",
+    "example": "Viertel des gesamten Grundumsatzes Der restliche"
+  },
+  {
+    "german": "Gesundheit",
+    "english": "health",
+    "type": "noun",
+    "example": "essenziell für Gesundheit und Leistung ist"
+  },
+  {
+    "german": "Geweb",
+    "english": "tissue",
+    "type": "noun",
+    "example": "Zellen und Gewebe im Körper die"
+  },
+  {
+    "german": "Gewicht",
+    "english": "weight",
+    "type": "noun",
+    "example": "Abnahme von Gewicht DEBInet o J"
+  },
+  {
+    "german": "Gewinnung",
+    "english": "production",
+    "type": "noun",
+    "example": "und die Gewinnung von Energie aus"
+  },
+  {
+    "german": "gleichzeitig",
+    "english": "simultaneously",
+    "type": "adjective",
+    "example": "viele Körpersysteme gleichzeitig sowohl kurzfristig als"
+  },
+  {
+    "german": "Glukoneogenes",
+    "english": "gluconeogenesis",
+    "type": "noun",
+    "example": "zu Glukose Glukoneogenese Deshalb ist die"
+  },
+  {
+    "german": "Glukos",
+    "english": "glucose",
+    "type": "noun",
+    "example": "Umwandlung von Glukose in Fette verbraucht"
+  },
+  {
+    "german": "Glykog",
+    "english": "glycogen",
+    "type": "noun",
+    "example": "Glukose als Glykogen einspeichern zu können"
+  },
+  {
+    "german": "Glykogenspeich",
+    "english": "glycogen storage",
+    "type": "noun",
+    "example": "Untrainierter über Glykogenspeicher von ungefähr 250"
+  },
+  {
+    "german": "greifen",
+    "english": "to grasp",
+    "type": "verb",
+    "example": "diese Regel greift man bei der"
+  },
+  {
+    "german": "Größer",
+    "english": "larger",
+    "type": "noun",
+    "example": "Stoffwechsel haben Größere oder schwere Menschen"
+  },
+  {
+    "german": "Grund",
+    "english": "base",
+    "type": "noun",
+    "example": "die den Grund und Gesamtumsatz des"
+  },
+  {
+    "german": "haben",
+    "english": "to have",
+    "type": "verb",
+    "example": "Energiebilanz verinnerlicht haben und die Auswirkungen"
+  },
+  {
+    "german": "halten",
+    "english": "to hold",
+    "type": "verb",
+    "example": "konstant zu halten Zudem gibt es"
+  },
+  {
+    "german": "herangezogen",
+    "english": "drawn upon",
+    "type": "verb",
+    "example": "zur Energiegewinnung herangezogen wird Auch wenn"
+  },
+  {
+    "german": "Herz",
+    "english": "heart",
+    "type": "noun",
+    "example": "Aufrechterhaltung des Herz Kreislauf Systems die"
+  },
+  {
+    "german": "Hierbei",
+    "english": "hereby",
+    "type": "noun",
+    "example": "B Krankheiten hierbei nicht berücksichtigt werden"
+  },
+  {
+    "german": "Hierzu",
+    "english": "for this",
+    "type": "noun",
+    "example": "geschätzt werden Hierzu werden in der"
+  },
+  {
+    "german": "höchste",
+    "english": "highest",
+    "type": "verb",
+    "example": "langsamer Die höchsten Grundumsätze in Relation"
+  },
+  {
+    "german": "hoch",
+    "english": "high",
+    "type": "verb",
+    "example": "haben ebenfalls hohe Grundumsätze Wirklich bedeutsam"
+  },
+  {
+    "german": "Hormon",
+    "english": "hormone",
+    "type": "noun",
+    "example": "Körperzusammensetzung Geschlecht Hormone Stress Aufregung psychische"
+  },
+  {
+    "german": "ihnen",
+    "english": "them",
+    "type": "verb",
+    "example": "Daumenregel Mit ihnen kannst du in"
+  },
+  {
+    "german": "ihr",
+    "english": "their",
+    "type": "noun",
+    "example": "Verdauung in ihre einzelnen Nahrungsbestandteile aufgespalten"
+  },
+  {
+    "german": "ihr",
+    "english": "their",
+    "type": "verb",
+    "example": "Verdauung in ihre einzelnen Nahrungsbestandteile aufgespalten"
+  },
+  {
+    "german": "Infolge",
+    "english": "as a result",
+    "type": "noun",
+    "example": "gemacht werden Infolge unvollständiger Verstoffwechselung geht"
+  },
+  {
+    "german": "inner",
+    "english": "inner",
+    "type": "verb",
+    "example": "von vielen inneren und äußeren Einflüssen"
+  },
+  {
+    "german": "insbesondere",
+    "english": "particularly",
+    "type": "verb",
+    "example": "Körpergröße und insbesondere Körpergewicht beeinflussen den"
+  },
+  {
+    "german": "insgesamt",
+    "english": "overall",
+    "type": "verb",
+    "example": "Dies führt insgesamt zu einem etwas"
+  },
+  {
+    "german": "Insgesamt",
+    "english": "overall",
+    "type": "noun",
+    "example": "Dies führt insgesamt zu einem etwas"
+  },
+  {
+    "german": "issen",
+    "english": "eats",
+    "type": "verb",
+    "example": "Die Person isst so viel wie"
+  },
+  {
+    "german": "Ist",
+    "english": "is",
+    "type": "noun",
+    "example": "zwingend angewiesen ist Ohne Energiezufuhr überlebt"
+  },
+  {
+    "german": "Jed",
+    "english": "each",
+    "type": "noun",
+    "example": "zur Verfügung Jeder der Hauptnährstoffe liefert"
+  },
+  {
+    "german": "keinen",
+    "english": "no",
+    "type": "verb",
+    "example": "und hat keine größeren negativen Effekte"
+  },
+  {
+    "german": "kennen",
+    "english": "know",
+    "type": "verb",
+    "example": "niedrigen Kalorienzufuhr kennen und wirst in"
+  },
+  {
+    "german": "Ketonkörp",
+    "english": "ketone body",
+    "type": "noun",
+    "example": "Glukoseersatz sogenannte Ketonkörper aus dem Abbau"
+  },
+  {
+    "german": "Kohlenhydrat",
+    "english": "carbohydrate",
+    "type": "noun",
+    "example": "enthaltene Makronährstoffe Kohlenhydrate Fette und Proteine"
+  },
+  {
+    "german": "kommen",
+    "english": "come",
+    "type": "verb",
+    "example": "Ziel näher kommt Kernfrage Stimmt die"
+  },
+  {
+    "german": "können",
+    "english": "can",
+    "type": "verb",
+    "example": "Körperzusammensetzung erläutern können Faktoren kennen die"
+  },
+  {
+    "german": "Körp",
+    "english": "body",
+    "type": "noun",
+    "example": "der menschliche Körper Energie 66 3"
+  },
+  {
+    "german": "Körper",
+    "english": "body",
+    "type": "noun",
+    "example": "Selbstversorgung des Körpers auf In Zeiten"
+  },
+  {
+    "german": "körpereigenen",
+    "english": "endogenous",
+    "type": "verb",
+    "example": "Nahrungsstoffen und körpereigenen Stoffen resultieren So"
+  },
+  {
+    "german": "Körperlich",
+    "english": "physical",
+    "type": "noun",
+    "example": "und die körperliche Aktivität Leistungsumsatz als"
+  },
+  {
+    "german": "kosen",
+    "english": "costs",
+    "type": "verb",
+    "example": "Dieses Anlegen kostet Energie Werden aus"
+  },
+  {
+    "german": "Kraft",
+    "english": "strength",
+    "type": "noun",
+    "example": "Infektanfälligkeit Reduzierte Kraft und Leistungsfähigkeit Abnehmende"
+  },
+  {
+    "german": "Kreati",
+    "english": "creatine",
+    "type": "noun",
+    "example": "Speicherkapazitäten für Kreatin und Glykogen ergibt"
+  },
+  {
+    "german": "Kreislauf",
+    "english": "circulation",
+    "type": "noun",
+    "example": "des Herz Kreislauf Systems die Atmung"
+  },
+  {
+    "german": "Kund",
+    "english": "customer",
+    "type": "noun",
+    "example": "gut der Kunde mit den berechneten"
+  },
+  {
+    "german": "Lag",
+    "english": "position",
+    "type": "noun",
+    "example": "in der Lage sein ein Kaloriendefizit"
+  },
+  {
+    "german": "langen",
+    "english": "long",
+    "type": "verb",
+    "example": "zurückgreifen Auf lange Sicht führt eine"
+  },
+  {
+    "german": "langfristig",
+    "english": "long-term",
+    "type": "adjective",
+    "example": "Risiken einer langfristig zu niedrigen Energieverfügbarkeit"
+  },
+  {
+    "german": "langsam",
+    "english": "slow",
+    "type": "adjective",
+    "example": "der Grundumsatz langsam wieder ab Körpergröße"
+  },
+  {
+    "german": "Lauf",
+    "english": "run",
+    "type": "noun",
+    "example": "3 Vorbemerkung Laufen Springen Atmen für"
+  },
+  {
+    "german": "Leb",
+    "english": "liver",
+    "type": "noun",
+    "example": "Energie Gehirn Leber und Muskulatur benötigen"
+  },
+  {
+    "german": "leben",
+    "english": "live",
+    "type": "verb",
+    "example": "tropischen Regionen leben niedriger ist als"
+  },
+  {
+    "german": "Lebergeweb",
+    "english": "liver tissue",
+    "type": "noun",
+    "example": "Muskel und Lebergewebe sowie das Blut"
+  },
+  {
+    "german": "Leberglykog",
+    "english": "liver glycogen",
+    "type": "noun",
+    "example": "5 3 Leberglykogen Neben den Muskelzellen"
+  },
+  {
+    "german": "legen",
+    "english": "lay",
+    "type": "verb",
+    "example": "essen muss legt der Körper Energiereserven"
+  },
+  {
+    "german": "Leistung",
+    "english": "performance",
+    "type": "noun",
+    "example": "Gesundheit und Leistung ist Oftmals kommen"
+  },
+  {
+    "german": "lernen",
+    "english": "learn",
+    "type": "verb",
+    "example": "der Energieverfügbarkeit lernst du zudem die"
+  },
+  {
+    "german": "Low",
+    "english": "Low",
+    "type": "noun",
+    "example": "niedriger Energieverfügbarkeit Low Energy Availability LEA"
+  },
+  {
+    "german": "Man",
+    "english": "one",
+    "type": "noun",
+    "example": "Prozessen nennt man Gesamtumsatz 3 2"
+  },
+  {
+    "german": "Manche",
+    "english": "some",
+    "type": "noun",
+    "example": "Rezeptoren ausbleibt Manche Forscher vermuten in"
+  },
+  {
+    "german": "man",
+    "english": "one",
+    "type": "verb",
+    "example": "Prozessen nennt man Gesamtumsatz 3 2"
+  },
+  {
+    "german": "Mangel",
+    "english": "deficiency",
+    "type": "noun",
+    "example": "regelmäßig ein Mangel an Energieverfügbarkeit besteht"
+  },
+  {
+    "german": "Mass",
+    "english": "mass",
+    "type": "noun",
+    "example": "Kilogramm fettfreier Masse zur Verfügung steht"
+  },
+  {
+    "german": "Maß",
+    "english": "measure",
+    "type": "noun",
+    "example": "das richtige Maß zu finden Eine"
+  },
+  {
+    "german": "Medikament",
+    "english": "medication",
+    "type": "noun",
+    "example": "Belastung Schmerz Medikamente Erkrankungen Klima DEBInet"
+  },
+  {
+    "german": "mehrere",
+    "english": "several",
+    "type": "verb",
+    "example": "speicherung In mehreren wenn auch nicht"
+  },
+  {
+    "german": "Menge",
+    "english": "amount",
+    "type": "noun",
+    "example": "Körperoberfläche die Menge an Körpergewebe und"
+  },
+  {
+    "german": "Mensch",
+    "english": "person",
+    "type": "noun",
+    "example": "überlebt ein Mensch nur wenige Wochen"
+  },
+  {
+    "german": "Met",
+    "english": "MET",
+    "type": "noun",
+    "example": "metabolischen Äquivalents MET lässt sich zwar"
+  },
+  {
+    "german": "Mit",
+    "english": "with",
+    "type": "noun",
+    "example": "diesem Modul Mit dem Kennenlernen der"
+  },
+  {
+    "german": "mit",
+    "english": "with",
+    "type": "verb",
+    "example": "diesem Modul Mit dem Kennenlernen der"
+  },
+  {
+    "german": "Modul",
+    "english": "module",
+    "type": "noun",
+    "example": "Modul 3 Energiebedarf und speicherung 3"
+  },
+  {
+    "german": "möglich",
+    "english": "possible",
+    "type": "adjective",
+    "example": "des Grundumsatzes möglich Oftmals genügen aber"
+  },
+  {
+    "german": "Möglichkeit",
+    "english": "possibility",
+    "type": "noun",
+    "example": "Müller die Möglichkeit den Grundumsatz nach"
+  },
+  {
+    "german": "Muskel",
+    "english": "muscle",
+    "type": "noun",
+    "example": "Verhältnis von Muskel und Fettmasse begründen"
+  },
+  {
+    "german": "Muskelzelle",
+    "english": "muscle cell",
+    "type": "noun",
+    "example": "sie in Muskelzellen und wie wir"
+  },
+  {
+    "german": "Muskulatur",
+    "english": "musculature",
+    "type": "noun",
+    "example": "Leber und Muskulatur benötigen jeweils etwa"
+  },
+  {
+    "german": "müssen",
+    "english": "must",
+    "type": "verb",
+    "example": "Muskeltonus Außerdem müssen alle Organe mit"
+  },
+  {
+    "german": "Nach",
+    "english": "after",
+    "type": "noun",
+    "example": "lebenserhaltend waren Nach Bearbeitung von Modul"
+  },
+  {
+    "german": "Nachfolgend",
+    "english": "following",
+    "type": "noun",
+    "example": "wir uns nachfolgend näher anschauen Im"
+  },
+  {
+    "german": "nächsten",
+    "english": "next",
+    "type": "verb",
+    "example": "du die nächsten wichtigen Tools deiner"
+  },
+  {
+    "german": "Nachteil",
+    "english": "disadvantage",
+    "type": "noun",
+    "example": "und die Nachteile und Risiken einer"
+  },
+  {
+    "german": "Nahrung",
+    "english": "food",
+    "type": "noun",
+    "example": "Energiezufuhr über Nahrung Energieverbrauch Proteine Kohlenhydrate"
+  },
+  {
+    "german": "Nahrungszufuhr",
+    "english": "food intake",
+    "type": "noun",
+    "example": "eine regelmäßige Nahrungszufuhr zwingend angewiesen ist"
+  },
+  {
+    "german": "nämlich",
+    "english": "namely",
+    "type": "adjective",
+    "example": "Formeln ist nämlich dass sie sich"
+  },
+  {
+    "german": "Neb",
+    "english": "besides",
+    "type": "noun",
+    "example": "Prozentsatz Körperzusammensetzung Neben der Gewebemasse an"
+  },
+  {
+    "german": "nehmen",
+    "english": "take",
+    "type": "verb",
+    "example": "lassen Schilddrüsenhormone nehmen Einfluss auf zahlreiche"
+  },
+  {
+    "german": "Neubildung",
+    "english": "formation",
+    "type": "noun",
+    "example": "B die Neubildung von Eiweißen und"
+  },
+  {
+    "german": "neuen",
+    "english": "new",
+    "type": "verb",
+    "example": "Für den neuen Gesamtenergiebedarf ergibt sich"
+  },
+  {
+    "german": "Neuer",
+    "english": "newer",
+    "type": "noun",
+    "example": "als Untergrenze Neuere Daten zeigen dass"
+  },
+  {
+    "german": "Nier",
+    "english": "kidney",
+    "type": "noun",
+    "example": "Herz oder Niere zusammen Auch das"
+  },
+  {
+    "german": "Nit",
+    "english": "NIT",
+    "type": "noun",
+    "example": "nahrungsinduzierte Thermogenese NIT genannt Das Ausmaß"
+  },
+  {
+    "german": "notwendig",
+    "english": "necessary",
+    "type": "adjective",
+    "example": "Aufwand weder notwendig noch rentabel ist"
+  },
+  {
+    "german": "Nun",
+    "english": "now",
+    "type": "noun",
+    "example": "ihrer Freizeit Nun müssen die jeweiligen"
+  },
+  {
+    "german": "nutzbar",
+    "english": "usable",
+    "type": "adjective",
+    "example": "zur Energiebereitstellung nutzbar gemacht werden Infolge"
+  },
+  {
+    "german": "Nutzung",
+    "english": "use",
+    "type": "noun",
+    "example": "und die Nutzung von Energie Ernährungsberater"
+  },
+  {
+    "german": "oben",
+    "english": "above",
+    "type": "verb",
+    "example": "dann nach oben oder unten angepasst"
+  },
+  {
+    "german": "Obwohl",
+    "english": "although",
+    "type": "noun",
+    "example": "Alter Jahre Obwohl die Harris Benedict"
+  },
+  {
+    "german": "Ohn",
+    "english": "without",
+    "type": "noun",
+    "example": "angewiesen ist Ohne Energiezufuhr überlebt ein"
+  },
+  {
+    "german": "Organ",
+    "english": "organ",
+    "type": "noun",
+    "example": "müssen alle Organe mit nährstoff und"
+  },
+  {
+    "german": "Organismu",
+    "english": "organism",
+    "type": "noun",
+    "example": "der menschliche Organismus überleben und funktionieren"
+  },
+  {
+    "german": "Pal",
+    "english": "PAL",
+    "type": "noun",
+    "example": "dem sogenannten PAL Faktor multipliziert wird"
+  },
+  {
+    "german": "Passiert",
+    "english": "happens",
+    "type": "noun",
+    "example": "hyperkalorische Ernährung Passiert das über einen"
+  },
+  {
+    "german": "Phas",
+    "english": "phase",
+    "type": "noun",
+    "example": "Energiespeicher In Phasen des Energieüberschusses wird"
+  },
+  {
+    "german": "Prinzip",
+    "english": "principle",
+    "type": "noun",
+    "example": "verdeutlicht das Prinzip In die Waagschale"
+  },
+  {
+    "german": "Produktion",
+    "english": "production",
+    "type": "noun",
+    "example": "zu niedrige Produktionen mancher Stoffe kann"
+  },
+  {
+    "german": "produzieren",
+    "english": "produce",
+    "type": "verb",
+    "example": "Darüber hinaus produziert es Hormone 3"
+  },
+  {
+    "german": "Protei",
+    "english": "protein",
+    "type": "noun",
+    "example": "Vitamine und Protein Darum stecken in"
+  },
+  {
+    "german": "Prozess",
+    "english": "process",
+    "type": "noun",
+    "example": "allen energieverbrauchenden Prozessen nennt man Gesamtumsatz"
+  },
+  {
+    "german": "Pul",
+    "english": "pulse",
+    "type": "noun",
+    "example": "beeinflusst Der Puls steigt und das"
+  },
+  {
+    "german": "Reaktion",
+    "english": "reaction",
+    "type": "noun",
+    "example": "koordination Schlechtere Reaktions und Konzentrationsfähigkeit Geringere"
+  },
+  {
+    "german": "Red",
+    "english": "RED",
+    "type": "noun",
+    "example": "Energiedefizit Syndrom RED S führen einem"
+  },
+  {
+    "german": "Reduziert",
+    "english": "reduced",
+    "type": "noun",
+    "example": "Wachstumshormone Leptin Reduzierte Knochendichte Risiko für"
+  },
+  {
+    "german": "Regel",
+    "english": "rule",
+    "type": "noun",
+    "example": "Auf diese Regel greift man bei"
+  },
+  {
+    "german": "Regeneratio",
+    "english": "regeneration",
+    "type": "noun",
+    "example": "oder auch Regeneration nach Krankheiten oder"
+  },
+  {
+    "german": "Relativ",
+    "english": "relative",
+    "type": "noun",
+    "example": "zum sogenannten Relativen Energiedefizit Syndrom RED"
+  },
+  {
+    "german": "Relevant",
+    "english": "relevant",
+    "type": "noun",
+    "example": "aber nicht Relevant werden solche Methoden"
+  },
+  {
+    "german": "richtig",
+    "english": "correct",
+    "type": "verb",
+    "example": "gilt das richtige Maß zu finden"
+  },
+  {
+    "german": "Rolle",
+    "english": "role",
+    "type": "noun",
+    "example": "eine entscheidende Rolle für die Höhe"
+  },
+  {
+    "german": "schnell",
+    "english": "quick",
+    "type": "verb",
+    "example": "Für die schnelle Berechnung des Grundumsatzes"
+  },
+  {
+    "german": "schon",
+    "english": "already",
+    "type": "verb",
+    "example": "die Zufuhr schon jetzt zumindest an"
+  },
+  {
+    "german": "Schritt",
+    "english": "step",
+    "type": "noun",
+    "example": "die einzelnen Schritte zur Ermittlung des"
+  },
+  {
+    "german": "Sein",
+    "english": "his",
+    "type": "noun",
+    "example": "er auf seine eigenen Energiereserven zurückgreifen"
+  },
+  {
+    "german": "seinen",
+    "english": "his",
+    "type": "verb",
+    "example": "er auf seine eigenen Energiereserven zurückgreifen"
+  },
+  {
+    "german": "Seit",
+    "english": "page",
+    "type": "noun",
+    "example": "Die folgende Seite fasst die einzelnen"
+  },
+  {
+    "german": "setzen",
+    "english": "consists",
+    "type": "verb",
+    "example": "restliche Teil setzt sich aus dem"
+  },
+  {
+    "german": "Sie",
+    "english": "they",
+    "type": "noun",
+    "example": "sollten steuern sie mit nur 4"
+  },
+  {
+    "german": "Sin",
+    "english": "sense",
+    "type": "noun",
+    "example": "kann es Sinn ergeben auch unter"
+  },
+  {
+    "german": "solchen",
+    "english": "such",
+    "type": "verb",
+    "example": "Relevant werden solche Methoden erst in"
+  },
+  {
+    "german": "Sorg",
+    "english": "worry",
+    "type": "noun",
+    "example": "Grundumsatz beeinflussen Sorgen sie für Störungen"
+  },
+  {
+    "german": "Speich",
+    "english": "storage",
+    "type": "noun",
+    "example": "wozu diese Speicher dienen www online"
+  },
+  {
+    "german": "Speicherung",
+    "english": "storage",
+    "type": "noun",
+    "example": "Energiebedarf und speicherung 3 1 Warum"
+  },
+  {
+    "german": "spielen",
+    "english": "play",
+    "type": "verb",
+    "example": "an sich spielt auch deren Zusammensetzung"
+  },
+  {
+    "german": "Sport",
+    "english": "sport",
+    "type": "noun",
+    "example": "und beim Sport Des Weiteren gehören"
+  },
+  {
+    "german": "Sportl",
+    "english": "athlete",
+    "type": "noun",
+    "example": "und ambitionierte Sportler bis zu 400"
+  },
+  {
+    "german": "sprechen",
+    "english": "speak",
+    "type": "verb",
+    "example": "und Körpergewicht sprechen kann spricht man"
+  },
+  {
+    "german": "ständig",
+    "english": "constantly",
+    "type": "adjective",
+    "example": "und Aktivität ständig Manche Erkrankungen z"
+  },
+  {
+    "german": "stattfinden",
+    "english": "take place",
+    "type": "verb",
+    "example": "eine Evaluation stattfinden Dabei wird geprüft"
+  },
+  {
+    "german": "stehen",
+    "english": "stand",
+    "type": "verb",
+    "example": "der Absorption stehen enthaltene Makronährstoffe Kohlenhydrate"
+  },
+  {
+    "german": "stehenden",
+    "english": "standing",
+    "type": "verb",
+    "example": "gehende oder stehende Tätigkeit z B"
+  },
+  {
+    "german": "stellen",
+    "english": "establish",
+    "type": "verb",
+    "example": "längeren Zeitraum stellt sich eine Gewichtszunahme"
+  },
+  {
+    "german": "Stimmt",
+    "english": "correct",
+    "type": "noun",
+    "example": "kommt Kernfrage Stimmt die Richtung Je"
+  },
+  {
+    "german": "Stoff",
+    "english": "substance",
+    "type": "noun",
+    "example": "und körpereigenen Stoffen resultieren So wirken"
+  },
+  {
+    "german": "Substrat",
+    "english": "substrate",
+    "type": "noun",
+    "example": "um die Substrate zu verdauen zu"
+  },
+  {
+    "german": "System",
+    "english": "system",
+    "type": "noun",
+    "example": "Herz Kreislauf Systems die Atmung oder"
+  },
+  {
+    "german": "Tab",
+    "english": "table",
+    "type": "noun",
+    "example": "folgende Tabelle Tab 3 1 PAL"
+  },
+  {
+    "german": "Tag",
+    "english": "day",
+    "type": "noun",
+    "example": "nur wenige Tage Welche Faktoren den"
+  },
+  {
+    "german": "Tätigkeit",
+    "english": "activity",
+    "type": "noun",
+    "example": "anspruchsvoller eine Tätigkeit ist desto höher"
+  },
+  {
+    "german": "Teil",
+    "english": "part",
+    "type": "noun",
+    "example": "einen bestimmten Teil an Energie wobei"
+  },
+  {
+    "german": "tragen",
+    "english": "bear",
+    "type": "verb",
+    "example": "besser Rechnung tragen Im Gegensatz zu"
+  },
+  {
+    "german": "Training",
+    "english": "training",
+    "type": "noun",
+    "example": "bei entsprechendem Training durch Muskelmasse Negative"
+  },
+  {
+    "german": "Trakt",
+    "english": "tract",
+    "type": "noun",
+    "example": "Magen Darm Trakt Gefäße etc Kaloriendefizit"
+  },
+  {
+    "german": "transportieren",
+    "english": "transport",
+    "type": "verb",
+    "example": "absorbieren zu transportieren umzuformen und zu"
+  },
+  {
+    "german": "Trotz",
+    "english": "despite",
+    "type": "noun",
+    "example": "absorbiert werden Trotz einer sehr hohen"
+  },
+  {
+    "german": "Umwandlung",
+    "english": "conversion",
+    "type": "noun",
+    "example": "einher Die Umwandlung von Glukose in"
+  },
+  {
+    "german": "unter",
+    "english": "under",
+    "type": "noun",
+    "example": "2 Energiebilanz Unter dem Begriff Energiebilanz"
+  },
+  {
+    "german": "unter",
+    "english": "lower",
+    "type": "verb",
+    "example": "Bereich des unteren Limits der Energieverfügbarkeit"
+  },
+  {
+    "german": "Unterschied",
+    "english": "difference",
+    "type": "noun",
+    "example": "Person große Unterschiede entstehen Jeder Mensch"
+  },
+  {
+    "german": "unterschiedlich",
+    "english": "different",
+    "type": "adjective",
+    "example": "jeden Tag unterschiedlich sein und von"
+  },
+  {
+    "german": "unterschiedlich",
+    "english": "different",
+    "type": "verb",
+    "example": "Grundumsatz zwischen unterschiedlichen Personen erklärt werden"
+  },
+  {
+    "german": "Uri",
+    "english": "urine",
+    "type": "noun",
+    "example": "über den Urin verloren Nahrungsbedingte Thermogenese"
+  },
+  {
+    "german": "Verbindung",
+    "english": "compound",
+    "type": "noun",
+    "example": "aus anderen Verbindungen produzieren Zusätzlich kann"
+  },
+  {
+    "german": "Verbrauch",
+    "english": "consumption",
+    "type": "noun",
+    "example": "Aufnahme und Verbrauch von Energie sind"
+  },
+  {
+    "german": "Verdauung",
+    "english": "digestion",
+    "type": "noun",
+    "example": "während der Verdauung in ihre einzelnen"
+  },
+  {
+    "german": "verfügen",
+    "english": "have",
+    "type": "verb",
+    "example": "250 g verfügt können gut trainierte"
+  },
+  {
+    "german": "Verfügung",
+    "english": "available",
+    "type": "noun",
+    "example": "Energiegewinnung zur Verfügung Jeder der Hauptnährstoffe"
+  },
+  {
+    "german": "verloren",
+    "english": "lost",
+    "type": "verb",
+    "example": "den Urin verloren Nahrungsbedingte Thermogenese Ein"
+  },
+  {
+    "german": "Verlust",
+    "english": "loss",
+    "type": "noun",
+    "example": "Verdauungsverluste und Verluste durch Wärmeenergie die"
+  },
+  {
+    "german": "verschiedenen",
+    "english": "various",
+    "type": "verb",
+    "example": "Werte für verschiedene Berufs und Freizeitaktivitäten"
+  },
+  {
+    "german": "Versorgung",
+    "english": "supply",
+    "type": "noun",
+    "example": "er zur Versorgung der Muskeln mit"
+  },
+  {
+    "german": "verstehen",
+    "english": "understand",
+    "type": "verb",
+    "example": "Begriff Energiebilanz versteht man das Verhältnis"
+  },
+  {
+    "german": "Verstoffwechselung",
+    "english": "metabolism",
+    "type": "noun",
+    "example": "Infolge unvollständiger Verstoffwechselung geht z B"
+  },
+  {
+    "german": "Viel",
+    "english": "many",
+    "type": "noun",
+    "example": "den Grundumsatz Viele weitere Hormone spielen"
+  },
+  {
+    "german": "vielen",
+    "english": "many",
+    "type": "verb",
+    "example": "die von vielen gehassten Fettpolster welche"
+  },
+  {
+    "german": "Vitamin",
+    "english": "vitamin",
+    "type": "noun",
+    "example": "Wasser fettlösliche Vitamine und Protein Darum"
+  },
+  {
+    "german": "Wärm",
+    "english": "heat",
+    "type": "noun",
+    "example": "über die Wärme abgegeben wird und"
+  },
+  {
+    "german": "Was",
+    "english": "what",
+    "type": "noun",
+    "example": "der Körperwärme was zu einem erhöhten"
+  },
+  {
+    "german": "Weil",
+    "english": "because",
+    "type": "noun",
+    "example": "Faktoren verzichtet weil der damit verbundene"
+  },
+  {
+    "german": "Weiter",
+    "english": "further",
+    "type": "noun",
+    "example": "ausgeglichenen Energiebilanz Weitere bedeutsame Faktoren sind"
+  },
+  {
+    "german": "weiteren",
+    "english": "further",
+    "type": "verb",
+    "example": "ausgeglichenen Energiebilanz Weitere bedeutsame Faktoren sind"
+  },
+  {
+    "german": "Welch",
+    "english": "which",
+    "type": "noun",
+    "example": "wenige Tage Welche Faktoren den Energiebedarf"
+  },
+  {
+    "german": "Wen",
+    "english": "when",
+    "type": "noun",
+    "example": "wird Auch wenn Kohlenhydrate mengenmäßig den"
+  },
+  {
+    "german": "wenig",
+    "english": "little",
+    "type": "adjective",
+    "example": "Trainingstagen ein wenig erhöhen Beratungspraxis Das"
+  },
+  {
+    "german": "wenigen",
+    "english": "few",
+    "type": "verb",
+    "example": "Mensch nur wenige Wochen ohne Flüssigkeitszufuhr"
+  },
+  {
+    "german": "Wer",
+    "english": "who",
+    "type": "noun",
+    "example": "Schrittzähler benutzen Wer weniger als 5000"
+  },
+  {
+    "german": "Werd",
+    "english": "are",
+    "type": "noun",
+    "example": "Nahrungsbestandteile aufgespalten werden Nach der Absorption"
+  },
+  {
+    "german": "werden",
+    "english": "become",
+    "type": "verb",
+    "example": "Nahrungsbestandteile aufgespalten werden Nach der Absorption"
+  },
+  {
+    "german": "Wert",
+    "english": "value",
+    "type": "noun",
+    "example": "Überschlagen eines Werts auch Daumenregel Mit"
+  },
+  {
+    "german": "Wichtig",
+    "english": "important",
+    "type": "noun",
+    "example": "Grundumsatz Einflussfaktoren Wichtige Einflussfaktoren für den"
+  },
+  {
+    "german": "Wie",
+    "english": "how",
+    "type": "noun",
+    "example": "3 5 Wie wird Energie gespeichert"
+  },
+  {
+    "german": "wiegen",
+    "english": "weighs",
+    "type": "verb",
+    "example": "4 Sie wiegt 59 kg und"
+  },
+  {
+    "german": "winzigen",
+    "english": "tiny",
+    "type": "verb",
+    "example": "beansprucht einen winzigen Teil an Energie"
+  },
+  {
+    "german": "Wird",
+    "english": "is",
+    "type": "noun",
+    "example": "5 Wie wird Energie gespeichert 81"
+  },
+  {
+    "german": "Wirkung",
+    "english": "effect",
+    "type": "noun",
+    "example": "Art wärmeisolierende Wirkung die den Männern"
+  },
+  {
+    "german": "Wiss",
+    "english": "knowledge",
+    "type": "noun",
+    "example": "solltest du Wissen warum der menschliche"
+  },
+  {
+    "german": "wurden",
+    "english": "were",
+    "type": "verb",
+    "example": "1919 publiziert wurden werden sie auch"
+  },
+  {
+    "german": "zählen",
+    "english": "count",
+    "type": "verb",
+    "example": "sichern Dazu zählen zum Beispiel die"
+  },
+  {
+    "german": "Ziel",
+    "english": "goal",
+    "type": "noun",
+    "example": "Makronährstoffverteilung seinem Ziel näher kommt Kernfrage"
+  },
+  {
+    "german": "Zucker",
+    "english": "sugar",
+    "type": "noun",
+    "example": "Fette umgewandeltem Zucker angelegt werden Dieses"
+  },
+  {
+    "german": "Zudem",
+    "english": "furthermore",
+    "type": "noun",
+    "example": "lernst du zudem die negativen Auswirkungen"
+  },
+  {
+    "german": "Zufuhr",
+    "english": "intake",
+    "type": "noun",
+    "example": "durch die Zufuhr von Nahrungsmitteln die"
+  },
+  {
+    "german": "zuführen",
+    "english": "supplied",
+    "type": "verb",
+    "example": "der Nahrung zugeführt jedoch ungenutzt über"
+  },
+  {
+    "german": "zuführen",
+    "english": "supplied",
+    "type": "verb",
+    "example": "Teil der zugeführten Energie muss aufgewendet"
+  },
+  {
+    "german": "Zum",
+    "english": "to",
+    "type": "noun",
+    "example": "Dazu zählen zum Beispiel die von"
+  },
+  {
+    "german": "zumindest",
+    "english": "at least",
+    "type": "verb",
+    "example": "schon jetzt zumindest an Trainingstagen ein"
+  },
+  {
+    "german": "Zur",
+    "english": "to",
+    "type": "noun",
+    "example": "erstaunliche Fähigkeit zur Selbstversorgung des Körpers"
+  },
+  {
+    "german": "zurückgreifen",
+    "english": "fall back on",
+    "type": "verb",
+    "example": "eigenen Energiereserven zurückgreifen und damit sein"
+  },
+  {
+    "german": "zusammen",
+    "english": "together",
+    "type": "verb",
+    "example": "nochmals übersichtlich zusammen www online trainer"
+  },
+  {
+    "german": "zusätzlich",
+    "english": "additional",
+    "type": "adjective",
+    "example": "Adipositas und zusätzlich eine bei Untergewicht"
+  },
+  {
+    "german": "zusätzlich",
+    "english": "additional",
+    "type": "verb",
+    "example": "für die zusätzliche Energiezufuhr bei ausschließlichem"
+  },
+  {
+    "german": "zweit",
+    "english": "second",
+    "type": "verb",
+    "example": "in der zweiten Lebenshälfte Durch einen"
+  },
+  {
+    "german": "zwischen",
+    "english": "between",
+    "type": "verb",
+    "example": "im Grundumsatz zwischen unterschiedlichen Personen erklärt"
   }
 ]
-
