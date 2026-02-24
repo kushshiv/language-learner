@@ -1,0 +1,787 @@
+[
+  {
+    "german": "Stoffwechsel",
+    "english": "metabolism",
+    "type": "noun",
+    "example": "In diesem Modul steht der Stoffwechsel der Makronährstoffe im Fokus.",
+    "context": "Stoffwechsel bezeichnet die Umwandlung der energieliefernden Nährstoffe in Energie."
+  },
+  {
+    "german": "Leber",
+    "english": "liver",
+    "type": "noun",
+    "example": "Die Leber ist Stoffwechsel- und Speicherorgan, Entgiftungszentrale und Produktionsstätte.",
+    "context": "Alle mit der Nahrung aufgenommenen Nähr- und Giftstoffe gelangen über die Pfortader zunächst in die Leber."
+  },
+  {
+    "german": "Makronährstoff",
+    "english": "macronutrient",
+    "type": "noun",
+    "example": "In diesem Modul steht der Stoffwechsel der Makronährstoffe im Fokus.",
+    "context": "Makronährstoffe sind energieliefernde Nährstoffe wie Kohlenhydrate, Fette und Proteine."
+  },
+  {
+    "german": "Nährstoff",
+    "english": "nutrient",
+    "type": "noun",
+    "example": "Die Umwandlung der energieliefernden Nährstoffe in Energie steht im Fokus.",
+    "context": "Alle mit der Nahrung aufgenommenen Nähr- und Giftstoffe gelangen über die Pfortader in die Leber."
+  },
+  {
+    "german": "energieliefernd",
+    "english": "energy-supplying; energy-yielding",
+    "type": "adjective",
+    "example": "Die Umwandlung der energieliefernden Nährstoffe in Energie ist zentral.",
+    "context": "Energieliefernde Nährstoffe wie Kohlenhydrate und Fette werden im Stoffwechsel zu Energie umgewandelt."
+  },
+  {
+    "german": "Energie",
+    "english": "energy",
+    "type": "noun",
+    "example": "Die Umwandlung der Nährstoffe in Energie ist die Aufgabe des Energiestoffwechsels.",
+    "context": "Energie wird in der Zelle in Form von energiereichen Phosphatverbindungen wie ATP gespeichert."
+  },
+  {
+    "german": "Galle",
+    "english": "bile",
+    "type": "noun",
+    "example": "Die Leber ist auch Gallensäureproduzent.",
+    "context": "Die Leber produziert aus Fetten komplexe Verbindungen wie Cholesterin und Gallensäuren für die Fettabsorption."
+  },
+  {
+    "german": "Gallensäure",
+    "english": "bile acid",
+    "type": "noun",
+    "example": "Die Leber ist Gallensäureproduzent.",
+    "context": "Gallensäuren werden in der Leber gebildet und über den enterohepatischen Kreislauf teilweise recycelt."
+  },
+  {
+    "german": "Umschlagplatz",
+    "english": "hub; transshipment point",
+    "type": "noun",
+    "example": "Die Leber fungiert als zentraler Umschlagplatz im Körper.",
+    "context": "Sie verteilt die Makronährstoffe im ganzen Körper und sichert so die Energieversorgung aller Gewebe und Organe."
+  },
+  {
+    "german": "Gewebe",
+    "english": "tissue",
+    "type": "noun",
+    "example": "Sie sichert die Energieversorgung aller Gewebe und Organe.",
+    "context": "Die Leber verteilt die Makronährstoffe im ganzen Körper und stellt Energie für Organe und Gewebe bereit."
+  },
+  {
+    "german": "Zelle",
+    "english": "cell",
+    "type": "noun",
+    "example": "Danach wirst du lernen, was mit den Nährstoffen geschieht, wenn sie in den Zellen angelangt sind.",
+    "context": "In den Zellen wird aus Makronährstoffen Energie gewonnen, die in Form von ATP gespeichert wird."
+  },
+  {
+    "german": "Energiebereitstellung",
+    "english": "energy supply; energy provision",
+    "type": "noun",
+    "example": "4.2 Energiebereitstellung der Zelle",
+    "context": "Du lernst, welche Formen der Energiebereitstellung es gibt und wann diese stattfinden."
+  },
+  {
+    "german": "Energieträger",
+    "english": "energy carrier",
+    "type": "noun",
+    "example": "Die Energieträger des Körpers kennst du nach diesem Modul.",
+    "context": "Adenosintriphosphat (ATP) ist der wichtigste Energieträger des Körpers."
+  },
+  {
+    "german": "Energiegewinnung",
+    "english": "energy production; energy generation",
+    "type": "noun",
+    "example": "Du lernst, welche Bedeutung die unterschiedlichen Energiegewinnungsprozesse haben.",
+    "context": "Glukose und Fettsäuren dienen als Ausgangssubstrate für die Energiegewinnung in der Zelle."
+  },
+  {
+    "german": "Energiespeicher",
+    "english": "energy store",
+    "type": "noun",
+    "example": "Ein beträchtlicher Anteil der Energie wird auf körpereigene Energiespeicher übertragen.",
+    "context": "ATP ist der direkte Energiespeicher, während Glykogen und Fett langfristige Energiespeicher sind."
+  },
+  {
+    "german": "Speicherorgan",
+    "english": "storage organ",
+    "type": "noun",
+    "example": "Die Leber ist Stoffwechsel- und Speicherorgan.",
+    "context": "Die Leber speichert Zucker, bestimmte Vitamine und Mineralstoffe und gibt sie bei Bedarf wieder ab."
+  },
+  {
+    "german": "entgiften",
+    "english": "to detoxify",
+    "type": "verb",
+    "example": "Die Leber dient als Entgiftungszentrale.",
+    "context": "Sie entgiftet sowohl von außen zugeführte als auch im Stoffwechsel entstandene Giftstoffe."
+  },
+  {
+    "german": "Entgiftung",
+    "english": "detoxification",
+    "type": "noun",
+    "example": "Ein weiteres großes Aufgabengebiet der Leber ist die Entgiftung.",
+    "context": "Bei der Entgiftung werden Giftstoffe umgewandelt und anschließend über Nieren oder Darm ausgeschieden."
+  },
+  {
+    "german": "Pfortader",
+    "english": "portal vein",
+    "type": "noun",
+    "example": "Alle Nähr- und Giftstoffe gelangen über die Pfortader zunächst in die Leber.",
+    "context": "Die Pfortader transportiert Blut aus dem Darm zur Leber, wo die Stoffe weiterverarbeitet werden."
+  },
+  {
+    "german": "umwandeln",
+    "english": "to convert; to transform",
+    "type": "verb",
+    "example": "In den Leberzellen werden die Stoffe umgewandelt und je nach Bedarf verwertet.",
+    "context": "Die Leber kann Fruktose in Glukose oder Fett umwandeln oder in die Glykolyse einspeisen."
+  },
+  {
+    "german": "speichern",
+    "english": "to store",
+    "type": "verb",
+    "example": "Stoffe werden je nach Bedarf sofort verwertet, gespeichert oder weiter verteilt.",
+    "context": "Die Leber speichert Zucker, Vitamine, Mineralstoffe und kann auch Fett einlagern."
+  },
+  {
+    "german": "verteilen",
+    "english": "to distribute",
+    "type": "verb",
+    "example": "Die Leber verteilt die Makronährstoffe im ganzen Körper.",
+    "context": "Über den Blutkreislauf werden Nährstoffe von der Leber zu Organen und Geweben verteilt."
+  },
+  {
+    "german": "Blutzuckerspiegel",
+    "english": "blood sugar level",
+    "type": "noun",
+    "example": "Außerdem reguliert die Leber direkt den Blutzuckerspiegel.",
+    "context": "Durch Glykogenabbau und Glukoneogenese sichert die Leber den Blutzuckerspiegel in Hungerphasen."
+  },
+  {
+    "german": "Glukose",
+    "english": "glucose",
+    "type": "noun",
+    "example": "Zuckermoleküle baut die Leber zu Traubenzucker (Glukose) um.",
+    "context": "Glukose wird als wichtiger Energieträger über den Blutkreislauf im Körper verteilt."
+  },
+  {
+    "german": "Fruktose",
+    "english": "fructose",
+    "type": "noun",
+    "example": "In der Leber wird Fruktose je nach Stoffwechsellage in Glukose oder Fett umgewandelt.",
+    "context": "Fruktose kann in die Energiegewinnung durch Glukose (Glykolyse) eingespeist werden."
+  },
+  {
+    "german": "Galaktose",
+    "english": "galactose",
+    "type": "noun",
+    "example": "Galaktose kann zu Glukose umgewandelt werden oder in die Glykolyse einfließen.",
+    "context": "Neben Glukose und Fruktose ist Galaktose ein weiterer Einfachzucker im Kohlenhydratstoffwechsel."
+  },
+  {
+    "german": "Glykolyse",
+    "english": "glycolysis",
+    "type": "noun",
+    "example": "Die Energiegewinnung aus Kohlenhydraten beginnt immer mit der Glykolyse.",
+    "context": "In der Glykolyse wird ein Molekül Glukose in zehn Schritten zu zwei Molekülen Pyruvat abgebaut."
+  },
+  {
+    "german": "Glykogen",
+    "english": "glycogen",
+    "type": "noun",
+    "example": "Ein zweiter Weg der Leber ist der Abbau von Leberglykogen zu Glukose.",
+    "context": "Sind die Leberglykogenspeicher aufgebraucht, läuft die Glukoneogenese zur Glukosebereitstellung an."
+  },
+  {
+    "german": "Hungerstoffwechsel",
+    "english": "fasting metabolism",
+    "type": "noun",
+    "example": "Bei Ausbleiben der Nahrungszufuhr bildet die Leber im Hungerstoffwechsel vermehrt Ketonkörper.",
+    "context": "Im Hungerstoffwechsel dienen Ketonkörper den Organen als Glukoseersatz."
+  },
+  {
+    "german": "Ketonkörper",
+    "english": "ketone bodies",
+    "type": "noun",
+    "example": "Ketonkörper dienen den Organen in Notzeiten als Glukoseersatz.",
+    "context": "Bei Kohlenhydratmangel bildet die Leber aus Fettsäuren und Aminosäuren Ketonkörper."
+  },
+  {
+    "german": "Proteinstoffwechsel",
+    "english": "protein metabolism",
+    "type": "noun",
+    "example": "Im Proteinstoffwechsel werden Aminosäuren verteilt oder zu körpereigenen Eiweißen zusammengebaut.",
+    "context": "Die Leber stellt im Proteinstoffwechsel Transporteiweiße, Gerinnungsfaktoren und Hormone her."
+  },
+  {
+    "german": "Proteinbiosynthese",
+    "english": "protein biosynthesis",
+    "type": "noun",
+    "example": "Der Aufbau neuer körpereigener Eiweiße wird Proteinbiosynthese genannt.",
+    "context": "In der Leber werden Aminosäuren zu Proteinen wie Gerinnungsfaktoren und Transporteiweißen synthetisiert."
+  },
+  {
+    "german": "Fettstoffwechsel",
+    "english": "fat metabolism; lipid metabolism",
+    "type": "noun",
+    "example": "Die Leber produziert im Fettstoffwechsel Cholesterin und Gallensäuren.",
+    "context": "Im Fettstoffwechsel gewinnt die Leber Energie aus Fetten und baut sie in Transportpartikel ein."
+  },
+  {
+    "german": "Cholesterin",
+    "english": "cholesterol",
+    "type": "noun",
+    "example": "Die Leber produziert aus Fetten komplexe Verbindungen wie Cholesterin.",
+    "context": "Cholesterin ist Ausgangsstoff für Gallensäuren und bestimmte Hormone."
+  },
+  {
+    "german": "Speicherfett",
+    "english": "storage fat",
+    "type": "noun",
+    "example": "Überschüssige Glukose wird in Speicherfett umgewandelt.",
+    "context": "Die Leber kann überschüssige Kohlenhydrate in Fett umwandeln und im Fettgewebe speichern."
+  },
+  {
+    "german": "Giftstoff",
+    "english": "toxin; harmful substance",
+    "type": "noun",
+    "example": "Giftstoffe werden in der Leber umgewandelt und unschädlich gemacht.",
+    "context": "Zu den abzubauenden Giftstoffen gehören Alkohol und Ammoniak aus dem Eiweißstoffwechsel."
+  },
+  {
+    "german": "Alkohol",
+    "english": "alcohol",
+    "type": "noun",
+    "example": "Das populärste Gift, das abgebaut werden muss, ist Alkohol.",
+    "context": "Alkohol wird in der Leber entgiftet und seine Abbauprodukte über Nieren und Darm ausgeschieden."
+  },
+  {
+    "german": "Ammoniak",
+    "english": "ammonia",
+    "type": "noun",
+    "example": "Im Eiweißstoffwechsel fällt das giftige Ammoniak an.",
+    "context": "Die Leber formt Ammoniak zu harmlosem Harnstoff um, der über den Urin ausgeschieden wird."
+  },
+  {
+    "german": "Harnstoff",
+    "english": "urea",
+    "type": "noun",
+    "example": "Die Leber formt Ammoniak zu harmlosem Harnstoff um.",
+    "context": "Harnstoff ist ein wasserlösliches Endprodukt, das über die Nieren ausgeschieden wird."
+  },
+  {
+    "german": "Firewall",
+    "english": "firewall (protective barrier)",
+    "type": "noun",
+    "example": "Die Leber eliminiert eingewanderte Bakterien als eine Art Firewall.",
+    "context": "Über den Darm ins Blut gelangte Bakterien werden in der Leber abgefangen."
+  },
+  {
+    "german": "Leberverfettung",
+    "english": "fatty liver",
+    "type": "noun",
+    "example": "Ab einem gewissen Grad wird die Leberverfettung krankhaft.",
+    "context": "Übermäßige Fetteinlagerung in der Leber kann zu Entzündungen und schweren Lebererkrankungen führen."
+  },
+  {
+    "german": "Leberzirrhose",
+    "english": "liver cirrhosis",
+    "type": "noun",
+    "example": "Mit fortschreitender Schwere entsteht eine schwere Lebererkrankung, die Leberzirrhose.",
+    "context": "Bei Leberzirrhose geht funktionstüchtiges Lebergewebe zugrunde und die Leber kann ihre Aufgaben nicht mehr erfüllen."
+  },
+  {
+    "german": "regenerieren",
+    "english": "to regenerate",
+    "type": "verb",
+    "example": "Die Leber kann sich bei einem gesunden Lebensstil gut regenerieren.",
+    "context": "Solange die Schäden nicht zu schwer sind, kann sich die Leber weitgehend regenerieren."
+  },
+  {
+    "german": "Energiebereitstellung",
+    "english": "energy provision",
+    "type": "noun",
+    "example": "Nach Bearbeitung von Modul 4 verstehst du die unterschiedlichen Formen der Energiegewinnung und Energiebereitstellung.",
+    "context": "Es gibt verschiedene Formen der Energiebereitstellung, die je nach Situation im Körper genutzt werden."
+  },
+  {
+    "german": "Phosphatverbindung",
+    "english": "phosphate compound",
+    "type": "noun",
+    "example": "Speichermoleküle sind chemisch betrachtet energiereiche Phosphatverbindungen.",
+    "context": "Energie wird auf energiereiche Phosphatverbindungen wie ATP, ADP und Kreatinphosphat übertragen."
+  },
+  {
+    "german": "Adenosintriphosphat",
+    "english": "adenosine triphosphate",
+    "type": "noun",
+    "example": "Adenosintriphosphat (ATP) ist der wichtigste Energieträger des Körpers.",
+    "context": "ATP besteht aus Adenosin und drei Phosphatgruppen und speichert chemische Energie."
+  },
+  {
+    "german": "Adenosindiphosphat",
+    "english": "adenosine diphosphate",
+    "type": "noun",
+    "example": "Durch die Spaltung von ATP entsteht Adenosindiphosphat (ADP).",
+    "context": "ADP besitzt nur noch zwei Phosphatgruppen und kann im Energiestoffwechsel wieder zu ATP regeneriert werden."
+  },
+  {
+    "german": "Kreatinphosphat",
+    "english": "creatine phosphate",
+    "type": "noun",
+    "example": "In Muskelzellen spielt der Kreatinvorrat in Form von Kreatinphosphat eine Rolle.",
+    "context": "Kreatinphosphat dient der schnellen Resynthese von ATP zu Beginn einer Belastung."
+  },
+  {
+    "german": "oxidieren",
+    "english": "to oxidize",
+    "type": "verb",
+    "example": "Die energieliefernden Substrate werden in der Zelle oxidiert, um Energie zu gewinnen.",
+    "context": "Biologische Oxidation läuft schrittweise ab, damit die freiwerdende Energie auf ATP übertragen werden kann."
+  },
+  {
+    "german": "aerob",
+    "english": "aerobic; with oxygen",
+    "type": "adjective",
+    "example": "Man unterscheidet zwischen aeroben und anaeroben Stoffwechselprozessen.",
+    "context": "Der aerobe Glukoseabbau nutzt Zitronensäurezyklus und Atmungskette und ist sehr energieeffizient."
+  },
+  {
+    "german": "anaerob",
+    "english": "anaerobic; without oxygen",
+    "type": "adjective",
+    "example": "Die Glykolyse selbst benötigt keinen Sauerstoff und verläuft somit anaerob.",
+    "context": "Bei hoher Belastungsintensität wird vermehrt auf anaerobe Energiegewinnung wie die Milchsäuregärung zurückgegriffen."
+  },
+  {
+    "german": "Mitochondrium",
+    "english": "mitochondrion",
+    "type": "noun",
+    "example": "Pyruvat wird in das Kraftwerk der Zelle, das Mitochondrium, transportiert.",
+    "context": "Im Mitochondrium laufen der Zitronensäurezyklus und die Atmungskette ab."
+  },
+  {
+    "german": "Zitronensäurezyklus",
+    "english": "citric acid cycle; Krebs cycle",
+    "type": "noun",
+    "example": "Der Zitronensäurezyklus liefert weitere Energie aus der Glukose.",
+    "context": "Im Zitronensäurezyklus entstehen Zwischenprodukte für Energiegewinnung und Biosynthese, weshalb er als amphibol gilt."
+  },
+  {
+    "german": "Atmungskette",
+    "english": "respiratory chain; electron transport chain",
+    "type": "noun",
+    "example": "In der Atmungskette werden Elektronen stufenweise auf Sauerstoff übertragen.",
+    "context": "Am Ende der Atmungskette entsteht der Großteil des ATP im aeroben Stoffwechsel."
+  },
+  {
+    "german": "Pyruvat",
+    "english": "pyruvate",
+    "type": "noun",
+    "example": "In der Glykolyse wird Glukose zu Pyruvat abgebaut.",
+    "context": "Pyruvat ist ein zentraler Knotenpunkt, von dem aus der Stoffwechsel aerob oder anaerob weiterlaufen kann."
+  },
+  {
+    "german": "Milchsäure",
+    "english": "lactic acid",
+    "type": "noun",
+    "example": "Beim anaeroben Abbau wird Pyruvat zu Milchsäure umgesetzt.",
+    "context": "Die entstehende Milchsäure wird als Laktat ins Blut abgegeben und von Organen weiterverwertet."
+  },
+  {
+    "german": "Laktat",
+    "english": "lactate",
+    "type": "noun",
+    "example": "Der alternative Stoffwechselweg wird wegen der anfallenden Milchsäure auch Milchsäuregärung genannt, es entsteht Laktat.",
+    "context": "Laktat kann in der Leber wieder zu Glukose umgewandelt werden und dient so der Glukoneogenese."
+  },
+  {
+    "german": "Beta-Oxidation",
+    "english": "beta-oxidation",
+    "type": "noun",
+    "example": "Der erste Schritt im Energiestoffwechsel der Fettsäuren ist die Beta-Oxidation.",
+    "context": "In der Beta-Oxidation werden Fettsäuren schrittweise zu Azetyl-CoA abgebaut."
+  },
+  {
+    "german": "Fettsäure",
+    "english": "fatty acid",
+    "type": "noun",
+    "example": "Fettsäuren können ausschließlich aerob zur Energiegewinnung genutzt werden.",
+    "context": "In der Beta-Oxidation werden Fettsäuren in Azetyl-CoA umgewandelt und in den Zitronensäurezyklus eingespeist."
+  },
+  {
+    "german": "Azetyl-CoA",
+    "english": "acetyl-CoA",
+    "type": "noun",
+    "example": "Im Mitochondrium wird Pyruvat zu Azetyl-CoA umgewandelt.",
+    "context": "Azetyl-CoA ist das energiereiche Molekül, das in den Zitronensäurezyklus eintritt."
+  },
+  {
+    "german": "amphibol",
+    "english": "amphibolic (both catabolic and anabolic)",
+    "type": "adjective",
+    "example": "Der Zitronensäurezyklus gilt als amphibol.",
+    "context": "Amphibole Stoffwechselwege sind sowohl am Abbau (katabol) als auch am Aufbau (anabol) von Substanzen beteiligt."
+  },
+  {
+    "german": "katabol",
+    "english": "catabolic",
+    "type": "adjective",
+    "example": "Katabole Stoffwechselwege liefern Energie durch Abbau von Substraten.",
+    "context": "Die glykolytischen und oxidativen Prozesse des Energiestoffwechsels sind vor allem katabol."
+  },
+  {
+    "german": "anabol",
+    "english": "anabolic",
+    "type": "adjective",
+    "example": "Anabole Prozesse nutzen Zwischenprodukte des Zitronensäurezyklus für den Aufbau von Substanzen.",
+    "context": "Anabol werden etwa Fettsäuren, nicht essenzielle Aminosäuren und Glukose aus Zwischenprodukten synthetisiert."
+  },
+  {
+    "german": "Kraftwerk der Zelle",
+    "english": "powerhouse of the cell",
+    "type": "noun",
+    "example": "Das Mitochondrium wird auch Kraftwerk der Zelle genannt.",
+    "context": "In den Mitochondrien laufen der Zitronensäurezyklus und die Atmungskette als Hauptorte der ATP-Bildung ab."
+  },
+  {
+    "german": "kontrahieren",
+    "english": "to contract",
+    "type": "verb",
+    "example": "Die Muskelzelle braucht Energie zum Kontrahieren.",
+    "context": "Beim Kontrahieren verkürzt sich der Muskel aktiv und verbraucht ATP."
+  },
+  {
+    "german": "Kontraktion",
+    "english": "contraction",
+    "type": "noun",
+    "example": "Unter Kontraktion versteht man das aktive Anspannen eines Muskels.",
+    "context": "Für jede Muskelkontraktion wird ATP verbraucht und in Wärme und mechanische Arbeit umgesetzt."
+  },
+  {
+    "german": "Glukoneogenese",
+    "english": "gluconeogenesis",
+    "type": "noun",
+    "example": "Glukogene Aminosäuren können zur Glukoneogenese herangezogen werden.",
+    "context": "Die Glukoneogenese dient der Neubildung von Glukose aus Nicht-Kohlenhydrat-Quellen in Leber und Niere."
+  },
+  {
+    "german": "glukogen",
+    "english": "glucogenic",
+    "type": "adjective",
+    "example": "Bestimmte glukogene Aminosäuren können zur Energieversorgung beitragen.",
+    "context": "Glukogene Aminosäuren werden zu Pyruvat oder Zwischenprodukten des Zitronensäurezyklus abgebaut."
+  },
+  {
+    "german": "ketogen",
+    "english": "ketogenic",
+    "type": "adjective",
+    "example": "Neben Fettsäuren sind auch ketogene Aminosäuren eine Quelle für die Ketonkörperbildung.",
+    "context": "Ketogene Aminosäuren wie Leucin und Lysin werden direkt zu Azetyl-CoA oder Ketonkörpern abgebaut."
+  },
+  {
+    "german": "Nahrungskarenz",
+    "english": "food deprivation; fasting (period without food)",
+    "type": "noun",
+    "example": "Du lernst, auf welche Möglichkeiten der Energiegewinnung der Körper in Notzeiten der Nahrungskarenz zurückgreifen kann.",
+    "context": "In Phasen der Nahrungskarenz greift der Körper auf Glykogen, Fettsäuren, Ketonkörper und Glukoneogenese zurück."
+  },
+  {
+    "german": "Azidose",
+    "english": "acidosis",
+    "type": "noun",
+    "example": "Bei Diabetes kann sich Azeton im Blut ansammeln und zur metabolischen Azidose führen.",
+    "context": "Eine metabolische Azidose ist eine stoffwechselbedingte Übersäuerung des Bluts."
+  },
+  {
+    "german": "Energiebereitstellung im Sport",
+    "english": "energy supply in sports",
+    "type": "noun",
+    "example": "Im letzten Unterkapitel geht es um die Energiebereitstellung im Sport.",
+    "context": "Die Bedeutung der verschiedenen Energiebereitstellungswege unterscheidet sich je nach Intensität und Dauer der Belastung."
+  },
+  {
+    "german": "Belastungsintensität",
+    "english": "exercise intensity; load intensity",
+    "type": "noun",
+    "example": "Je nach Belastungsintensität wird ein anderer Stoffwechselweg bevorzugt.",
+    "context": "Hohe Belastungsintensität erfordert schnelle anaerobe Energiebereitstellung, moderate Intensität nutzt überwiegend aerobe Wege."
+  },
+  {
+    "german": "Belastungsdauer",
+    "english": "duration of exertion",
+    "type": "noun",
+    "example": "Bei Belastungen, die länger als 90–180 Sekunden andauern, gewinnt die aerobe Energiebereitstellung die Oberhand.",
+    "context": "Belastungsdauer und -intensität bestimmen, welcher Energiebereitstellungsweg dominiert."
+  },
+  {
+    "german": "Energieflussrate",
+    "english": "rate of energy flow",
+    "type": "noun",
+    "example": "Die Abbildung stellt die Energieflussrate der Mechanismen zur Energiegewinnung dar.",
+    "context": "Die Energieflussrate beschreibt, wie viel ATP pro Zeiteinheit durch einen Stoffwechselweg bereitgestellt wird."
+  },
+  {
+    "german": "Ausdauerbelastung",
+    "english": "endurance exercise",
+    "type": "noun",
+    "example": "Bei intensiven Ausdauerbelastungen wird vermehrt auf Zucker zurückgegriffen.",
+    "context": "Bei extensiven, lang andauernden Ausdauerbelastungen spielt die Fettsäureverbrennung eine größere Rolle."
+  },
+  {
+    "german": "Speicher",
+    "english": "store; storage",
+    "type": "noun",
+    "example": "Sie verteilt die Makronährstoffe und sichert so die Energieversorgung, aber dient auch als Speicher.",
+    "context": "Die Leber ist nicht nur Stoffwechselorgan, sondern auch Speicher für Zucker, Vitamine, Mineralstoffe und etwas Fett."
+  },
+  {
+    "german": "verteilen",
+    "english": "to distribute",
+    "type": "verb",
+    "example": "Sie verteilt die Makronährstoffe im ganzen Körper.",
+    "context": "Über den Blutkreislauf verteilt die Leber Nährstoffe an Organe und Gewebe."
+  },
+  {
+    "german": "absorbieren",
+    "english": "to absorb",
+    "type": "verb",
+    "example": "Alle mit der Nahrung aufgenommenen und im Darm absorbierten Nährstoffe gelangen zur Leber.",
+    "context": "Der Darm absorbiert Nähr- und Giftstoffe, die anschließend über die Pfortader in die Leber transportiert werden."
+  },
+  {
+    "german": "verwerten",
+    "english": "to utilize",
+    "type": "verb",
+    "example": "In den Leberzellen werden Stoffe je nach Bedarf sofort verwertet.",
+    "context": "Die Leber kann Nährstoffe verwerten, indem sie sie direkt zur Energiegewinnung nutzt oder weiterverarbeitet."
+  },
+  {
+    "german": "weiterverteilen",
+    "english": "to redistribute; to pass on",
+    "type": "verb",
+    "example": "Stoffe werden gespeichert oder über das Blut weiter verteilt.",
+    "context": "Nach der Umwandlung in der Leber werden Nährstoffe über das Blut im Körper weiterverteilt."
+  },
+  {
+    "german": "Bildung",
+    "english": "formation; production",
+    "type": "noun",
+    "example": "Der erste Weg ist die Bildung von Glukose aus Milchsäure und bestimmten Aminosäuren.",
+    "context": "Die Bildung von Glukose aus Laktat und Aminosäuren nennt man Glukoneogenese."
+  },
+  {
+    "german": "Notzeit",
+    "english": "time of need; emergency period",
+    "type": "noun",
+    "example": "Ketonkörper dienen in dieser Notzeit als Glukoseersatz.",
+    "context": "In Notzeiten wie Hungerstoffwechsel oder Nahrungskarenz stellt der Körper auf alternative Energiequellen um."
+  },
+  {
+    "german": "Protein",
+    "english": "protein",
+    "type": "noun",
+    "example": "Die Leber stellt Proteine her, die für die Blutgerinnung notwendig sind.",
+    "context": "Zu den von der Leber gebildeten Proteinen gehören Gerinnungsfaktoren, Transportproteine und einige Hormone."
+  },
+  {
+    "german": "Transporteiweiß",
+    "english": "transport protein",
+    "type": "noun",
+    "example": "Die Leber produziert Transporteiweiße für Fett und andere fettlösliche Substanzen.",
+    "context": "Transporteiweiße sorgen dafür, dass Fette und fettlösliche Vitamine im Blut transportiert werden können."
+  },
+  {
+    "german": "Speicherfett",
+    "english": "storage fat",
+    "type": "noun",
+    "example": "Überschüssige Glukose wird in Speicherfett umgewandelt.",
+    "context": "Speicherfett dient als langfristiger Energievorrat und wird bei Bedarf zur Energiegewinnung mobilisiert."
+  },
+  {
+    "german": "einlagern",
+    "english": "to store; to deposit",
+    "type": "verb",
+    "example": "Zudem kann die Leber grundsätzlich Fett einlagern.",
+    "context": "Wenn mehr Fette und Zucker aufgenommen werden, als verarbeitet werden können, lagert die Leber Fett ein."
+  },
+  {
+    "german": "überlasten",
+    "english": "to overload",
+    "type": "verb",
+    "example": "Ein ungesunder Lebensstil kann die Leber überlasten.",
+    "context": "Muss die Leber dauerhaft zu viele Gifte, Fette und Zucker verarbeiten, wird sie funktionell überlastet."
+  },
+  {
+    "german": "Lebergesundheit",
+    "english": "liver health",
+    "type": "noun",
+    "example": "Du lernst, wie der Lebensstil die Lebergesundheit beeinflusst.",
+    "context": "Eine ausgewogene Ernährung, wenig Alkohol und Bewegung tragen zur Lebergesundheit bei."
+  },
+  {
+    "german": "Lebensstil",
+    "english": "lifestyle",
+    "type": "noun",
+    "example": "Ein ungesunder Lebensstil kann der Leber langfristig schaden.",
+    "context": "Lebensstilfaktoren wie Ernährung, Bewegung und Alkoholkonsum wirken sich direkt auf den Stoffwechsel aus."
+  },
+  {
+    "german": "übermäßig",
+    "english": "excessive",
+    "type": "adjective",
+    "example": "Übergewicht, zu wenig Bewegung und übermäßiger Alkoholkonsum können der Leber schaden.",
+    "context": "Übermäßiger Konsum von Alkohol oder stark zucker- und fettreichen Lebensmitteln überfordert die Leber."
+  },
+  {
+    "german": "verlangsamen",
+    "english": "to slow down",
+    "type": "verb",
+    "example": "Durch einen gesunden Lebensstil kann das Fortschreiten einer Leberzirrhose verlangsamt werden.",
+    "context": "Auch wenn eine Leberzirrhose nicht rückgängig gemacht werden kann, lässt sich ihr Fortschreiten verlangsamen."
+  },
+  {
+    "german": "Energiestoffwechsel",
+    "english": "energy metabolism",
+    "type": "noun",
+    "example": "Die in der Nahrung befindliche Energie wird mithilfe des Energiestoffwechsels übertragen.",
+    "context": "Der Energiestoffwechsel umfasst alle Prozesse, in denen Nährstoffe in ATP umgewandelt werden."
+  },
+  {
+    "german": "Energiestoffwechselweg",
+    "english": "energy metabolic pathway",
+    "type": "noun",
+    "example": "Die Zellen verfügen über unterschiedliche katabole Energiestoffwechselwege.",
+    "context": "Zu den Energiestoffwechselwegen zählen Glykolyse, Zitronensäurezyklus, Atmungskette, Beta-Oxidation und Kreatinphosphatsystem."
+  },
+  {
+    "german": "Energiespeichermolekül",
+    "english": "energy storage molecule",
+    "type": "noun",
+    "example": "Die Energie wird auf Energiespeichermoleküle übertragen.",
+    "context": "ATP, Kreatinphosphat und Glykogen sind wichtige Energiespeichermoleküle im Körper."
+  },
+  {
+    "german": "hochenergetisch",
+    "english": "high-energy",
+    "type": "adjective",
+    "example": "Adenosintriphosphat enthält hochenergetische Bindungen.",
+    "context": "Beim Spalten hochenergetischer Bindungen wird Energie freigesetzt, die der Zelle zur Verfügung steht."
+  },
+  {
+    "german": "Bindung",
+    "english": "bond",
+    "type": "noun",
+    "example": "Zwischen den Phosphatgruppen von ATP bestehen hochenergetische Bindungen.",
+    "context": "Das Lösen einer chemischen Bindung zwischen Phosphatgruppen setzt nutzbare Energie frei."
+  },
+  {
+    "german": "freisetzen",
+    "english": "to release",
+    "type": "verb",
+    "example": "Die Energie wird aus ATP freigesetzt, wenn eine Phosphatgruppe abgespalten wird.",
+    "context": "Beim Freisetzen von Energie wird ATP zu ADP umgewandelt."
+  },
+  {
+    "german": "abspalten",
+    "english": "to split off; to cleave",
+    "type": "verb",
+    "example": "Enzyme spalten eine der drei Phosphatgruppen ab.",
+    "context": "Durch das Abspalten eines Phosphats entsteht aus ATP das energieärmere ADP."
+  },
+  {
+    "german": "Resynthese",
+    "english": "resynthesis",
+    "type": "noun",
+    "example": "Es kommt zur Resynthese von ATP aus ADP und Kreatinphosphat.",
+    "context": "Die schnelle Resynthese von ATP ist besonders zu Beginn einer Belastung wichtig."
+  },
+  {
+    "german": "ATP-Reserven",
+    "english": "ATP reserves",
+    "type": "noun",
+    "example": "Zellen verfügen über winzige ATP-Reserven.",
+    "context": "Die ATP-Reserven reichen nur für wenige Sekunden intensiver Muskelarbeit."
+  },
+  {
+    "german": "Durchlauf",
+    "english": "cycle; run-through",
+    "type": "noun",
+    "example": "Jeder Durchlauf des Zitronensäurezyklus liefert ein Molekül ATP.",
+    "context": "Mit jedem Durchlauf des Beta-Oxidationszyklus wird eine Fettsäurekette weiter verkürzt."
+  },
+  {
+    "german": "Zwischenprodukt",
+    "english": "intermediate product",
+    "type": "noun",
+    "example": "Nach jedem Umwandlungsschritt entstehen Zwischenprodukte.",
+    "context": "Zwischenprodukte des Zitronensäurezyklus können für anabole Prozesse abgezweigt werden."
+  },
+  {
+    "german": "Knotenpunkt",
+    "english": "junction; hub",
+    "type": "noun",
+    "example": "Pyruvat ist ein wichtiger Knotenpunkt im Stoffwechsel.",
+    "context": "Vom Knotenpunkt Pyruvat aus verzweigt sich der Stoffwechsel in aerobe oder anaerobe Wege."
+  },
+  {
+    "german": "Milchsäuregärung",
+    "english": "lactic acid fermentation",
+    "type": "noun",
+    "example": "Diesen alternativen Stoffwechselweg nennt man Milchsäuregärung.",
+    "context": "Die Milchsäuregärung ist ein anaerober Prozess, bei dem Pyruvat zu Laktat umgewandelt wird."
+  },
+  {
+    "german": "anaerob-laktazid",
+    "english": "anaerobic lactic",
+    "type": "adjective",
+    "example": "Man spricht auch von anaerob-laktazider Energiegewinnung.",
+    "context": "Die anaerob-laktazide Energiebereitstellung liefert schnell ATP, führt aber zur Laktatbildung."
+  },
+  {
+    "german": "anaerob-alaktazid",
+    "english": "anaerobic alactic",
+    "type": "adjective",
+    "example": "Die ATP-Resynthese aus Kreatinphosphat gehört zur anaerob-alaktaziden Energiegewinnung.",
+    "context": "Anaerob-alaktazide Prozesse liefern sehr schnell Energie, ohne dass Laktat anfällt."
+  },
+  {
+    "german": "Energiebereitstellungsprozess",
+    "english": "energy supply process",
+    "type": "noun",
+    "example": "Alle vier Energiebereitstellungsprozesse finden gleichzeitig statt.",
+    "context": "Je nach Intensität und Dauer der Belastung ändert sich der Beitrag der einzelnen Energiebereitstellungsprozesse."
+  },
+  {
+    "german": "Dominanz",
+    "english": "dominance",
+    "type": "noun",
+    "example": "Bei längeren Belastungen gewinnt die aerobe Energiebereitstellung die Dominanz.",
+    "context": "Die Dominanz der Zucker- oder Fettverbrennung hängt von Dauer und Intensität der Belastung ab."
+  },
+  {
+    "german": "extensiv",
+    "english": "extensive (low-intensity, long-duration)",
+    "type": "adjective",
+    "example": "Bei extensiven Dauerläufen wird vermehrt auf Fettsäuren zurückgegriffen.",
+    "context": "Extensive Belastungen sind lang andauernd und moderat in der Intensität."
+  },
+  {
+    "german": "intensiv",
+    "english": "intensive",
+    "type": "adjective",
+    "example": "Bei intensiven Ausdauerbelastungen wird vermehrt auf Zucker zurückgegriffen.",
+    "context": "Intensive Belastungen erfordern eine schnelle Bereitstellung großer Energiemengen."
+  },
+  {
+    "german": "Hybridfahrzeug",
+    "english": "hybrid vehicle",
+    "type": "noun",
+    "example": "Ein Hybridfahrzeug ist ein guter Vergleich für den Wechsel zwischen Fett- und Zuckerverbrennung.",
+    "context": "Wie ein Hybridfahrzeug je nach Bedarf zwischen Strom und Benzin wechselt, nutzt der Körper Fette oder Zucker."
+  }
+]
+
