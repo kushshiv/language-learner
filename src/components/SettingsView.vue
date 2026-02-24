@@ -353,11 +353,6 @@ onMounted(async () => {
   cloudEnabled.value = await isCloudSyncEnabled()
   dailyGoal.value = await getDailyGoal()
   notificationsEnabled.value = areNotificationsEnabled()
-  
-  // Sync streak data from cloud if enabled
-  if (cloudEnabled.value) {
-    await syncStreakDataFromCloud()
-  }
 })
 
 const enableCloudSync = async () => {

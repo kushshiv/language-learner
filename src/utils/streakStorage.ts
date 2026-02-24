@@ -108,7 +108,9 @@ function getInitialStreakData(): StreakData {
   return {
     dailyGoal: DEFAULT_DAILY_GOAL,
     streakHistory: {},
-    lastUpdated: new Date().toISOString()
+    // Use an old timestamp so that any real cloud data
+    // will always win on first sync for new devices.
+    lastUpdated: new Date(0).toISOString()
   }
 }
 

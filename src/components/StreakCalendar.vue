@@ -75,7 +75,8 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { getStreakHistory, getCurrentStreak, getTodayProgress, getAchievements } from '../utils/streakStorage'
+import { getStreakHistory, getCurrentStreak, getTodayProgress, getAchievements, syncStreakDataFromCloud } from '../utils/streakStorage'
+import { isCloudSyncEnabled } from '../utils/wordStorage'
 import type { StreakDay } from '../types'
 
 const streakHistory = ref<StreakDay[]>([])
@@ -90,8 +91,20 @@ const loadData = async () => {
   achievements.value = await getAchievements()
 }
 
-onMounted(() => {
-  loadData()
+onMounted(async () => {
+  // If cloud sync is enabled on this device, make sure we
+  // pull the latest streak data from the GitHub Gist before
+  // rendering the calendar, so mobile and desktop stay in sync.
+  try {
+    const cloudEnabled = await isCloudSyncEnabled()
+    if (cloudEnabled) {
+      await syncStreakDataFromCloud()
+    }
+  } catch (e) {
+    console.warn('Failed to sync streak data from cloud:', e)
+  }
+
+  await loadData()
 })
 
 const today = computed(() => {
