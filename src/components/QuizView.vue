@@ -2,8 +2,9 @@
   <div class="quiz-container">
     <div class="quiz-header">
       <button @click="$emit('back')" class="back-btn">← Back</button>
-      <div class="quiz-mode-info" v-if="props.wordType || props.practiceAll">
+      <div class="quiz-mode-info" v-if="props.wordType || props.practiceAll || props.repeatedPractice">
         <span class="mode-badge" v-if="props.wordType">{{ getTypeLabel(props.wordType) }}</span>
+        <span class="mode-badge" v-else-if="props.repeatedPractice">🔄 Repeated Practice - Chunk {{ props.chunkNumber }}</span>
         <span class="mode-badge" v-else-if="props.practiceAll">
           Practice All - Chunk {{ props.chunkNumber }}
         </span>
@@ -146,6 +147,7 @@ import { markWordForReview, deleteWords, updateWordTranslation } from '../utils/
 import { translateWord } from '../utils/translation'
 import { trackWordPracticed, getTodayProgress } from '../utils/streakStorage'
 import { showNotification } from '../utils/notifications'
+import { getRepeatedPracticeList, replaceWordInRepeatedPractice, getRepeatedPracticeChunk } from '../utils/repeatedPracticeStorage'
 import type { Word, Difficulty } from '../types'
 
 const props = defineProps<{
@@ -155,6 +157,7 @@ const props = defineProps<{
   wordType: string | null
   practiceAll?: boolean
   chunkNumber?: number | null
+  repeatedPractice?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -199,6 +202,12 @@ const quizWords = computed(() => {
     filteredWords = filteredWords.filter(word => word.type === props.wordType)
   }
   
+  // If repeated practice, use the stored list (deterministic, sorted by name)
+  if (props.repeatedPractice) {
+    // This will be initialized in onMounted, but return empty for now
+    return []
+  }
+
   // If practice all with chunk, use only that chunk
   if (props.practiceAll && props.chunkNumber) {
     const CHUNK_SIZE = 100
@@ -294,7 +303,7 @@ watch(currentWord, (newWord, oldWord) => {
 
 onMounted(async () => {
   // Initialize quiz words list
-  initializeQuizWords()
+  await initializeQuizWords()
   generateOptions()
   // Initialize marked words from props
   props.words.forEach(word => {
@@ -350,7 +359,15 @@ const checkStreakCompletion = async (germanWord: string) => {
   }
 }
 
-const initializeQuizWords = () => {
+const initializeQuizWords = async () => {
+  // If repeated practice, load from chunk storage (deterministic, sorted by name)
+  if (props.repeatedPractice && props.chunkNumber) {
+    const repeatedWords = await getRepeatedPracticeChunk(props.chunkNumber)
+    // Keep them sorted by name for consistency (no shuffling)
+    quizWordsList.value = repeatedWords.sort((a, b) => a.german.toLowerCase().localeCompare(b.german.toLowerCase()))
+    return
+  }
+
   let filteredWords = [...props.words]
   
   // Filter by word type if specified
@@ -443,8 +460,8 @@ const nextWord = () => {
   if (currentIndex.value < totalWords.value - 1) {
     currentIndex.value++
   } else {
-    // If practicing a chunk, loop back to the beginning instead of completing
-    if (props.practiceAll && props.chunkNumber) {
+    // If practicing a chunk or repeated practice, loop back to the beginning instead of completing
+    if ((props.practiceAll && props.chunkNumber) || props.repeatedPractice) {
       currentIndex.value = 0
       // Reset score for the new loop (optional - you might want to keep cumulative score)
       // score.value = 0
@@ -588,6 +605,16 @@ const deleteCurrentWord = async () => {
     // Remove from marked words if it was marked
     markedWords.value.delete(wordToDelete.toLowerCase().trim())
     
+    // If in repeated practice mode, try to add a replacement word
+    if (props.repeatedPractice) {
+      const replacement = await replaceWordInRepeatedPractice(wordToDelete)
+      if (replacement) {
+        // Add replacement word, keeping sorted order
+        quizWordsList.value.push(replacement)
+        quizWordsList.value.sort((a, b) => a.german.toLowerCase().localeCompare(b.german.toLowerCase()))
+      }
+    }
+
     // If we deleted the current word, move to next or end quiz
     if (currentIndex.value >= quizWordsList.value.length) {
       // Quiz complete (no more words)

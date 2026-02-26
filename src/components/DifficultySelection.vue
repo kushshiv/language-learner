@@ -79,6 +79,44 @@
         <span>OR</span>
       </div>
 
+      <!-- Repeated Practice -->
+      <div v-if="allWords.length > 0" class="repeated-practice-section">
+        <p class="quiz-title">Repeated Practice (Fixed 20 Words per Chunk)</p>
+        <p class="chunk-info">
+          Select a 20-word range to practice repeatedly.
+        </p>
+
+        <div class="chunk-select-row">
+          <label class="chunk-label" for="repeated-chunk-select">Choose chunk:</label>
+          <select
+            id="repeated-chunk-select"
+            v-model.number="selectedRepeatedChunk"
+            class="chunk-select"
+          >
+            <option
+              v-for="chunkIndex in totalRepeatedChunks"
+              :key="chunkIndex"
+              :value="chunkIndex"
+            >
+              Chunk {{ chunkIndex }} ({{ (chunkIndex - 1) * REPEATED_CHUNK_SIZE + 1 }}–{{ Math.min(chunkIndex * REPEATED_CHUNK_SIZE, allWords.length) }})
+            </option>
+          </select>
+        </div>
+
+        <button
+          @click="startRepeatedPractice"
+          class="repeated-practice-btn"
+        >
+          <div class="repeated-practice-icon">🔄</div>
+          <div class="repeated-practice-name">Repeated Practice</div>
+          <div class="repeated-practice-desc">Practice Chunk {{ selectedRepeatedChunk }} (20 words, same set each time)</div>
+        </button>
+      </div>
+
+      <div v-if="totalChunks > 0 || (allWords.length > 0)" class="divider">
+        <span>OR</span>
+      </div>
+
       <!-- Chunk Selection for Practice All -->
       <div v-if="totalChunks > 0" class="chunk-selection-section">
         <p class="quiz-title">Practice All Words (in chunks of 100)</p>
@@ -127,6 +165,7 @@ const emit = defineEmits<{
   (e: 'difficulty-selected', difficulty: 'easy' | 'medium' | 'hard'): void
   (e: 'type-selected', type: string): void
   (e: 'practice-all', chunkNumber: number): void
+  (e: 'repeated-practice-selected', chunkNumber: number): void
   (e: 'upload-new'): void
 }>()
 
@@ -162,17 +201,29 @@ const selectType = (type: string) => {
 
 // Chunk selection logic
 const CHUNK_SIZE = 100
+const REPEATED_CHUNK_SIZE = 20
 
 const totalChunks = computed(() => {
   return Math.ceil(allWords.value.length / CHUNK_SIZE)
 })
 
+const totalRepeatedChunks = computed(() => {
+  return Math.ceil(allWords.value.length / REPEATED_CHUNK_SIZE)
+})
+
 const selectedChunk = ref(1)
+const selectedRepeatedChunk = ref(1)
 
 const startChunkPractice = () => {
   if (totalChunks.value === 0) return
   const clampedChunk = Math.min(Math.max(selectedChunk.value || 1, 1), totalChunks.value)
   emit('practice-all', clampedChunk)
+}
+
+const startRepeatedPractice = () => {
+  if (totalRepeatedChunks.value === 0) return
+  const clampedChunk = Math.min(Math.max(selectedRepeatedChunk.value || 1, 1), totalRepeatedChunks.value)
+  emit('repeated-practice-selected', clampedChunk)
 }
 
 // Load words on mount to get counts
@@ -434,6 +485,47 @@ onMounted(async () => {
   color: #666;
 }
 
+.repeated-practice-btn {
+  background: white;
+  border: 3px solid #667eea;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.repeated-practice-btn:hover,
+.repeated-practice-btn:active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.02);
+}
+
+.repeated-practice-btn:hover .repeated-practice-name,
+.repeated-practice-btn:hover .repeated-practice-desc {
+  color: white;
+}
+
+.repeated-practice-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.repeated-practice-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5px;
+}
+
+.repeated-practice-desc {
+  font-size: 14px;
+  color: #666;
+}
+
 .btn-secondary {
   background: #f0f0f0;
   color: #333;
@@ -476,6 +568,10 @@ onMounted(async () => {
   border: 2px solid #667eea;
   font-size: 14px;
   min-width: 180px;
+}
+
+.repeated-practice-section {
+  margin-bottom: 20px;
 }
 </style>
 

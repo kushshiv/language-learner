@@ -21,6 +21,7 @@
         @difficulty-selected="handleDifficultySelected"
         @type-selected="handleTypeSelected"
         @practice-all="handlePracticeAll"
+        @repeated-practice-selected="handleRepeatedPracticeSelected"
         @upload-new="currentView = 'upload'"
       />
     </div>
@@ -31,6 +32,7 @@
         :wordType="selectedWordType"
         :practiceAll="practiceAll"
         :chunkNumber="selectedChunkNumber"
+        :repeatedPractice="repeatedPractice"
         @quiz-complete="handleQuizComplete"
         @back="currentView = 'difficulty'"
       />
@@ -65,6 +67,7 @@ const selectedDifficulty = ref<'easy' | 'medium' | 'hard' | null>(null)
 const selectedWordType = ref<string | null>(null)
 const practiceAll = ref(false)
 const selectedChunkNumber = ref<number | null>(null)
+const repeatedPractice = ref(false)
 const quizScore = ref(0)
 const quizTotal = ref(0)
 
@@ -103,6 +106,18 @@ const handlePracticeAll = (chunkNumber: number) => {
   selectedDifficulty.value = null
   selectedWordType.value = null
   practiceAll.value = true
+  repeatedPractice.value = false
+  selectedChunkNumber.value = chunkNumber
+  currentView.value = 'quiz'
+  quizScore.value = 0
+  quizTotal.value = 0
+}
+
+const handleRepeatedPracticeSelected = (chunkNumber: number) => {
+  selectedDifficulty.value = null
+  selectedWordType.value = null
+  practiceAll.value = false
+  repeatedPractice.value = true
   selectedChunkNumber.value = chunkNumber
   currentView.value = 'quiz'
   quizScore.value = 0
@@ -127,6 +142,7 @@ const handleRestart = () => {
   quizScore.value = 0
   quizTotal.value = 0
   practiceAll.value = false
+  repeatedPractice.value = false
   selectedChunkNumber.value = null
   selectedDifficulty.value = null
   selectedWordType.value = null
