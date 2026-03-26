@@ -1,4 +1,5 @@
 import type { Word } from '../types'
+import { apiPost } from './apiClient'
 
 // GitHub Gist configuration
 const GIST_FILENAME = 'german-words.json'
@@ -306,22 +307,8 @@ export async function saveWordsToGist(words: Word[]): Promise<void> {
   }
 
   try {
-    let gistId = await getGistId()
-    
-    // If no gist ID stored, try to find existing gist
-    if (!gistId) {
-      gistId = await findExistingGist(token) || null
-    }
-
-    if (gistId) {
-      // Update existing gist
-      await updateGist(gistId, words, token)
-      console.log('Words saved to GitHub Gist (updated)')
-    } else {
-      // Create new gist
-      const newGistId = await createGist(words, token)
-      console.log('Words saved to GitHub Gist (created)')
-    }
+    await apiPost<{ words: Word[] }>('/api/v1/sync/gist/save', { token, words })
+    console.log('Words saved to GitHub Gist (via backend)')
   } catch (error) {
     console.error('Failed to save words to GitHub Gist:', error)
     throw error
@@ -339,19 +326,8 @@ export async function loadWordsFromGist(): Promise<Word[]> {
   }
 
   try {
-    let gistId = await getGistId()
-    
-    // If no gist ID stored, try to find existing gist
-    if (!gistId) {
-      gistId = await findExistingGist(token) || null
-    }
-
-    if (!gistId) {
-      console.log('No Gist found yet')
-      return []
-    }
-
-    const words = await getGist(gistId, token)
+    const response = await apiPost<{ words: Word[] }>('/api/v1/sync/gist/load', { token })
+    const words = response.words || []
     console.log(`Loaded ${words.length} words from GitHub Gist`)
     return words
   } catch (error) {
@@ -417,19 +393,11 @@ export async function deleteWordsFromGist(germanWords: string[]): Promise<Word[]
     throw new Error('GitHub token not configured')
   }
 
-  const existingWords = await loadWordsFromGist()
-  const wordsToDelete = new Set(germanWords.map(w => w.toLowerCase().trim()))
-  
-  // Filter out words to delete
-  const remainingWords = existingWords.filter(word => {
-    const key = word.german.toLowerCase().trim()
-    return !wordsToDelete.has(key)
+  const response = await apiPost<{ words: Word[] }>('/api/v1/sync/gist/delete', {
+    token,
+    german_words: germanWords
   })
-  
-  // Save back to Gist
-  await saveWordsToGist(remainingWords)
-  
-  return remainingWords
+  return response.words || []
 }
 
 /**

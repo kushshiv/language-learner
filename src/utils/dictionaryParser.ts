@@ -1,4 +1,5 @@
 import type { Word } from '../types'
+import { apiPost } from './apiClient'
 
 /**
  * Parse a JSON dictionary file
@@ -149,6 +150,18 @@ function parseWordObject(item: any): Word {
 export async function parseDictionaryFile(file: File): Promise<Word[]> {
   const fileName = file.name.toLowerCase()
   const content = await file.text()
+
+  try {
+    const response = await apiPost<{ words: Word[] }>('/api/v1/parse/dictionary', {
+      filename: fileName,
+      content
+    })
+    if (Array.isArray(response.words)) {
+      return response.words
+    }
+  } catch {
+    // Fall back to local parser
+  }
   
   if (fileName.endsWith('.json')) {
     return parseJSONDictionary(content)

@@ -29,6 +29,7 @@ https://kushshiv.github.io/language-learner/
 ### Tech Stack
 
 - **Frontend**: Vue 3 + TypeScript, Vite.
+- **Backend**: FastAPI (Python) for extraction/parsing/translation/cloud sync APIs.
 - **PDF processing**: `pdfjs-dist` for text extraction.
 - **Persistence**: `localStorage` (words, sentences, last PDF text) + IndexedDB (for GitHub token/Gist metadata).
 - **Cloud sync**: GitHub Gists API (private Gist).
@@ -55,6 +56,26 @@ npm run dev
 ```
 
 The app will be available at `http://localhost:5173` (or the port Vite chooses).
+
+### Full Stack Development (Frontend + Backend)
+
+Frontend and backend are split in the repository under `apps/frontend` and `apps/backend`.
+
+Run both services:
+
+```bash
+npm run dev:full
+```
+
+Or run individually:
+
+```bash
+npm run dev:frontend
+npm run dev:backend
+```
+
+Backend base URL defaults to `http://localhost:8000`.  
+You can override via `VITE_BACKEND_URL` in your frontend environment.
 
 ### Build
 

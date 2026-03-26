@@ -1,6 +1,7 @@
 import type { Word } from '../types'
 import { lemmatizeWord, extractArticle } from './lemmatizer'
 import { getAllWords, wordExists } from './wordStorage'
+import { apiPost } from './apiClient'
 
 // Common German verb endings
 const VERB_ENDINGS = ['en', 'st', 't', 'n', 'e', 'te', 'ten', 'test', 'tet', 'est', 'et']
@@ -20,6 +21,18 @@ interface WordCandidate {
 export async function extractWords(text: string): Promise<Word[]> {
   // Load existing words to check for duplicates
   const existingWords = await getAllWords()
+  try {
+    const response = await apiPost<{ words: Word[] }>('/api/v1/extract/words', {
+      text,
+      existing_words: existingWords
+    })
+    if (Array.isArray(response.words)) {
+      return response.words
+    }
+  } catch {
+    // Fall back to local extraction and translation
+  }
+
   const existingWordsMap = new Map<string, Word>()
   existingWords.forEach(word => {
     const key = word.german.toLowerCase().trim()

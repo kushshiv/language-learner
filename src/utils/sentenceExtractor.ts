@@ -1,4 +1,5 @@
 import type { Sentence, Word } from '../types'
+import { apiPost } from './apiClient'
 
 export interface SentenceData {
   original: string
@@ -12,6 +13,18 @@ export interface SentenceData {
 }
 
 export async function extractSentences(text: string, wordDictionary: Map<string, Word>): Promise<Sentence[]> {
+  try {
+    const response = await apiPost<{ sentences: Sentence[] }>('/api/v1/extract/sentences', {
+      text,
+      dictionary_words: Array.from(wordDictionary.values())
+    })
+    if (Array.isArray(response.sentences)) {
+      return response.sentences
+    }
+  } catch {
+    // Fall back to local extraction
+  }
+
   // Split text into sentences (preserve punctuation)
   const sentenceRegex = /([.!?]+[\s\n]|[\n]{2,})/
   const rawSentences = text

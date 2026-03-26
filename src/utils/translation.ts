@@ -1,7 +1,18 @@
 // utils/translation.ts
 // Reusable translation function for translating German words to English
+import { apiPost } from './apiClient'
 
 export async function translateWord(word: string): Promise<string | null> {
+  try {
+    const response = await apiPost<{ translations: string[] }>('/api/v1/translate/batch', {
+      words: [word]
+    })
+    const translated = response.translations?.[0]
+    if (translated) return translated
+  } catch {
+    // Fall back to browser API chain
+  }
+
   // Try multiple translation APIs as fallback
   const apis = [
     // LibreTranslate public instance
