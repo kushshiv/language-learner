@@ -28,19 +28,25 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            apps/frontend/package-lock.json
           
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm ci
+
+      - name: Install frontend dependencies
+        run: npm --prefix apps/frontend ci
         
       - name: Build
         run: npm run build
         
       - name: Remove CNAME if exists
         run: |
-          if [ -f dist/CNAME ]; then
-            rm dist/CNAME
+          if [ -f apps/frontend/dist/CNAME ]; then
+            rm apps/frontend/dist/CNAME
           fi
-          touch dist/.nojekyll
+          touch apps/frontend/dist/.nojekyll
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -48,7 +54,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './apps/frontend/dist'
           
       - name: Deploy to GitHub Pages
         id: deployment
