@@ -4,4 +4,6 @@ dist
 *.log
 .env
 .env.local
+.venv
+apps/backend/.venv
 
