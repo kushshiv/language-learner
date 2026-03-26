@@ -1,11 +1,10 @@
 ## Frontend App
 
-This directory is reserved for the Vue frontend in the split architecture.
-
-Current implementation still runs from repository root (`src`, `public`, `vite.config.ts`) during the transition.
+Vue + TypeScript frontend app.
 
 Run frontend:
 
 ```bash
-npm run dev:frontend
+npm install
+npm run dev
 ```
