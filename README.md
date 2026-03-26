@@ -83,7 +83,22 @@ You can override via `VITE_BACKEND_URL` in your frontend environment.
 npm run build
 ```
 
-The built files will be in the `dist` directory.
+The built files will be in `apps/frontend/dist`.
+
+### Tests
+
+Run both frontend and backend tests:
+
+```bash
+npm run test
+```
+
+Run individually:
+
+```bash
+npm run test:frontend
+npm run test:backend
+```
 
 ## High-Level App Flow
 

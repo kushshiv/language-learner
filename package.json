@@ -11,7 +11,10 @@
     "build": "npm run build:frontend",
     "build:frontend": "npm --prefix apps/frontend run build",
     "preview": "npm --prefix apps/frontend run preview",
-    "type-check": "npm --prefix apps/frontend run type-check"
+    "type-check": "npm --prefix apps/frontend run type-check",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "npm --prefix apps/frontend run test",
+    "test:backend": "cd apps/backend && .venv/bin/python -m pytest tests -q"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

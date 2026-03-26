@@ -133,7 +133,7 @@ export function extractArticle(word: string, context: string, type: 'verb' | 'no
   }
   
   // Look for article in the 10 characters before the word
-  const beforeWord = lowerContext.substring(Math.max(0, wordIndex - 15), wordIndex).trim()
+  const beforeWord = lowerContext.substring(Math.max(0, wordIndex - 15), wordIndex).trim() + ' '
   
   // Check for articles
   if (beforeWord.endsWith('der ') || beforeWord.endsWith('der\n') || beforeWord.endsWith('der\t')) {
